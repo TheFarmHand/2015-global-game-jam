@@ -21,8 +21,9 @@ Player::~Player()
 
 void Player::Update(float elapsedTime)
 {
-	
 	Input();
+
+	
 
 	if (GetInAir())
 	{
@@ -30,8 +31,16 @@ void Player::Update(float elapsedTime)
 	}
 
 	float position = GetPos().x;
-	std::cout << position << "\n";
 
+	if (m_fJumpCount > 0)
+	{
+		m_fJumpCount -= elapsedTime;
+	}
+	else
+	{
+		m_fJumpCount = .1f;
+		std::cout << GetInAir() << "\n";
+	}
 	Point Temp = GetPos();
 	Temp += GetVelocity() * elapsedTime;
 	SetPosition(Temp);
@@ -70,7 +79,7 @@ void Player::Input()
 		SetVelocity({ GetVelocity().x, -800 });
 		SetIsInAir(true);
 		m_bJumping = true;
-		m_fJumpCount = 1;
+		m_fJumpCount = .5f;
 	}
 }
 
@@ -94,13 +103,17 @@ void Player::HandleCollision(Object * _object)
 	// Solid wall
 	if (_object->GetType() == OBJ_SolidWall)
 	{
-		BasicCollision(_object);
+		BasicCollision(_object);	
 	}
 	else if (_object->GetType() == OBJ_DeathTouch)
 	{
 		SetPosition(m_ptStartPosition);
 	}
 	else if (_object->GetType() == OBJ_FallingBlock)
+	{
+		BasicCollision(_object);
+	}
+	else if (_object->GetType() == OBJ_Walkthrough)
 	{
 		BasicCollision(_object);
 	}

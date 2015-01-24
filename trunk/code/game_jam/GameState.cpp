@@ -41,11 +41,13 @@ int GameState::Update(float dt)
 {
 	if (!paused) // Make sure all gameplay code is inside here, otherwise pause won't work
 {	
+	
 	TheSpring.Update(dt);
 	fp.Update(dt);
 	TheKey.Update(dt);
 
 	Player::GetInstance()->Update(dt);
+	
 	m_pLevel->Update(dt);
 
 	// Check collision
@@ -116,4 +118,10 @@ void GameState::Input()
 		cursor = 1;
 	else if (cursor > 1)
 		cursor = 0;
+
+	if (input->IsKeyDown(SGD::Key::R))
+	{
+		Player::GetInstance()->SetPosition(Player::GetInstance()->GetStartPos());
+
+	}
 }

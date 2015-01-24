@@ -1,5 +1,6 @@
 #include "Object.h"
 #include <math.h>
+#include "Player.h"
 
 Object::Object()
 {
@@ -45,11 +46,11 @@ void Object::BasicCollision(Object * _other)
 	{
 		if (!GetClippedV())
 		{
-			SetVelocity({ m_vtVelocity.x, 0.0f });
+			SetVelocity({ m_vtVelocity.x, 5.0f });
 			Move({ 0, -dBottom });
 
-			// No longer in the air
-			SetIsInAir(false);
+			// No longer in the air'
+			SetIsInAir(false);		
 			SetClippedV(true);
 		}
 	}
@@ -61,7 +62,7 @@ void Object::BasicCollision(Object * _other)
 			SetVelocity({ m_vtVelocity.x, 0.0f });
 			Move({ 0, dTop });
 
-			// No longer in the air
+			// No longer in the air 
 			//SetIsInAir(false);
 			SetClippedV(true);
 		}

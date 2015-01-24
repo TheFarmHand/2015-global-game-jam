@@ -7,6 +7,7 @@ WalkThrough::WalkThrough()
 	SetSize({ 128, 66});
 	SetPosition({ 300, 400 });
 	SetRect(SGD::Rectangle( GetPos(),GetSize() ));
+	
 	m_eBlockSide = WL_TOP;
 }
 
@@ -40,7 +41,7 @@ void WalkThrough::Update(float elapsedtime)
 		if (m_eBlockSide == WL_TOP || Player::GetInstance()->HasKey())
 		{
 			//float delta = wallRect.bottom - myRect.top;
-			Player::GetInstance()->SetVelocity({ Player::GetInstance()->GetVelocity().x, 0.0f });
+			Player::GetInstance()->SetVelocity({ Player::GetInstance()->GetVelocity().x, 5.0f });
 			float y = Player::GetInstance()->GetPos().y;
 			if (y < (GetPos().y)+50)
 			{
