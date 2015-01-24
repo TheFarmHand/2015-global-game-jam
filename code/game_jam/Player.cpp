@@ -31,10 +31,10 @@ void Player::Update(float elapsedTime)
 	SetPosition(Temp);
 
 	//For Testing Without Collision
-	if (GetPos().y > 300 )
+	if (GetPos().y > 600 )
 	{
 		m_bIsInAir = false;
-		SetPosition({ GetPos().x, 300 });
+		SetPosition({ GetPos().x, 600 });
 	}
 
 	if (m_fJumpCount > 0)
