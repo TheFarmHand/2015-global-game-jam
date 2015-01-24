@@ -12,6 +12,7 @@ public:
 	void ClearAndDeleteAll();//handles memory
 	void UpdateAll(float dt);//will update all objects in the manager in order of layer
 	void RenderAll();//will render all objects in the manager in order of layer
+	void CheckCollision(unsigned int _layer1, unsigned int _layer2);
 	void CheckWorldCollision(unsigned int _bucket, Tiles * _tiles); // Check the given bucket with the world
 
 	ObjectManager();

@@ -95,7 +95,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	
 	/////////////////////////////////////////////////////////////////////
 	// Initialize game
-	
+	std::cout << "The Game IS BEGINNING!\n";
 	Game game;
 	game.Initialialize();
 	
