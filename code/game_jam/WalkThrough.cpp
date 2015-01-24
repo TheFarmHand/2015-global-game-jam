@@ -5,9 +5,9 @@
 WalkThrough::WalkThrough()
 {
 	SetSize({ 128, 66});
-	SetPosition({ 500, 500 });
+	SetPosition({ 200, 200 });
 	SetRect(SGD::Rectangle( GetPos(),GetSize() ));
-	m_eEnterSide = WL_RIGHT;
+	m_eBlockSide = WL_TOP;
 }
 
 
@@ -34,11 +34,15 @@ void WalkThrough::Update(float elapsedtime)
 	// Collision with bottom of human
 	if (dBottom == fmin(dLeft, fmin(dRight, fmin(dTop, dBottom))))
 	{		
-		if (m_eEnterSide == WL_BOTTOM || Player::GetInstance()->HasKey())
+		if (m_eBlockSide == WL_TOP || Player::GetInstance()->HasKey())
 		{
 			//float delta = wallRect.bottom - myRect.top;
 			Player::GetInstance()->SetVelocity({ Player::GetInstance()->GetVelocity().x, 0.0f });
-			Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x, Player::GetInstance()->GetPos().y - dBottom });
+			float y = Player::GetInstance()->GetPos().y;
+			if (y < (GetPos().y)+20)
+			{
+				Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x, Player::GetInstance()->GetPos().y - dBottom });
+			}
 
 			// No longer in the air
 			Player::GetInstance()->SetIsInAir(false);
@@ -48,12 +52,14 @@ void WalkThrough::Update(float elapsedtime)
 	else if (dTop == fmin(dRight, fmin(dTop, dLeft)))
 	{
 		
-		if (m_eEnterSide == WL_TOP || Player::GetInstance()->HasKey())
+		if (m_eBlockSide == WL_BOTTOM || Player::GetInstance()->HasKey())
 		{
 			//float delta = myRect.bottom - wallRect.top;
 			//float delta = wallRect.bottom - myRect.top;
 			Player::GetInstance()->SetVelocity({ Player::GetInstance()->GetVelocity().x, 0.0f });
+
 			Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x, Player::GetInstance()->GetPos().y + dTop });
+			
 
 			// No longer in the air
 			Player::GetInstance()->SetIsInAir(false);
@@ -62,13 +68,17 @@ void WalkThrough::Update(float elapsedtime)
 	// Collision with left of human
 	else if (dLeft == fmin(dLeft, dRight))
 	{
-		if (m_eEnterSide == WL_RIGHT || Player::GetInstance()->HasKey())
+		if (m_eBlockSide == WL_RIGHT || Player::GetInstance()->HasKey())
 		{
 			//float delta = myRect.right - wallRect.left;
 			//float delta = wallRect.bottom - myRect.top;
 			Player::GetInstance()->SetVelocity({ 0.0f, Player::GetInstance()->GetVelocity().y });
-			Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x + dLeft, Player::GetInstance()->GetPos().y });
-
+			if (Player::GetInstance()->GetPos().x > ((GetPos().x + GetSize().width) - 10))
+			{
+				Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x + dLeft, Player::GetInstance()->GetPos().y });
+			}
+			
+			
 			// No longer in the air
 			Player::GetInstance()->SetIsInAir(false);
 		}
@@ -76,11 +86,14 @@ void WalkThrough::Update(float elapsedtime)
 	// Collision with right of human
 	else
 	{	
-		if (m_eEnterSide == WL_LEFT || Player::GetInstance()->HasKey())
+		if (m_eBlockSide == WL_LEFT || Player::GetInstance()->HasKey())
 		{
 			//float delta = wallRect.right - myRect.left;
 			Player::GetInstance()->SetVelocity({ 0.0f, Player::GetInstance()->GetVelocity().y });
-			Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x - dRight, Player::GetInstance()->GetPos().y });
+			if ((Player::GetInstance()->GetPos().x + Player::GetInstance()->GetSize().width) < (GetPos().x) + 10)
+			{
+				Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x - dRight, Player::GetInstance()->GetPos().y });
+			}
 
 			// No longer in the air
 			Player::GetInstance()->SetIsInAir(false);
