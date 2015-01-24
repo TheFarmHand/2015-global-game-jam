@@ -92,6 +92,7 @@
     <ClCompile Include="ImageLayer.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="Spring.cpp" />
     <ClCompile Include="Tiles.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="TinyXML\tinystr.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="ImageLayer.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="Spring.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="TinyXML\tinystr.h" />

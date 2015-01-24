@@ -7,9 +7,10 @@
 
 SolidWall::SolidWall()
 {
-	m_szSize = { 128, 128 };
-	m_ptPosition = { 200, 500 };
-	m_Rect = SGD::Rectangle(m_ptPosition, m_szSize);
+	SetSize({ 128, 128 });
+	SetPosition({ 200, 500 });
+	SetRect(SGD::Rectangle(GetPos(), GetSize()));
+	SetType(OBJ_SolidWall);
 }
 
 
@@ -137,5 +138,5 @@ void SolidWall::Update(float ElapsedTime)
 
 void SolidWall::Render()
 {
-	GraphicsManager::GetInstance()->DrawRectangle(SGD::Rectangle(m_ptPosition, m_szSize), { 255, 255, 0, 0 });
+	GraphicsManager::GetInstance()->DrawRectangle(SGD::Rectangle(GetPos(), GetSize()), { 255, 255, 0, 0 });
 }

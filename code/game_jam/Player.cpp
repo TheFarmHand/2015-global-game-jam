@@ -3,13 +3,14 @@
 
 Player::Player()
 {
-	m_ptPosition = { 200, 200 };
+	SetPosition({ 200, 200 });
 	m_ptStartPosition = { 200, 200 };
-	m_szSize = { 64, 64 };
+	SetSize({ 64, 64 });
 	m_vtVelocity = { 0, 0 };
 	m_fGravity = 20;
 	m_bIsInAir = true;
-	m_recRect = Rectangle(m_ptPosition, m_szSize);
+	SetRect(Rectangle(GetPos(), GetSize()));
+	SetType(OBJ_Player);
 }
 
 
@@ -24,14 +25,17 @@ void Player::Update(float elapsedTime)
 
 	ApplyGravity();
 
-	m_ptPosition += m_vtVelocity * elapsedTime;
+	Point Temp = GetPos();
+	Temp += m_vtVelocity * elapsedTime;
+	SetPosition(Temp);
 
 	//For Testing Without Collision
-	if (m_ptPosition.y > 500 )
+	if (GetPos().y > 500 )
 	{
 		m_bIsInAir = false;
-  		m_ptPosition.y = 500;
+		SetPosition({ GetPos().x, 500 });
 	}
+
 	if (m_fJumpCount > 0)
 	{
 		m_fJumpCount -= elapsedTime;
@@ -40,7 +44,7 @@ void Player::Update(float elapsedTime)
 	{
 		m_bJumping = false;
 	}
-	m_recRect = Rectangle(m_ptPosition, m_szSize);
+	SetRect(Rectangle(GetPos(), GetSize()));
 }
 
 Player* Player::GetInstance(void)
@@ -85,5 +89,5 @@ void Player::ApplyGravity()
 
 void Player::Render()
 {
-	GraphicsManager::GetInstance()->DrawRectangle(m_recRect, { 255, 0, 255, 0 });
+	GraphicsManager::GetInstance()->DrawRectangle(GetRect(), { 255, 0, 255, 0 });
 }

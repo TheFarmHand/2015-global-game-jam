@@ -83,6 +83,8 @@
     <ClCompile Include="SolidWall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Spring.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseState.h">
@@ -179,6 +181,8 @@
     <ClInclude Include="SolidWall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Spring.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
