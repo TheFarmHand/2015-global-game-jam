@@ -41,9 +41,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <ExecutablePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Utilities\bin\x86;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <ExecutablePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Utilities\bin\x86;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -80,6 +86,7 @@
   <ItemGroup>
     <ClCompile Include="BaseState.cpp" />
     <ClCompile Include="BitmapFont.cpp" />
+    <ClCompile Include="DeathTouch.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="ImageLayer.cpp" />
@@ -92,6 +99,9 @@
     <ClCompile Include="TinyXML\tinyxml.cpp" />
     <ClCompile Include="TinyXML\tinyxmlerror.cpp" />
     <ClCompile Include="TinyXML\tinyxmlparser.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SolidWall.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="WRAPPERS\SGD_AudioManager.cpp" />
     <ClCompile Include="WRAPPERS\SGD_Event.cpp" />
@@ -106,6 +116,7 @@
   <ItemGroup>
     <ClInclude Include="BaseState.h" />
     <ClInclude Include="BitmapFont.h" />
+    <ClInclude Include="DeathTouch.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="ImageLayer.h" />
@@ -116,6 +127,9 @@
     <ClInclude Include="TinyXML\tinystr.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="TinyXML\tinyxml.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="SolidWall.h" />
     <ClInclude Include="WRAPPERS\SGD_AudioManager.h" />
     <ClInclude Include="WRAPPERS\SGD_Color.h" />
     <ClInclude Include="WRAPPERS\SGD_Declarations.h" />
