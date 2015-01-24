@@ -4,7 +4,10 @@
 
 Spring::Spring()
 {
+	SetPosition({ 500, 500 });
 	SetSize({ 64, 64 });
+	SetRect(SGD::Rectangle(GetPos(), GetSize()));
+	m_fBouncePower = 800;
 }
 
 
@@ -32,11 +35,11 @@ void Spring::Update(float elapsedTime)
 	if (dBottom == fmin(dLeft, fmin(dRight, fmin(dTop, dBottom))))
 	{
 		//float delta = wallRect.bottom - myRect.top;
-		Player::GetInstance()->SetVelocity({ Player::GetInstance()->GetVelocity().x, 0.0f });
+		Player::GetInstance()->SetVelocity({ Player::GetInstance()->GetVelocity().x, -m_fBouncePower });
 		Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x, Player::GetInstance()->GetPos().y - dBottom });
 
 		// No longer in the air
-		Player::GetInstance()->SetIsInAir(false);
+		Player::GetInstance()->SetIsInAir(true);
 	}
 	// Collision with top of human
 	else if (dTop == fmin(dRight, fmin(dTop, dLeft)))

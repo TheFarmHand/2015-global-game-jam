@@ -8,7 +8,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 //For Testing
-static Spring TheSolidWall;
+static Spring TheSpring;
 
 GameState::GameState()
 {
@@ -25,7 +25,7 @@ GameState::~GameState()
 
 int GameState::Update(float dt)
 {
-	TheSolidWall.Update(dt);
+	TheSpring.Update(dt);
 	Player::GetInstance()->Update(dt);
 	//Player::GetInstance()->ApplyGravity();	
 	int x = 0;
@@ -33,7 +33,7 @@ int GameState::Update(float dt)
 }
 void GameState::Render()
 {
-	TheSolidWall.Render();
+	TheSpring.Render();
 	Player::GetInstance()->Render();
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
 	//graphics->DrawString("This is the Game State", { 50.0f, 50.0f }, { 255, 255, 255 });
