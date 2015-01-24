@@ -15,7 +15,7 @@ GameState::~GameState()
 	delete m_tTiles;
 }
 
-bool GameState::Update(float dt)
+int GameState::Update(float dt)
 {
 	
 	int x = 0;

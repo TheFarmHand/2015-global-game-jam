@@ -70,6 +70,7 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BitmapFont.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseState.h">
@@ -153,6 +154,7 @@
     <ClInclude Include="Tiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BitmapFont.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

@@ -9,7 +9,7 @@ BaseState::~BaseState()
 {
 
 }
-bool BaseState::Update(float dt)
+int BaseState::Update(float dt)
 {
 	return true;
 }
