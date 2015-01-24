@@ -11,7 +11,6 @@ public:
 	void ClearAndDeleteAll();//handles memory
 	void UpdateAll(float dt);//will update all objects in the manager in order of layer
 	void RenderAll();//will render all objects in the manager in order of layer
-	
 
 	ObjectManager();
 	~ObjectManager();
