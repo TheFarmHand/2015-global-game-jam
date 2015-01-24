@@ -35,6 +35,7 @@ public:
 	Size GetSize() { return m_szSize; }
 	Point GetPos() { return m_ptPosition; }
 	Point GetStartPos() { return m_ptStartPosition; }
+	Vector GetVelocity() { return m_vtVelocity; }
 	void SetPosition(Point _pt){ m_ptPosition = _pt; }
 	void SetVelocity(Vector _Vel) { m_vtVelocity = _Vel; }
 	void SetIsInAir(bool _Air) { m_bIsInAir = _Air; }

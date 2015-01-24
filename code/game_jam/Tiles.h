@@ -11,6 +11,7 @@
 /////////////////////////
 // Forward declarations
 class ImageLayer;
+class Object;
 
 /////////////////////////
 // Definitions
@@ -35,6 +36,7 @@ public:
 	bool		LoadLevel(const char * _path);
 	void		RenderCollision();
 	void		RenderImageLayer(bool _background);
+	void		CheckCollision(Object * _obj);
 	
 	//////////////////////////////
 	// Accessors
