@@ -17,6 +17,8 @@ static WalkThrough TheSpring;
 static FallingPlatform fp;
 static LKey TheKey;
 
+extern int testfunc();
+
 GameState::GameState()
 {
 	m_pLevel = new Level();

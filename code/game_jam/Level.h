@@ -22,7 +22,6 @@ public:
 	void Render();
 	void Input();
 
-	void Incrementlevel();
 
 	//////////////////////////
 	// Accessors

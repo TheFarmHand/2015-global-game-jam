@@ -70,10 +70,8 @@ bool Game::Update()
 	//calculate deltatime
 	unsigned int nowtime = GetTickCount();
 	float deltatime = (nowtime - lasttime) / 1000.0f;
-	if (deltatime < 0.0125f)
-	{
-		deltatime = 0.0125f;
-	}
+	if (deltatime > 0.15f)
+		deltatime = 0.15f;
 	lasttime = nowtime;
 	//update the current state
 	currstate->Input();

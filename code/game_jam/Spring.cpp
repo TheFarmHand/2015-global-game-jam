@@ -1,6 +1,7 @@
 #include "Spring.h"
 #include "Player.h"
 #include <math.h>
+#include "Data.h"
 
 Spring::Spring()
 {
@@ -17,6 +18,13 @@ Spring::~Spring()
 
 void Spring::Update(float elapsedTime)
 {
+	Data * data = Data::GetInstance();
+
+	if (data->levels[data->leveliter].springupdate)
+	{
+		data->levels[data->leveliter].springupdate(elapsedTime);
+		return;
+	}
 	SGD::Rectangle wallRect = GetRect();
 	SGD::Rectangle otherRect = Player::GetInstance()->GetRect();
 

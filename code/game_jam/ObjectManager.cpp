@@ -50,7 +50,7 @@ void ObjectManager::UpdateAll(float dt)
 }
 void ObjectManager::RenderAll()
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 2; i >=0; i++)
 	{
 		for (unsigned int j = 0; j < objects[i].size(); j++)
 		{

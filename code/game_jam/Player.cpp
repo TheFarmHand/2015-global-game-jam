@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <iostream>
 #include "WRAPPERS\SGD_InputManager.h"
+#include "Data.h"
 
 Player::Player()
 {
@@ -21,6 +22,14 @@ Player::~Player()
 
 void Player::Update(float elapsedTime)
 {
+
+	Data * data = Data::GetInstance();
+
+	if (data->levels[data->leveliter].update)
+	{
+		data->levels[data->leveliter].update(elapsedTime);
+		return;
+	}
 	Input();
 
 	
@@ -60,7 +69,14 @@ Player* Player::GetInstance(void)
 
 void Player::Input()
 {
-	
+	Data * data = Data::GetInstance();
+
+	if (data->levels[data->leveliter].input)
+	{
+		data->levels[data->leveliter].input();
+		return;
+	}
+
 	if (InputManager::GetInstance()->IsKeyDown(Key::D))
 	{
 		SetVelocity({ 300, GetVelocity().y });
