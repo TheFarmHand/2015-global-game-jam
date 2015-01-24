@@ -26,22 +26,18 @@ void MenuState::Render()
 {
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
 
-	font->Draw("Main Menu", { 400, 50 } , 1, { 255, 255, 255 });
+	font->Draw("Main Menu", { 512 - font->Center("Main Menu"), 50 }, 1, { 255, 255, 255 });
+	font->Draw("~~~~~~~~~", { 512 - font->Center("~~~~~~~~~"), 70 }, 1, { 255, 255, 255 });
 
 	if (cursor == 0)
-		font->Draw("Play", { 425, 250 }, 1, { 0, 255, 255 }); // Play selected
+		font->Draw("Play", { 512 - font->Center("Play"), 250 }, 1, { 0, 255, 255 }); // Play selected
 	else
-		font->Draw("Play", { 425, 250 }, 1, { 255, 255, 255 }); // Play unselected
+		font->Draw("Play", { 512 - font->Center("Play"), 250 }, 1, { 255, 255, 255 }); // Play unselected
 
 	if (cursor == 1)
-		font->Draw("Options", { 405, 300 }, 1, { 0, 255, 255 }); // Options selected
+		font->Draw("Exit", { 512 - font->Center("Exit"), 300 }, 1, { 0, 255, 255 }); // Exit selected
 	else
-		font->Draw("Options", { 405, 300 }, 1, { 255, 255, 255 }); // Options unselected
-
-	if (cursor == 2)
-		font->Draw("Exit", { 425, 350 }, 1, { 0, 255, 255 }); // Exit selected
-	else
-		font->Draw("Exit", { 425, 350 }, 1, { 255, 255, 255 }); // Exit unselected
+		font->Draw("Exit", { 512 - font->Center("Exit"), 300 }, 1, { 255, 255, 255 }); // Exit unselected
 
 
 }
@@ -62,13 +58,13 @@ void MenuState::Input()
 	{
 		if (cursor == 0)
 			running = 2;
-		else if (cursor == 2)
+		else if (cursor == 1)
 			running = 3;
 
 	}
 
 	if (cursor < 0)
-		cursor = 2;
-	else if (cursor > 2)
+		cursor = 1;
+	else if (cursor > 1)
 		cursor = 0;
 }
