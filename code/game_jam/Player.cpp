@@ -3,6 +3,7 @@
 #include "Spring.h"
 #include "WRAPPERS\SGD_InputManager.h"
 #include "Data.h"
+#include "Tiles.h"
 
 Player::Player()
 {
@@ -37,11 +38,12 @@ void Player::Update(float elapsedTime)
 		data->levels[data->leveliter].update(elapsedTime);
 		return;
 	}
-	Input();
+
+	//Input();
 
 	
 
-	if (GetInAir())
+	if (GetInAir() || GetClippedH())
 	{
 		ApplyGravity(elapsedTime);
 	}
@@ -72,7 +74,7 @@ Player* Player::GetInstance(void)
 	return &s_Instance;
 }
 
-void Player::Input()
+void Player::Input(Tiles * _tiles)
 {
 	Data * data = Data::GetInstance();
 
@@ -82,11 +84,11 @@ void Player::Input()
 		return;
 	}
 
-	if (InputManager::GetInstance()->IsKeyDown(Key::D))
+	if (InputManager::GetInstance()->IsKeyDown(Key::D) && SpaceFree({ 1.0f, -1.0f }, _tiles))
 	{
 		SetVelocity({ 300, GetVelocity().y });
 	}
-	else if (InputManager::GetInstance()->IsKeyDown(Key::A))
+	else if (InputManager::GetInstance()->IsKeyDown(Key::A) && SpaceFree({ -1.0f, -1.0f }, _tiles))
 	{
 		SetVelocity({ -300, GetVelocity().y });
 	}
@@ -174,4 +176,50 @@ void Player::HandleCollision(Object * _object)
 			}
 		}
 	}
+}
+
+
+bool Player::SpaceFree(Vector _offset, Tiles * _tiles)
+{
+	// Temporary rect
+	SGD::Rectangle rect = GetRect();
+	rect.left += _offset.x;
+	rect.right += _offset.x;
+	rect.top += _offset.y;
+	rect.bottom += _offset.y;
+
+	// Determine the position of the enity in the array
+	int x = (int)(rect.left / 32);
+	int y = (int)(rect.top / 32);
+
+	// Determine how far to check
+	int width = (int)((rect.right - 1 - rect.left) / 32);
+	int height = (int)((rect.bottom - 1 - rect.top) / 32);
+
+	//int x2 = (int)((rect.right - 1) / 32);
+	//int y2 = (int)((rect.bottom - 1) / 32);
+
+	// loop through all adjacent collision pieces
+	for (int xx = x; xx <= x + width + 1; ++xx)
+	{
+		for (int yy = y; yy <= y + height + 1; ++yy)
+		{
+			// Check if the current piece is in the bounds of the array
+			if (xx >= 0 && xx < _tiles->GetWidth() && yy >= 0 && yy < _tiles->GetHeight())
+			{
+				// Figure out what is at this position
+				int id = _tiles->GetCollisionLayer()[xx][yy];
+
+				// If ID is no -1 check if rect collides with it
+				if (id != -1)
+				{
+					SGD::Point point = { xx * 32.0f, yy * 32.0f };
+					SGD::Size size = { 32, 32 };
+					SGD::Rectangle rect2(point, size);
+					return !rect2.IsIntersecting(rect);
+				}
+			}
+		}
+	}
+	return true;
 }

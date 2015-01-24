@@ -5,6 +5,7 @@
 
 using namespace SGD;
 
+class Tiles;
 
 class Player : public Object
 {
@@ -23,7 +24,7 @@ public:
 	static Player* GetInstance();
 
 	void Update(float elapsedTime);
-	void Input();
+	void Input(Tiles * _tiles);
 	void Render(void);
 	virtual type GetType() const override { return OBJ_Player; }
 	virtual void HandleCollision(Object * _object) override;
@@ -32,6 +33,7 @@ public:
 	Point GetStartPos() { return m_ptStartPosition; }
 	void SetHasKey(bool _Has) { m_bHasKey = _Has; }
 
+	bool SpaceFree(Vector _offset, Tiles * _tiles);
 	bool IsJumping() { return m_bJumping; }
 	bool HasKey() { return m_bHasKey; }
 
