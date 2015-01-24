@@ -5,8 +5,8 @@
 FallingPlatform::FallingPlatform()
 {
 	SetSize({ 32, 32 });
-	SetPosition({ 500, 500 });
-	m_ptStartPosition = { 500, 500 };
+	//SetPosition({ 500, 500 });
+	//m_ptStartPosition = { 500, 500 };
 	SetRect(SGD::Rectangle(GetPos(), GetSize()));
 }
 

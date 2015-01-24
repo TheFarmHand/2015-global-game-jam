@@ -67,7 +67,6 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BitmapFont.cpp" />
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -81,14 +80,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Spring.cpp" />
-    <ClCompile Include="Data.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="FallingPlatform.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="WalkThrough.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Key.cpp" />
+    <ClCompile Include="BitmapFont.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FallingPlatform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Spring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkThrough.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Object.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -170,7 +182,6 @@
     <ClInclude Include="Tiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BitmapFont.h" />
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -184,14 +195,28 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Object.h" />
-    <ClInclude Include="Spring.h" />
-    <ClInclude Include="Data.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="FallingPlatform.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="WalkThrough.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="Key.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="BitmapFont.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FallingPlatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkThrough.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Object.h" />
   </ItemGroup>
   <ItemGroup>

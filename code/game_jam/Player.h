@@ -16,6 +16,8 @@ class Player : public Object
 	//Fix Jittering in Collission with Gravity
 	bool m_bJumping;
 	float m_fJumpCount;
+	float m_fSpringTimer;
+
 public:
 	//Singleton
 	static Player* GetInstance();

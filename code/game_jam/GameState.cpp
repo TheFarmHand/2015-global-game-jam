@@ -8,12 +8,13 @@
 #include "FallingPlatform.h"
 #include "WalkThrough.h"
 #include "Key.h"
+#include "Spring.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 //For Testing
-static WalkThrough TheSpring;
+static Spring TheSpring;
 static FallingPlatform fp;
 static LKey TheKey;
 
@@ -26,6 +27,9 @@ GameState::GameState()
 	
 	font = new BitmapFont;
 	font->Initialize("Assets/Font.fnt");
+
+	// Initialize and setup all obstacles
+	CreateObstacles();
 }
 
 
@@ -37,6 +41,15 @@ GameState::~GameState()
 
 	font->Terminate();
 	delete font;
+
+	// Delete obstacles
+	delete spring1;
+	delete spring2;
+	delete spring3;
+	delete platform;
+	delete walkThrough1;
+	delete walkThrough2;
+	delete key;
 }
 
 int GameState::Update(float dt)
@@ -44,20 +57,23 @@ int GameState::Update(float dt)
 	if (!paused) // Make sure all gameplay code is inside here, otherwise pause won't work
 {	
 	
-	TheSpring.Update(dt);
-	fp.Update(dt);
-	TheKey.Update(dt);
-
 	Player::GetInstance()->Update(dt);
+
+	// Update each obstacles
+	spring1->Update(dt);
+	spring2->Update(dt);
+	spring3->Update(dt);
+	platform->Update(dt);
+	walkThrough1->Update(dt);
+	walkThrough2->Update(dt);
+	key->Update(dt);
 	
 	m_pLevel->Update(dt);
 
-	// Check collision
-	if (Player::GetInstance()->GetRect().IsIntersecting(fp.GetRect()))
-	{
-		Player::GetInstance()->HandleCollision(&fp);
-		fp.HandleCollision(Player::GetInstance());
-	}
+	// Check collisions
+	CheckObstacleCollisions();
+
+	// Player world collision
 	m_pLevel->GetTiles()->CheckCollision(Player::GetInstance());
 
 	// End of loop
@@ -66,13 +82,19 @@ int GameState::Update(float dt)
 }
 void GameState::Render()
 {
-	TheSpring.Render();
+	//TheSpring.Render();
+	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
 	fp.Render();
 	TheKey.Render();
 	Player::GetInstance()->Render();
-	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
+	spring1->Render();
+	spring2->Render();
+	spring3->Render();
+	platform->Render();
+	walkThrough1->Render();
+	walkThrough2->Render();
+	key->Render();
 	m_pLevel->Render();
-	// Draw anything that needs to always be seen here
 
 
 	#pragma region Pause Menu
@@ -134,4 +156,100 @@ void GameState::ResetLevel()
 	TheKey.SetPosition(TheKey.GetStartPos());
 }
 
-//BLASHDLASJHFlkj
+void GameState::CreateObstacles()
+{
+	// Springs
+	spring1 = new Spring();
+	spring1->SetPosition({ 416, 672 });
+	spring1->SetDirection(3);
+	spring1->SetRect({ spring1->GetPos(), spring1->GetSize() });
+
+	spring2 = new Spring();
+	spring2->SetPosition({ 416, 32 });
+	spring2->SetDirection(1);
+	spring2->SetRect({ spring2->GetPos(), spring2->GetSize() });
+
+	spring3 = new Spring();
+	spring3->SetPosition({ 544, 224 });
+	spring3->SetDirection(0);
+	spring3->SetRect({ spring3->GetPos(), spring3->GetSize() });
+
+	// Platforms
+	platform = new FallingPlatform();
+	platform->SetPosition({ 704, 448 });
+	platform->SetSize({ 64, 32 });
+	platform->SetStartPosition(platform->GetPos());
+	platform->SetRect({ platform->GetPos(), platform->GetSize() });
+
+	// Walkthrough walls
+	walkThrough1 = new WalkThrough;
+	walkThrough1->SetPosition({ 32, 256 });
+	walkThrough1->SetSize({ 128, 32 });
+	walkThrough1->SetEnter(WalkThroughEnter::WL_BOTTOM);
+	walkThrough1->SetRect({ walkThrough1->GetPos(), walkThrough1->GetSize() });
+
+	walkThrough2 = new WalkThrough;
+	walkThrough2->SetPosition({ 160, 384 });
+	walkThrough2->SetSize({ 32, 96 });
+	walkThrough1->SetEnter(WalkThroughEnter::WL_RIGHT);
+	walkThrough2->SetRect({ walkThrough2->GetPos(), walkThrough2->GetSize() });
+
+	// Key
+	key = new LKey();
+	key->SetPosition({ 896, 352 });
+	key->SetSize({ 32, 32 });
+	key->SetRect({ key->GetPos(), key->GetSize() });
+
+}
+
+void GameState::CheckObstacleCollisions()
+{
+	// Spring 1
+	if (Player::GetInstance()->GetRect().IsIntersecting(spring1->GetRect()))
+	{
+		Player::GetInstance()->HandleCollision(spring1);
+		spring1->HandleCollision(Player::GetInstance());
+	}
+
+	// Spring 2
+	if (Player::GetInstance()->GetRect().IsIntersecting(spring2->GetRect()))
+	{
+		Player::GetInstance()->HandleCollision(spring2);
+		spring2->HandleCollision(Player::GetInstance());
+	}
+
+	// Spring 3
+	if (Player::GetInstance()->GetRect().IsIntersecting(spring3->GetRect()))
+	{
+		Player::GetInstance()->HandleCollision(spring3);
+		spring3->HandleCollision(Player::GetInstance());
+	}
+
+	// Platform
+	if (Player::GetInstance()->GetRect().IsIntersecting(platform->GetRect()))
+	{
+		Player::GetInstance()->HandleCollision(platform);
+		platform->HandleCollision(Player::GetInstance());
+	}
+
+	// walkThrough1
+	if (Player::GetInstance()->GetRect().IsIntersecting(walkThrough1->GetRect()))
+	{
+		Player::GetInstance()->HandleCollision(walkThrough1);
+		walkThrough1->HandleCollision(Player::GetInstance());
+	}
+
+	// walkThrough2
+	if (Player::GetInstance()->GetRect().IsIntersecting(walkThrough2->GetRect()))
+	{
+		Player::GetInstance()->HandleCollision(walkThrough2);
+		walkThrough2->HandleCollision(Player::GetInstance());
+	}
+
+	// key
+	if (Player::GetInstance()->GetRect().IsIntersecting(key->GetRect()))
+	{
+		Player::GetInstance()->HandleCollision(key);
+		key->HandleCollision(Player::GetInstance());
+	}
+}
