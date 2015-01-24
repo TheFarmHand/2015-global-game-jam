@@ -20,3 +20,11 @@ void Object::Render(void)
 {
 
 }
+
+void Object::HandleCollision(Object * _object)
+{
+	//if (_object->GetType() == sometype)
+	{
+
+	}
+}

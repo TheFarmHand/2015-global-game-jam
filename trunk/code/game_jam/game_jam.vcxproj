@@ -86,6 +86,7 @@
   <ItemGroup>
     <ClCompile Include="BaseState.cpp" />
     <ClCompile Include="BitmapFont.cpp" />
+    <ClCompile Include="Data.cpp" />
     <ClCompile Include="DeathTouch.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -117,6 +118,7 @@
   <ItemGroup>
     <ClInclude Include="BaseState.h" />
     <ClInclude Include="BitmapFont.h" />
+    <ClInclude Include="Data.h" />
     <ClInclude Include="DeathTouch.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />

@@ -28,6 +28,7 @@ public:
 	void SetRect(SGD::Rectangle _Rect) { m_rRect = _Rect; }
 	void SetType(type _Type){ m_eType = _Type; }
 	type GetType(){ return m_eType; }
+	virtual void HandleCollision(Object * _object);
 	Object();
 	virtual ~Object();
 };

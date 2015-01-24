@@ -44,7 +44,7 @@ void ObjectManager::UpdateAll(float dt)
 	{
 		for (unsigned int j = 0; j < objects[i].size(); j++)
 		{
-			//objects[i][j]->Update(dt);
+			objects[i][j]->Update(dt);
 		}
 	}
 }
@@ -54,9 +54,26 @@ void ObjectManager::RenderAll()
 	{
 		for (unsigned int j = 0; j < objects[i].size(); j++)
 		{
-			//objects[i][j]->Render(dt);
+			objects[i][j]->Render();
 		}
 	}
+}
+
+void ObjectManager::CheckCollision(unsigned int _layer1, unsigned int _layer2)
+{
+	for (unsigned int i = 0; i < objects[_layer1].size(); i++)
+	{
+		for (unsigned int j = 0; j < objects[_layer2].size(); i++)
+		{
+			//if the objects here collide call the is intersecting function
+			if (objects[_layer1][i]->GetRect().IsIntersecting(objects[_layer2][j]->GetRect()))
+			{
+				objects[_layer1][i]->HandleCollision(objects[_layer2][j]);
+				objects[_layer2][j]->HandleCollision(objects[_layer1][i]);
+			}
+		}
+	}
+
 }
 
 /**************************************************************/

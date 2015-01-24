@@ -12,21 +12,21 @@ static Spring TheSpring;
 
 GameState::GameState()
 {
-	m_tTiles = new Tiles();
-	m_tTiles->LoadLevel("Assets/TestLevel.xml");
+	
 	
 }
 
 
 GameState::~GameState()
 {
-	delete m_tTiles;
+	
 }
 
 int GameState::Update(float dt)
 {
 	TheSpring.Update(dt);
 	Player::GetInstance()->Update(dt);
+	level.Update(dt);
 	//Player::GetInstance()->ApplyGravity();	
 	int x = 0;
 	return playing;
@@ -36,17 +36,7 @@ void GameState::Render()
 	TheSpring.Render();
 	Player::GetInstance()->Render();
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
-	//graphics->DrawString("This is the Game State", { 50.0f, 50.0f }, { 255, 255, 255 });
-
-	// Draw the background first
-	//m_tTiles->RenderImageLayer(true);
-
-	// Anything between back and foreground
-	//m_tTiles->RenderCollision();
-
-	// Draw foreground last
-	//m_tTiles->RenderImageLayer(false);
-
+	level.Render();
 	// Draw anything that needs to always be seen here
 }
 void GameState::Input()

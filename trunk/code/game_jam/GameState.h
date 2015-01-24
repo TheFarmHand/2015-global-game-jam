@@ -1,13 +1,14 @@
 #pragma once
 #include "BaseState.h"
+#include "Level.h"
 class Tiles;
 class GameState :
 	public BaseState
 {
 private:
 	int playing = 0;
-
-	Tiles * m_tTiles;
+	Level level;
+	//Tiles * m_tTiles;
 public:
 	GameState();
 	virtual ~GameState();
