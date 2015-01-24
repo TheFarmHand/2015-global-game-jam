@@ -2,12 +2,16 @@
 #include "BaseState.h"
 #include "BitmapFont.h"
 
-class Tiles;
 
 /////////////////////////
 // Forward declarations
+class Tiles;
 class Level;
 class ObjectManager;
+class Spring;
+class FallingPlatform;
+class WalkThrough;
+class LKey;
 
 class GameState :
 	public BaseState
@@ -18,11 +22,18 @@ private:
 	bool paused = false;
 	ObjectManager * m_pObjManager;
 	bool options = false;
-
-
 	BitmapFont *font = nullptr;
 	int cursor = 0;
 	int optionsCursor = 0;
+
+	Spring * spring1;
+	Spring * spring2;
+	Spring * spring3;
+	FallingPlatform * platform;
+	WalkThrough * walkThrough1;
+	WalkThrough * walkThrough2;
+	LKey * key;
+
 public:
 	GameState();
 	virtual ~GameState();
@@ -32,5 +43,7 @@ public:
 	virtual void Input() override;
 
 	void ResetLevel();
+	void CreateObstacles();
+	void CheckObstacleCollisions();
 };
 

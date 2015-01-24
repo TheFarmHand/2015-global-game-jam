@@ -11,6 +11,7 @@ class FallingPlatform : public Object
 public:
 	void Update(float elapsedTime);
 	void Render(void);
+	void SetStartPosition(Point _p) { m_ptStartPosition = _p; }
 	virtual type GetType() const override { return OBJ_FallingBlock; }
 	virtual void HandleCollision(Object * _object) override;
 	FallingPlatform();

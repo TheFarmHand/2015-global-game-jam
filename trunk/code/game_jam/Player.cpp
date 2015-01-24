@@ -1,17 +1,19 @@
 #include "Player.h"
 #include <iostream>
+#include "Spring.h"
 #include "WRAPPERS\SGD_InputManager.h"
 #include "Data.h"
 
 Player::Player()
 {
-	SetPosition({ 200, 200 });
-	m_ptStartPosition = { 200, 200 };
+	SetPosition({ 48, 400 });
+	m_ptStartPosition = { 48, 400 };
 	SetSize({ 64, 64 });
 	SetVelocity({ 0.0f, 0.0f });
-	m_fGravity = 1500.0f;
+	m_fGravity = 1400.0f;
 	SetIsInAir(true);
 	m_bHasKey = false;
+	m_fSpringTimer = 0.0f;
 	SetRect(Rectangle(GetPos(), GetSize()));
 }
 
@@ -22,6 +24,11 @@ Player::~Player()
 
 void Player::Update(float elapsedTime)
 {
+	if (m_fSpringTimer > 0.0f)
+	{
+		m_fSpringTimer -= elapsedTime;
+	}
+
 
 	Data * data = Data::GetInstance();
 
@@ -38,8 +45,6 @@ void Player::Update(float elapsedTime)
 	{
 		ApplyGravity(elapsedTime);
 	}
-
-	float position = GetPos().x;
 
 	if (m_fJumpCount > 0)
 	{
@@ -85,7 +90,7 @@ void Player::Input()
 	{
 		SetVelocity({ -300, GetVelocity().y });
 	}
-	else
+	else if (m_fSpringTimer <= 0.0f)
 	{
 		SetVelocity({ 0, GetVelocity().y });
 	}
@@ -121,10 +126,12 @@ void Player::HandleCollision(Object * _object)
 	{
 		BasicCollision(_object);	
 	}
+	// Death touch
 	else if (_object->GetType() == OBJ_DeathTouch)
 	{
 		SetPosition(m_ptStartPosition);
 	}
+	// Falling blocks
 	else if (_object->GetType() == OBJ_FallingBlock)
 	{
 		BasicCollision(_object);
@@ -132,5 +139,39 @@ void Player::HandleCollision(Object * _object)
 	else if (_object->GetType() == OBJ_Walkthrough)
 	{
 		BasicCollision(_object);
+	}
+	// Springs
+	else if (_object->GetType() == OBJ_Spring)
+	{
+		Spring * spring = dynamic_cast<Spring*>(_object);
+		BasicCollision(_object);
+		m_fSpringTimer = 0.5f;
+		switch (spring->GetDirection())
+		{
+			// Facing right
+			case 0:
+			{
+				SetVelocity({spring->GetPower(), GetVelocity().y });
+				break;
+			}
+			// Facing down
+			case 1:
+			{
+				SetVelocity({ GetVelocity().x, spring->GetPower() });
+				break;
+			}
+			// Facing left
+			case 2:
+			{
+				SetVelocity({ -spring->GetPower(), GetVelocity().y });
+				break;
+			}
+			// Facing up
+			case 3:
+			{
+				SetVelocity({ GetVelocity().x, -spring->GetPower() });
+				break;
+			}
+		}
 	}
 }
