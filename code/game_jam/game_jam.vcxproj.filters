@@ -83,8 +83,12 @@
     <ClCompile Include="SolidWall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<ClCompile Include="Object.cpp" />
-    <ClCompile Include="Spring.cpp" />    <ClCompile Include="Data.cpp" />  </ItemGroup>
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Spring.cpp" />
+    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="FallingPlatform.cpp" />
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseState.h">
       <Filter>Header Files</Filter>
@@ -180,8 +184,12 @@
     <ClInclude Include="SolidWall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
- <ClInclude Include="Object.h" />
-    <ClInclude Include="Spring.h" /> <ClInclude Include="Data.h" />  </ItemGroup>
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Spring.h" />
+    <ClInclude Include="Data.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="FallingPlatform.h" />
+  </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
       <UniqueIdentifier>{7ed43cd0-6512-40ad-accd-ade0933ecfe0}</UniqueIdentifier>

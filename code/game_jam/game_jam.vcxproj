@@ -88,6 +88,7 @@
     <ClCompile Include="BitmapFont.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DeathTouch.cpp" />
+    <ClCompile Include="FallingPlatform.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="ImageLayer.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="BitmapFont.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="DeathTouch.h" />
+    <ClInclude Include="FallingPlatform.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="ImageLayer.h" />
