@@ -10,10 +10,8 @@ class Player : public Object
 {
 	Point m_ptStartPosition;
 	float m_fGravity;
-	Vector m_vtVelocity;
 	bool m_bHasKey;
 	bool m_BLookingRight;
-	bool m_bIsInAir;
 	HAudio m_audJump;
 	//Fix Jittering in Collission with Gravity
 	bool m_bJumping;
@@ -25,13 +23,11 @@ public:
 	void Update(float elapsedTime);
 	void Input();
 	void Render(void);
-	void ApplyGravity();
+	virtual type GetType() const override { return OBJ_Player; }
+	virtual void HandleCollision(Object * _object) override;
+	void ApplyGravity(float _dt);
 
 	Point GetStartPos() { return m_ptStartPosition; }
-	Vector GetVelocity() { return m_vtVelocity; }
-
-	void SetVelocity(Vector _Vel) { m_vtVelocity = _Vel; }
-	void SetIsInAir(bool _Air) { m_bIsInAir = _Air; }
 	void SetHasKey(bool _Has) { m_bHasKey = _Has; }
 
 	bool IsJumping() { return m_bJumping; }

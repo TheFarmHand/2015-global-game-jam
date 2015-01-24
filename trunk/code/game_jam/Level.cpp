@@ -1,20 +1,23 @@
 #include "Level.h"
 
+////////////////////
+// Includes
+#include "Tiles.h"
 
 
 Level::Level()
 {
 	manageobj.ClearAndDeleteAll();
-	tiles = new Tiles();
-	tiles->LoadLevel("Assets/TestLevel.xml");
+	m_tTiles = new Tiles();
+	m_tTiles->LoadLevel("Assets/TestLevel.xml");
 }
 
 
 Level::~Level()
 {
 	manageobj.ClearAndDeleteAll();
-	delete tiles;
-	tiles = nullptr;
+	delete m_tTiles;
+	m_tTiles = nullptr;
 }
 
 void Level::Update(float dt)
@@ -24,13 +27,13 @@ void Level::Update(float dt)
 void Level::Render()
 {
 	// Draw the background first
-	tiles->RenderImageLayer(true);
+	//m_tTiles->RenderImageLayer(true);
 
 	// Anything between back and foreground
-	tiles->RenderCollision();
+	m_tTiles->RenderCollision();
 
 	// Draw foreground last
-	tiles->RenderImageLayer(false);
+	//m_tTiles->RenderImageLayer(false);
 }
 void Level::Input()
 {

@@ -11,6 +11,8 @@
 #include "Tiles.h"
 #include "ImageLayer.h"
 #include "Object.h"
+#include "SolidWall.h"
+#include "DeathTouch.h"
 #include "TinyXML\tinyxml.h"
 
 //////////////////////////////
@@ -275,43 +277,74 @@ void Tiles::RenderImageLayer(bool _background)
 // - Handles collision with the passed in entity and collision layer
 void Tiles::CheckCollision(Object * _obj)
 {
-	//SGD::Rectangle rect = _obj->GetRect();
-	//// Determine the position of the enity in the array
-	//int x = (int)(rect.left / 32);
-	//int y = (int)(rect.top / 32);
+	SGD::Rectangle rect = _obj->GetRect();
+	// Determine the position of the enity in the array
+	int x = (int)(rect.left / 32);
+	int y = (int)(rect.top / 32);
 
-	//// Determine how far to check
-	//int width = (int)((rect.right - 1 - rect.left) / 32);
-	//int height = (int)((rect.bottom - 1 - rect.top) / 32);
+	// Determine how far to check
+	int width = (int)((rect.right - rect.left) / 32);
+	int height = (int)((rect.bottom - rect.top) / 32);
 
-	////int x2 = (int)((rect.right - 1) / 32);
-	////int y2 = (int)((rect.bottom - 1) / 32);
+	//int x2 = (int)((rect.right - 1) / 32);
+	//int y2 = (int)((rect.bottom - 1) / 32);
 
-	//// loop through all adjacent collision pieces
-	//for (int xx = x; xx <= x + width + 1; ++xx)
-	//{
-	//	for (int yy = y; yy <= y + height + 1; ++yy)
-	//	{
-	//		// Check if the current piece is in the bounds of the array
-	//		if (xx >= 0 && xx < m_nWidth && yy >= 0 && yy < m_nHeight)
-	//		{
-	//			// Figure out what is at this position
-	//			int id = m_nnCollisionLayer[xx][yy];
+	// loop through all adjacent collision pieces
+	for (int xx = x; xx <= x + width + 1; ++xx)
+	{
+		for (int yy = y; yy <= y + height + 1; ++yy)
+		{
+			// Check if the current piece is in the bounds of the array
+			if (xx >= 0 && xx < m_nWidth && yy >= 0 && yy < m_nHeight)
+			{
+				// Figure out what is at this position
+				int id = m_nnCollisionLayer[xx][yy];
 
-	//			if (id != -1) // only check non empty tiles
-	//			{
-	//				// Use ID to determine which object to create and pass it in
-	//				LevelCollider * collider = new LevelCollider();
-	//				collider->SetPosition({ xx * 32.0f, yy * 32.0f });
-	//				collider->SetSize({ 32, 32 });
-	//				if (collider->GetRect().IsIntersecting(_entity->GetRect()))
-	//				{
-	//					collider->SetCollide(id);
-	//					_entity->HandleCollision(collider);
-	//				}
-	//				delete collider;
-	//			}
-	//		}
-	//	}
-	//}
+				// Create different colliders for differnt ID values
+				switch (id)
+				{
+					case 0: // Solid wall
+					{
+						SolidWall * wall = new SolidWall();
+						wall->SetPosition({ xx * 32.0f, yy * 32.0f });
+						wall->SetSize({ 32, 32 });
+						wall->SetRect({ wall->GetPos(), wall->GetSize() });
+						if (wall->GetRect().IsIntersecting(_obj->GetRect()))
+						{
+							_obj->HandleCollision(wall);
+						}
+						delete wall;
+						break;
+					}
+					case 1: // Death on touch
+					{
+						DeathTouch * death = new DeathTouch();
+						death->SetPosition({ xx * 32.0f, yy * 32.0f });
+						death->SetSize({ 32, 32 });
+						death->SetRect({ death->GetPos(), death->GetSize() });
+						if (death->GetRect().IsIntersecting(_obj->GetRect()))
+						{
+							_obj->HandleCollision(death);
+						}
+						delete death;
+						break;
+					}
+				}
+
+				//if (id != -1) // only check non empty tiles
+				//{
+				//	// Use ID to determine which object to create and pass it in
+				//	LevelCollider * collider = new LevelCollider();
+				//	collider->SetPosition({ xx * 32.0f, yy * 32.0f });
+				//	collider->SetSize({ 32, 32 });
+				//	if (collider->GetRect().IsIntersecting(_entity->GetRect()))
+				//	{
+				//		collider->SetCollide(id);
+				//		_entity->HandleCollision(collider);
+				//	}
+				//	delete collider;
+				//}
+			}
+		}
+	}
 }

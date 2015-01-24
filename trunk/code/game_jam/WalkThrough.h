@@ -11,6 +11,7 @@ class WalkThrough : Object
 public:
 	void Update(float elapsedtime);
 	void Render();
+	virtual type GetType() const override { return OBJ_Walkthrough; }
 	WalkThrough();
 	~WalkThrough();
 };

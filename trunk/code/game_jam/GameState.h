@@ -1,14 +1,19 @@
 #pragma once
 #include "BaseState.h"
-#include "Level.h"
-class Tiles;
+
+/////////////////////////
+// Forward declarations
+class Level;
+class ObjectManager;
+
 class GameState :
 	public BaseState
 {
 private:
 	int playing = 0;
-	Level level;
-	//Tiles * m_tTiles;
+	Level *  m_pLevel;
+	ObjectManager * m_pObjManager;
+
 public:
 	GameState();
 	virtual ~GameState();
