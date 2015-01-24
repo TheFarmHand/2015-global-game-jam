@@ -29,7 +29,8 @@ public:
 	virtual type GetType() const override { return OBJ_Player; }
 	virtual void HandleCollision(Object * _object) override;
 	void ApplyGravity(float _dt);
-
+	void Jump();
+	float GetJumpTimer(){ return m_fSpringTimer; }
 	Point GetStartPos() { return m_ptStartPosition; }
 	void SetHasKey(bool _Has) { m_bHasKey = _Has; }
 

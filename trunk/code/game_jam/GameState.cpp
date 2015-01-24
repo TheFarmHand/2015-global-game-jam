@@ -9,6 +9,7 @@
 #include "WalkThrough.h"
 #include "Key.h"
 #include "Spring.h"
+#include "Data.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
@@ -18,7 +19,24 @@ static Spring TheSpring;
 static FallingPlatform fp;
 static LKey TheKey;
 
-extern int testfunc();
+void altInput(Player *_player)
+{
+
+	if (InputManager::GetInstance()->IsKeyDown(Key::A))
+	{
+		_player->SetVelocity({ 300, _player->GetVelocity().y });
+	}
+	else if (InputManager::GetInstance()->IsKeyDown(Key::D))
+	{
+		_player->SetVelocity({ -300, _player->GetVelocity().y });
+	}
+	else if (_player->GetJumpTimer() <= 0.0f)
+	{
+		_player->SetVelocity({ 0, _player->GetVelocity().y });
+	}
+
+	_player->Jump();
+}
 
 GameState::GameState()
 {
@@ -30,6 +48,10 @@ GameState::GameState()
 
 	// Initialize and setup all obstacles
 	CreateObstacles();
+
+	//defining levels
+	Data::GetInstance()->levels[1].gravity = 700.0f;
+	Data::GetInstance()->levels[2].input = altInput;
 }
 
 
