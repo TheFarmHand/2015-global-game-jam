@@ -25,9 +25,10 @@ GameState::~GameState()
 }
 
 int GameState::Update(float dt)
-{	
+{
+	TheSolidWall.Update(dt);
 	Player::GetInstance()->Update(dt);
-	TheSolidWall.Update(dt);	
+	//Player::GetInstance()->ApplyGravity();	
 	int x = 0;
 	return playing;
 }

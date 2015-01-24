@@ -77,10 +77,10 @@ void Player::Input()
 void Player::ApplyGravity()
 {
 	m_vtVelocity.y += m_fGravity;	
-	if (!m_bJumping)
-	{
-		m_vtVelocity.y = 0;
-	}
+	//if (!m_bJumping)
+	//{
+	//	m_vtVelocity.y = 0;
+	//}
 }
 
 void Player::Render()
