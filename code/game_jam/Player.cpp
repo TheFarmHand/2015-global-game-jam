@@ -76,11 +76,12 @@ Player* Player::GetInstance(void)
 
 void Player::Input(Tiles * _tiles)
 {
-	Data * data = Data::GetInstance();
 
+	Data * data = Data::GetInstance();
+	m_fGravity = data->levels[data->leveliter].gravity;
 	if (data->levels[data->leveliter].input)
 	{
-		data->levels[data->leveliter].input();
+		data->levels[data->leveliter].input(this);
 		return;
 	}
 
@@ -98,6 +99,16 @@ void Player::Input(Tiles * _tiles)
 	}
 
 	if (InputManager::GetInstance()->IsKeyPressed(Key::Space) && !GetInAir())
+	{
+		SetVelocity({ GetVelocity().x, -800 });
+		SetIsInAir(true);
+		m_bJumping = true;
+		m_fJumpCount = .5f;
+	}
+}
+void Player::Jump()
+{
+	if (InputManager::GetInstance()->IsKeyPressed(Key::S) && !GetInAir())
 	{
 		SetVelocity({ GetVelocity().x, -800 });
 		SetIsInAir(true);

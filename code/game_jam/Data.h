@@ -1,9 +1,9 @@
 #pragma once
-
+#include "Player.h"
 struct leveldata
 {
-	float gravity = 0.0f;
-	void(*input)() = nullptr;//this will control the players input
+	float gravity = 1400.0f;
+	void(*input)(Player * _player) = nullptr;//this will control the players input
 	void(*render)() = nullptr;//this will control how things are rendered
 	void(*update)(float dt) = nullptr;//this will change how things are rendered
 	void(*keyupdate)(float dt) = nullptr;//this will change what the key does in the level
