@@ -81,11 +81,11 @@ bool Game::Update()
 	int returnVal;
 	returnVal = currstate->Update(deltatime);
 
-	if (returnVal == 1)
+	if (returnVal == 1) // Menu State
 		NewState(new MenuState);
-	else if (returnVal == 2)
+	else if (returnVal == 2) // Gameplay State
 		NewState(new GameState);
-	else if (returnVal == 3)
+	else if (returnVal == 3) // Exit
 		return false;
 
 	return true;
