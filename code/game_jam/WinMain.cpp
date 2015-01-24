@@ -16,6 +16,13 @@
 #include <Windows.h>		// Win32 Application
 #include <vld.h>			// Visual Leak Detector!!!
 #include "Game.h"
+#include <stdio.h>
+#include <io.h>
+#include <fcntl.h>
+#include <iostream>
+
+//testing classes
+
 
 
 //*********************************************************************//
@@ -44,6 +51,23 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	if( IsAlreadyRunning() == true )
 		return -1;
     
+	//create debug window
+	/////////////////////////////////////////////////////////////
+	//code found at: https://justcheckingonall.wordpress.com/2008/08/29/console-window-win32-app/
+	AllocConsole();
+	
+	HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
+	int hCrt = _open_osfhandle((long)handle_out, _O_TEXT);
+	FILE* hf_out = _fdopen(hCrt, "w");
+	setvbuf(hf_out, NULL, _IONBF, 1);
+	*stdout = *hf_out;
+
+	HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
+	hCrt = _open_osfhandle((long)handle_in, _O_TEXT);
+	FILE* hf_in = _fdopen(hCrt, "r");
+	setvbuf(hf_in, NULL, _IONBF, 128);
+	*stdin = *hf_in;
+	/////////////////////////////////////////////////////////////
 
 	// Create the window
 	HWND hWnd = MakeWindow( hInstance );
@@ -54,10 +78,20 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	}
 
 
+
+
 	// Display the window
 	ShowWindow( hWnd, nCmdShow );
 	UpdateWindow( hWnd );
 
+
+	///////////////////////////////////////////
+
+
+
+
+
+	////////////////////////////////////////////
 	
 	/////////////////////////////////////////////////////////////////////
 	// Initialize game
@@ -94,7 +128,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	/////////////////////////////////////////////////////////////////////
 	// Terminate game
 	game.Terminate();
-	
+	FreeConsole();
 
 
 

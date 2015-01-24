@@ -81,7 +81,10 @@
     <ClCompile Include="BaseState.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="WRAPPERS\SGD_AudioManager.cpp" />
     <ClCompile Include="WRAPPERS\SGD_Event.cpp" />
@@ -97,7 +100,10 @@
     <ClInclude Include="BaseState.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="WRAPPERS\SGD_AudioManager.h" />
     <ClInclude Include="WRAPPERS\SGD_Color.h" />
     <ClInclude Include="WRAPPERS\SGD_Declarations.h" />
