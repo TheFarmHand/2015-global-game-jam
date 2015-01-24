@@ -1,13 +1,15 @@
 #pragma once
 #include "ObjectManager.h"
-#include "Tiles.h"
 
+/////////////////////////
+// Forward declarations
+class Tiles;
 
 class Level
 {
 private:
 	ObjectManager manageobj;//this will hold the objects in the level
-	Tiles * tiles;
+	Tiles * m_tTiles;
 	float gravity = -9.81f;
 	
 	
@@ -21,5 +23,9 @@ public:
 	void Input();
 
 	void Incrementlevel();
+
+	//////////////////////////
+	// Accessors
+	Tiles *		GetTiles() const		{ return m_tTiles; }
 };
 

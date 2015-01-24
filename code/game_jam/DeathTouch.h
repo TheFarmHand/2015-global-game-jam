@@ -4,17 +4,14 @@
 #include "WRAPPERS\SGD_GraphicsManager.h"
 
 using namespace SGD;
-class DeathTouch : Object
+class DeathTouch : public Object
 {
-	Size m_szSize;
-	Point m_ptPosition;
-	SGD::Rectangle m_Rect;
 
 public:
 
 	void Update(float ElapsedTime);
 	void Render();
-	SGD::Rectangle GetRect() { return m_Rect; }
+	virtual type GetType() const override { return OBJ_DeathTouch; }
 	DeathTouch();
 	~DeathTouch();
 };

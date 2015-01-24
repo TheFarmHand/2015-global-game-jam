@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <iostream>
 #include "WRAPPERS\SGD_InputManager.h"
 
 Player::Player()
@@ -6,12 +7,11 @@ Player::Player()
 	SetPosition({ 200, 200 });
 	m_ptStartPosition = { 200, 200 };
 	SetSize({ 64, 64 });
-	m_vtVelocity = { 0, 0 };
-	m_fGravity = 20;
-	m_bIsInAir = true;
+	SetVelocity({ 0.0f, 0.0f });
+	m_fGravity = 1500.0f;
+	SetIsInAir(true);
 	m_bHasKey = false;
 	SetRect(Rectangle(GetPos(), GetSize()));
-	SetType(OBJ_Player);
 }
 
 
@@ -24,28 +24,23 @@ void Player::Update(float elapsedTime)
 	
 	Input();
 
-	ApplyGravity();
+	if (GetInAir())
+	{
+		ApplyGravity(elapsedTime);
+	}
+
+	float position = GetPos().x;
+	std::cout << position << "\n";
 
 	Point Temp = GetPos();
-	Temp += m_vtVelocity * elapsedTime;
+	Temp += GetVelocity() * elapsedTime;
 	SetPosition(Temp);
 
-	//For Testing Without Collision
-	if (GetPos().y > 600 )
-	{
-		m_bIsInAir = false;
-		SetPosition({ GetPos().x, 600 });
-	}
-
-	if (m_fJumpCount > 0)
-	{
-		m_fJumpCount -= elapsedTime;
-	}
-	else
-	{
-		m_bJumping = false;
-	}
 	SetRect(Rectangle(GetPos(), GetSize()));
+
+	SetIsInAir(true);
+	SetClippedV(false);
+	SetClippedH(false);
 }
 
 Player* Player::GetInstance(void)
@@ -59,29 +54,29 @@ void Player::Input()
 	
 	if (InputManager::GetInstance()->IsKeyDown(Key::D))
 	{
-		m_vtVelocity.x = 300;
+		SetVelocity({ 300, GetVelocity().y });
 	}
 	else if (InputManager::GetInstance()->IsKeyDown(Key::A))
 	{
-		m_vtVelocity.x = -300;
+		SetVelocity({ -300, GetVelocity().y });
 	}
 	else
 	{
-		m_vtVelocity.x = 0;
+		SetVelocity({ 0, GetVelocity().y });
 	}
 
-	if (InputManager::GetInstance()->IsKeyPressed(Key::Space) && !m_bIsInAir)
+	if (InputManager::GetInstance()->IsKeyPressed(Key::Space) && !GetInAir())
 	{
-        m_vtVelocity.y = -800;
-		m_bIsInAir = true;
+		SetVelocity({ GetVelocity().x, -800 });
+		SetIsInAir(true);
 		m_bJumping = true;
 		m_fJumpCount = 1;
 	}
 }
 
-void Player::ApplyGravity()
+void Player::ApplyGravity(float _dt)
 {
-	m_vtVelocity.y += m_fGravity;	
+	SetVelocity({ GetVelocity().x, GetVelocity().y + m_fGravity * _dt });
 	//if (!m_bJumping)
 	//{
 	//	m_vtVelocity.y = 0;
@@ -91,4 +86,22 @@ void Player::ApplyGravity()
 void Player::Render()
 {
 	GraphicsManager::GetInstance()->DrawRectangle(GetRect(), { 255, 0, 255, 0 });
+}
+
+
+void Player::HandleCollision(Object * _object)
+{
+	// Solid wall
+	if (_object->GetType() == OBJ_SolidWall)
+	{
+		BasicCollision(_object);
+	}
+	else if (_object->GetType() == OBJ_DeathTouch)
+	{
+		SetPosition(m_ptStartPosition);
+	}
+	else if (_object->GetType() == OBJ_FallingBlock)
+	{
+		BasicCollision(_object);
+	}
 }

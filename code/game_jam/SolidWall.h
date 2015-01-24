@@ -5,12 +5,13 @@
 
 using namespace SGD;
 
-class SolidWall : Object
+class SolidWall : public Object
 {
 public:
 
 	void Update(float ElapsedTime);
 	void Render();
+	virtual type GetType() const override { return OBJ_SolidWall; }
 	SolidWall();
 	~SolidWall();
 };
