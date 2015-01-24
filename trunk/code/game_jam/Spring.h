@@ -7,7 +7,7 @@ using namespace SGD;
 
 class Spring : Object
 {
-	
+	float m_fBouncePower;
 public:
 	void Update(float elapsedTime);
 	void Render(void);
