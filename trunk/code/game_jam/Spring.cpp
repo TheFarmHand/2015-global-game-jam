@@ -1,22 +1,18 @@
-#include "SolidWall.h"
-//FOR Testing
+#include "Spring.h"
 #include "Player.h"
 #include <math.h>
 
-SolidWall::SolidWall()
+Spring::Spring()
 {
-	SetSize({ 128, 128 });
-	SetPosition({ 200, 500 });
-	SetRect(SGD::Rectangle(GetPos(), GetSize()));
-	SetType(OBJ_SolidWall);
+	SetSize({ 64, 64 });
 }
 
 
-SolidWall::~SolidWall()
+Spring::~Spring()
 {
 }
 
-void SolidWall::Update(float ElapsedTime)
+void Spring::Update(float elapsedTime)
 {
 	SGD::Rectangle wallRect = GetRect();
 	SGD::Rectangle otherRect = Player::GetInstance()->GetRect();
@@ -25,7 +21,7 @@ void SolidWall::Update(float ElapsedTime)
 	{
 		return;
 	}
-	
+
 	// Calculate difference in each edge
 	float dLeft = abs(otherRect.left - wallRect.right);
 	float dRight = abs(otherRect.right - wallRect.left);
@@ -76,7 +72,7 @@ void SolidWall::Update(float ElapsedTime)
 	}
 }
 
-void SolidWall::Render()
+void Spring::Render(void)
 {
-	GraphicsManager::GetInstance()->DrawRectangle(SGD::Rectangle(GetPos(), GetSize()), { 255, 255, 0, 0 });
+	GraphicsManager::GetInstance()->DrawRectangle(SGD::Rectangle(GetPos(), GetSize()), { 255, 255, 255, 0 });
 }

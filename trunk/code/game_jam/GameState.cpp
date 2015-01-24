@@ -3,13 +3,12 @@
 #include "WRAPPERS/SGD_InputManager.h"
 #include "WRAPPERS/SGD_GraphicsManager.h"
 #include "Player.h"
-#include "DeathTouch.h"
-#include "SolidWall.h"
+#include "Spring.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 //For Testing
-static SolidWall TheSolidWall;
+static Spring TheSolidWall;
 
 GameState::GameState()
 {
