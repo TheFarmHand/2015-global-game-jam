@@ -18,7 +18,7 @@ private:
 	Data(const Data& _rhs) = delete;
 	Data& operator=(const Data& _rhs) = delete;
 public:
-	Data* GetInstance();//this class is for data and structs we need throughout the program
+	static Data* GetInstance();//this class is for data and structs we need throughout the program
 	unsigned int leveliter = 0;
 	leveldata levels[10];
 

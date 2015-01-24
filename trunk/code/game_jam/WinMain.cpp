@@ -22,8 +22,10 @@
 #include <iostream>
 
 //testing classes
-
-
+int testfunc()
+{
+	return 1;
+}
 
 //*********************************************************************//
 // Preprocessor Constants
