@@ -1,16 +1,32 @@
 #pragma once
 #include "BaseState.h"
-class MenuState :
-	public BaseState
+#include "BitmapFont.h"
+
+class MenuState : public BaseState
 {
-private:
-	bool running = true;
+	// Data Members //
+	int cursor = 0;
+	int running = 0;
+
+	// Assets //
+	SGD::HAudio menuMusic = SGD::INVALID_HANDLE;
+	SGD::HAudio menuMove = SGD::INVALID_HANDLE;
+	SGD::HAudio menuSelect = SGD::INVALID_HANDLE;
+
+	SGD::HTexture menuBackground = SGD::INVALID_HANDLE;
+	SGD::HTexture menuButton = SGD::INVALID_HANDLE;
+	SGD::HTexture menuLogo = SGD::INVALID_HANDLE;
+
+	BitmapFont *font = nullptr;
+
 public:
+	// Singleton //
 	MenuState();
 	~MenuState();
 
-	virtual bool Update(float dt);
-	virtual void Render();
-	virtual void Input();
+	// State Functions //
+	virtual int Update(float dt) override;
+	virtual void Render() override;
+	virtual void Input() override;
 };
 

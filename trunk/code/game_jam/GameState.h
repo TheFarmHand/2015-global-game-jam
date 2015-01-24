@@ -5,14 +5,15 @@ class GameState :
 	public BaseState
 {
 private:
-	bool playing = true;
+	int playing = 0;
+
 	Tiles * m_tTiles;
 public:
 	GameState();
 	virtual ~GameState();
 
-	virtual bool Update(float dt);
-	virtual void Render();
-	virtual void Input();
+	virtual int Update(float dt) override;
+	virtual void Render() override;
+	virtual void Input() override;
 };
 

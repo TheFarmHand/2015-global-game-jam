@@ -27,9 +27,9 @@ void Game::Initialialize()
 	graphics->Initialize();
 	audio->Initialize();
 
-	MenuState *menu = nullptr;
+	MenuState *menu = new MenuState();
 	GameState *play = new GameState();
-	NewState(play);
+	NewState(menu);
 
 	//set up deltatime
 	lasttime = GetTickCount();
@@ -73,7 +73,17 @@ bool Game::Update()
 	lasttime = nowtime;
 	//update the current state
 	currstate->Input();
-	currstate->Update(deltatime);
+
+	int returnVal;
+	returnVal = currstate->Update(deltatime);
+
+	if (returnVal == 1)
+		NewState(new MenuState);
+	else if (returnVal == 2)
+		NewState(new GameState);
+	else if (returnVal == 3)
+		return false;
+
 	return true;
 }
 void const Game::Render()

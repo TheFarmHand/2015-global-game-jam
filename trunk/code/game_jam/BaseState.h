@@ -7,7 +7,7 @@ public:
 	BaseState();
 	virtual ~BaseState();
 
-	virtual bool Update(float dt);
+	virtual int Update(float dt);
 	virtual void Render();
 	virtual void Input();
 };
