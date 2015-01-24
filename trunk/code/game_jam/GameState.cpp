@@ -76,6 +76,8 @@ int GameState::Update(float dt)
 	// Player world collision
 	m_pLevel->GetTiles()->CheckCollision(Player::GetInstance());
 
+	Player::GetInstance()->Input(m_pLevel->GetTiles());
+
 	// End of loop
 	}
 	return playing;

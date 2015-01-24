@@ -81,7 +81,7 @@ void Object::BasicCollision(Object * _other)
 		}
 	}
 	// Collision with right of human
-	else if (!GetClippedH())
+	else
 	{
 		if (!GetClippedH())
 		{
