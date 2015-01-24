@@ -8,7 +8,7 @@ Player::Player()
 	m_szSize = { 64, 64 };
 	m_vtVelocity = { 0, 0 };
 	m_fGravity = 20;
-	m_bIsINair = true;
+	m_bIsInAir = true;
 	m_recRect = Rectangle(m_ptPosition, m_szSize);
 }
 
@@ -25,12 +25,20 @@ void Player::Update(float elapsedTime)
 	ApplyGravity();
 
 	m_ptPosition += m_vtVelocity * elapsedTime;
-	
+
 	//For Testing Without Collision
 	if (m_ptPosition.y > 500 )
 	{
-		m_bIsINair = false;
+		m_bIsInAir = false;
   		m_ptPosition.y = 500;
+	}
+	if (m_fJumpCount > 0)
+	{
+		m_fJumpCount -= elapsedTime;
+	}
+	else
+	{
+		m_bJumping = false;
 	}
 	m_recRect = Rectangle(m_ptPosition, m_szSize);
 }
@@ -57,16 +65,22 @@ void Player::Input()
 		m_vtVelocity.x = 0;
 	}
 
-	if (InputManager::GetInstance()->IsKeyPressed(Key::Space) && !m_bIsINair)
+	if (InputManager::GetInstance()->IsKeyPressed(Key::Space) && !m_bIsInAir)
 	{
         m_vtVelocity.y = -800;
-		m_bIsINair = true;
+		m_bIsInAir = true;
+		m_bJumping = true;
+		m_fJumpCount = 1;
 	}
 }
 
 void Player::ApplyGravity()
 {
-	m_vtVelocity.y += m_fGravity;
+	m_vtVelocity.y += m_fGravity;	
+	if (!m_bJumping)
+	{
+		m_vtVelocity.y = 0;
+	}
 }
 
 void Player::Render()
