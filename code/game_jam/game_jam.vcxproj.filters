@@ -88,6 +88,8 @@
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="FallingPlatform.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="WalkThrough.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseState.h">
@@ -189,6 +191,8 @@
     <ClInclude Include="Data.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="FallingPlatform.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="WalkThrough.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

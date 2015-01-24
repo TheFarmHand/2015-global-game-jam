@@ -3,12 +3,12 @@
 #include "WRAPPERS/SGD_InputManager.h"
 #include "WRAPPERS/SGD_GraphicsManager.h"
 #include "Player.h"
-#include "FallingPlatform.h"
+#include "WalkThrough.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 //For Testing
-static FallingPlatform TheSpring;
+static WalkThrough TheSpring;
 
 GameState::GameState()
 {

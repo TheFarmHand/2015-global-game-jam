@@ -32,7 +32,10 @@ public:
 
 	void SetVelocity(Vector _Vel) { m_vtVelocity = _Vel; }
 	void SetIsInAir(bool _Air) { m_bIsInAir = _Air; }
+	void SetHasKey(bool _Has) { m_bHasKey = _Has; }
+
 	bool IsJumping() { return m_bJumping; }
+	bool HasKey() { return m_bHasKey; }
 
 	Player();
 	~Player();
