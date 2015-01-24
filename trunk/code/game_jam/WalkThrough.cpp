@@ -5,7 +5,7 @@
 WalkThrough::WalkThrough()
 {
 	SetSize({ 128, 66});
-	SetPosition({ 200, 200 });
+	SetPosition({ 300, 400 });
 	SetRect(SGD::Rectangle( GetPos(),GetSize() ));
 	m_eBlockSide = WL_TOP;
 }
@@ -17,6 +17,9 @@ WalkThrough::~WalkThrough()
 
 void WalkThrough::Update(float elapsedtime)
 {
+	//Handle Collision
+	if (Player::GetInstance()->HasKey()) return;
+
 	SGD::Rectangle wallRect = GetRect();
 	SGD::Rectangle otherRect = Player::GetInstance()->GetRect();
 
@@ -39,7 +42,7 @@ void WalkThrough::Update(float elapsedtime)
 			//float delta = wallRect.bottom - myRect.top;
 			Player::GetInstance()->SetVelocity({ Player::GetInstance()->GetVelocity().x, 0.0f });
 			float y = Player::GetInstance()->GetPos().y;
-			if (y < (GetPos().y)+20)
+			if (y < (GetPos().y)+50)
 			{
 				Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x, Player::GetInstance()->GetPos().y - dBottom });
 			}
