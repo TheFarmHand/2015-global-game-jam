@@ -121,10 +121,15 @@ void GameState::Input()
 
 	if (input->IsKeyDown(SGD::Key::R))
 	{
-		Player::GetInstance()->SetPosition(Player::GetInstance()->GetStartPos());
-
+		ResetLevel();
 	}
 }
 
+void GameState::ResetLevel()
+{
+	Player::GetInstance()->SetPosition(Player::GetInstance()->GetStartPos());
+	Player::GetInstance()->SetHasKey(false);
+	TheKey.SetPosition(TheKey.GetStartPos());
+}
 
 //BLASHDLASJHFlkj

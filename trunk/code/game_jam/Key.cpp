@@ -5,6 +5,7 @@
 LKey::LKey()
 {
 	SetPosition({ 800, 600 });
+	m_ptStartPosition = { 800, 600 };
 	SetSize({ 32, 32 });
 	SetRect(SGD::Rectangle({ GetPos(), GetSize() }));
 }
