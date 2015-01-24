@@ -36,6 +36,8 @@ void Game::Initialialize()
 }
 void Game::Terminate()
 {
+	delete currstate;
+
 	//destroy stuff
 	SGD::InputManager * input = SGD::InputManager::GetInstance();
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
@@ -48,7 +50,6 @@ void Game::Terminate()
 	audio->Terminate();
 	audio->DeleteInstance();
 
-	delete currstate;
 }
 bool Game::Update()
 {

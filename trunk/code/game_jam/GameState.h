@@ -1,10 +1,12 @@
 #pragma once
 #include "BaseState.h"
+class Tiles;
 class GameState :
 	public BaseState
 {
 private:
 	bool playing = true;
+	Tiles * m_tTiles;
 public:
 	GameState();
 	virtual ~GameState();

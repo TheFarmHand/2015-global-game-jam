@@ -30,7 +30,7 @@
 #define WINDOW_CLASS_NAME	((const wchar_t*)L"Global Game Jam")		// window class name
 #define WINDOW_TITLE		((const wchar_t*)L"Global Game Jam")		// window title
 #define WINDOW_WIDTH		((int)1024)									// window width
-#define WINDOW_HEIGHT		((int)720)									// window height
+#define WINDOW_HEIGHT		((int)736)									// window height
 
 
 //*********************************************************************//
