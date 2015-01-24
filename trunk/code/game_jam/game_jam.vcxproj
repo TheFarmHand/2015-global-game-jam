@@ -105,6 +105,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SolidWall.cpp" />
+    <ClCompile Include="WalkThrough.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="WRAPPERS\SGD_AudioManager.cpp" />
     <ClCompile Include="WRAPPERS\SGD_Event.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SolidWall.h" />
+    <ClInclude Include="WalkThrough.h" />
     <ClInclude Include="WRAPPERS\SGD_AudioManager.h" />
     <ClInclude Include="WRAPPERS\SGD_Color.h" />
     <ClInclude Include="WRAPPERS\SGD_Declarations.h" />

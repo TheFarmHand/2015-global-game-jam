@@ -9,6 +9,7 @@ Player::Player()
 	m_vtVelocity = { 0, 0 };
 	m_fGravity = 20;
 	m_bIsInAir = true;
+	m_bHasKey = false;
 	SetRect(Rectangle(GetPos(), GetSize()));
 	SetType(OBJ_Player);
 }
