@@ -17,9 +17,11 @@ class Player : public Object
 	Vector m_vtVelocity;
 	bool m_bHasKey;
 	bool m_BLookingRight;
-	bool m_bIsINair;
+	bool m_bIsInAir;
 	HAudio m_audJump;
-
+	//Fix Jittering in Collission with Gravity
+	bool m_bJumping;
+	float m_fJumpCount;
 public:
 	//Singleton
 	static Player* GetInstance();
@@ -30,9 +32,13 @@ public:
 	void Render(void);
 	void ApplyGravity();
 	SGD::Rectangle GetRect() { return m_recRect; }
+	Size GetSize() { return m_szSize; }
+	Point GetPos() { return m_ptPosition; }
 	Point GetStartPos() { return m_ptStartPosition; }
 	void SetPosition(Point _pt){ m_ptPosition = _pt; }
 	void SetVelocity(Vector _Vel) { m_vtVelocity = _Vel; }
+	void SetIsInAir(bool _Air) { m_bIsInAir = _Air; }
+	bool IsJumping() { return m_bJumping; }
 	Player();
 	~Player();
 };

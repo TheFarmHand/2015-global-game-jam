@@ -8,8 +8,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//FOR Testing
-static DeathTouch TheDeathTouch;
+//For Testing
 static SolidWall TheSolidWall;
 
 GameState::GameState()
@@ -26,29 +25,27 @@ GameState::~GameState()
 }
 
 int GameState::Update(float dt)
-{
-	TheDeathTouch.Update(dt);
-	TheSolidWall.Update(dt);
+{	
 	Player::GetInstance()->Update(dt);
+	TheSolidWall.Update(dt);	
 	int x = 0;
 	return playing;
 }
 void GameState::Render()
 {
-	TheDeathTouch.Render();
 	TheSolidWall.Render();
 	Player::GetInstance()->Render();
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
 	//graphics->DrawString("This is the Game State", { 50.0f, 50.0f }, { 255, 255, 255 });
 
 	// Draw the background first
-	m_tTiles->RenderImageLayer(true);
+	//m_tTiles->RenderImageLayer(true);
 
 	// Anything between back and foreground
-	m_tTiles->RenderCollision();
+	//m_tTiles->RenderCollision();
 
 	// Draw foreground last
-	m_tTiles->RenderImageLayer(false);
+	//m_tTiles->RenderImageLayer(false);
 
 	// Draw anything that needs to always be seen here
 }

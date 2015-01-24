@@ -6,7 +6,7 @@
 
 SolidWall::SolidWall()
 {
-	m_szSize = { 64, 64 };
+	m_szSize = { 128, 128 };
 	m_ptPosition = { 200, 500 };
 	m_Rect = SGD::Rectangle(m_ptPosition, m_szSize);
 }
@@ -41,30 +41,40 @@ void SolidWall::Update(float ElapsedTime)
 
 	if (nIntersectHeight > nIntersectWidth)
 	{
+		//Rigth Side of This
 		if (rThis.right == rIntersection.right)
 		{
 			//SetPosition({ (float)rOther.left - GetSize().width + 1, GetPosition().y });
-			Player::GetInstance()->SetPosition({ (float)rOther.left - m_szSize.width + 1, m_ptPosition.y });
+			Player::GetInstance()->SetPosition({ m_ptPosition.x + (m_szSize.width + 1), Player::GetInstance()->GetPos().y });
 		}
+		//Left Side of This
 		if (rThis.left == rIntersection.left)
 		{
 			//SetPosition({ (float)rOther.right, GetPosition().y });
-			Player::GetInstance()->SetPosition({ (float)rOther.right, m_ptPosition.y });
+			Player::GetInstance()->SetPosition({ m_ptPosition.x - (Player::GetInstance()->GetSize().width + 1), Player::GetInstance()->GetPos().y });
 		}
 	}
 
 	if (nIntersectWidth > nIntersectHeight)
 	{
-		if (rThis.bottom == rIntersection.bottom)
-		{
-			//SetPosition({ GetPosition().x, (float)rObject.top - GetSize().height + 1 /*- nIntersectHeight*/ });
-			Player::GetInstance()->SetPosition({ m_ptPosition.x, (float)rOther.top - m_szSize.height + 1 /*- nIntersectHeight*/ });
-		}
+		//Top Side of This
 		if (rThis.top == rIntersection.top)
 		{
 			//SetPosition({ GetPosition().x, (float)rObject.bottom });
-			Player::GetInstance()->SetPosition({ m_ptPosition.x, (float)rOther.bottom });
+			Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x, m_ptPosition.y - (Player::GetInstance()->GetSize().height +1) });
+			Player::GetInstance()->SetIsInAir(false);
+			if (!Player::GetInstance()->IsJumping())
+			{
+				Player::GetInstance()->SetVelocity({ 0, 0 });
+			}
+			
 		}
+		//Bottom Side of This
+		if (rThis.bottom == rIntersection.bottom)
+		{
+			//SetPosition({ GetPosition().x, (float)rObject.top - GetSize().height + 1 /*- nIntersectHeight*/ });
+			//Player::GetInstance()->SetPosition({ m_ptPosition.x, (float)rOther.top - m_szSize.height + 1 /*- nIntersectHeight*/ });
+		}		
 	}
 }
 
