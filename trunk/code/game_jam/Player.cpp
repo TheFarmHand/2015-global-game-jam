@@ -9,8 +9,6 @@
 #include "GameState.h"
 Player::Player()
 {
-	m_hJumpSound = AudioManager::GetInstance()->LoadAudio("Assets/Audio/Jumps_Comp_01.wav");
-	m_hLandingSound = AudioManager::GetInstance()->LoadAudio("Assets/Audio/Landings_Comp_05.wav");
 	SetImage(GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/STICKMAN_ANIM.png"));
 	SetPosition({ 48, 400 });
 	m_ptStartPosition = { 48, 400 };
@@ -21,10 +19,28 @@ Player::Player()
 	m_bHasKey = false;
 	m_fSpringTimer = 0.0f;
 	SetRect(SGD::Rectangle(GetPos(), GetSize()));
-	m_rGOAL = SGD::Rectangle({64,608}, GetSize());
+	m_rGOAL = SGD::Rectangle({ 64, 608 }, GetSize());
 	m_bPassed = false;
 	m_bLandingPlayed = false;
-	
+
+	// Walking Sound Initializations // 
+	walkingSound1 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Footsteps_Comp_02.wav");
+	walkingSound2 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Footsteps_Comp_06.wav");
+	walkingSound3 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Footsteps_Comp_08.wav");
+	walkingSound4 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Footsteps_Comp_10.wav");
+
+	// Landing Sound Intializations //
+	landingSound1 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Landings_Comp_01.wav");
+	landingSound2 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Landings_Comp_02.wav");
+	landingSound3 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Landings_Comp_03.wav");
+	landingSound4 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Landings_Comp_04.wav");
+	landingSound5 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Landings_Comp_05.wav");
+	landingSound6 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Landings_Comp_06.wav");
+
+	// Jumping Sound Intializations //
+	jumpingSound1 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Jumps_Comp_01.wav");
+	jumpingSound2 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Jumps_Comp_02.wav");
+	jumpingSound3 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Jumps_Comp_03.wav");
 }
 
 
@@ -38,7 +54,7 @@ void Player::Update(float elapsedTime)
 	if (GetVelocity().x != 0 && !GetInAir())
 	{
 		m_anANIM.Update(elapsedTime);
-		
+
 	}
 	m_anANIM.SetPos(GetPos());
 	m_anANIM.SetSize(GetSize());
@@ -59,7 +75,7 @@ void Player::Update(float elapsedTime)
 
 	//Input();
 
-	
+
 
 	if (GetInAir())
 	{
@@ -86,11 +102,11 @@ void Player::Update(float elapsedTime)
 			std::cout << "passed";
 			if (gamestate)
 			{
-				
+
 				gamestate->ResetLevel();
 				gamestate->NextLevel();
 			}
-			
+
 		}
 	}
 }
@@ -108,7 +124,7 @@ void Player::Input(Tiles * _tiles)
 	m_fGravity = data->levels[data->leveliter].gravity;
 	if (data->levels[data->leveliter].input)
 	{
-		data->levels[data->leveliter].input(this,_tiles);
+		data->levels[data->leveliter].input(this, _tiles);
 		return;
 	}
 
@@ -127,12 +143,25 @@ void Player::Input(Tiles * _tiles)
 		SetVelocity({ 0, GetVelocity().y });
 	}
 
-	if ((InputManager::GetInstance()->IsKeyPressed(Key::Space) || InputManager::GetInstance()->IsButtonDown(0,0)) && !GetInAir())
+	if ((InputManager::GetInstance()->IsKeyPressed(Key::Space) || InputManager::GetInstance()->IsButtonDown(0, 0)) && !GetInAir())
 	{
-		//For sound
-		AudioManager::GetInstance()->PlayAudio(m_hJumpSound);
-		m_bLandingPlayed = false;
-		//
+		// Jumping Sound Randomization //
+		int randNum = rand() % 3;
+
+		if (!SGD::AudioManager::GetInstance()->IsAudioPlaying(jumpingSound1) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(jumpingSound2) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(jumpingSound3)) // No jump sound is already playing
+		{
+			if (randNum == 0)
+				SGD::AudioManager::GetInstance()->PlayAudio(jumpingSound1, false);
+			else if (randNum == 1)
+				SGD::AudioManager::GetInstance()->PlayAudio(jumpingSound2, false);
+			else if (randNum == 2)
+				SGD::AudioManager::GetInstance()->PlayAudio(jumpingSound3, false);
+
+			m_bLandingPlayed = false;
+		}
+
 		SetVelocity({ GetVelocity().x, -800 });
 		SetIsInAir(true);
 		m_bJumping = true;
@@ -143,10 +172,23 @@ void Player::Jump()
 {
 	if (InputManager::GetInstance()->IsKeyPressed(Key::S) && !GetInAir())
 	{
-		//For sound
-		AudioManager::GetInstance()->PlayAudio(m_hJumpSound);
-		m_bLandingPlayed = false;
-		//
+		// Jumping Sound Randomization //
+		int randNum = rand() % 3;
+
+		if (!SGD::AudioManager::GetInstance()->IsAudioPlaying(jumpingSound1) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(jumpingSound2) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(jumpingSound3)) // No jump sound is already playing
+		{
+			if (randNum == 0)
+				SGD::AudioManager::GetInstance()->PlayAudio(jumpingSound1, false);
+			else if (randNum == 1)
+				SGD::AudioManager::GetInstance()->PlayAudio(jumpingSound2, false);
+			else if (randNum == 2)
+				SGD::AudioManager::GetInstance()->PlayAudio(jumpingSound3, false);
+
+			m_bLandingPlayed = false;
+		}
+
 		SetVelocity({ GetVelocity().x, -800 });
 		SetIsInAir(true);
 		m_bJumping = true;
@@ -197,10 +239,32 @@ void Player::HandleCollision(Object * _object)
 	// Solid wall
 	if (_object->GetType() == OBJ_SolidWall)
 	{
-		BasicCollision(_object);	
-		if (!GetInAir() && !m_bLandingPlayed)
+		BasicCollision(_object);
+
+		int randNum = rand() % 6;
+
+		if (!GetInAir() &&
+			!m_bLandingPlayed &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound1) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound2) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound3) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound4) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound5) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound6)) // No landing sound is already playing
 		{
-			AudioManager::GetInstance()->PlayAudio(m_hLandingSound);
+			if (randNum == 0)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound1);
+			else if (randNum == 1)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound2);
+			else if (randNum == 2)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound3);
+			else if (randNum == 3)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound4);
+			else if (randNum == 4)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound5);
+			else if (randNum == 5)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound6);
+
 			m_bLandingPlayed = true;
 		}
 	}
@@ -214,15 +278,37 @@ void Player::HandleCollision(Object * _object)
 	else if (_object->GetType() == OBJ_FallingBlock)
 	{
 		BasicCollision(_object);
-		if (!GetInAir() && !m_bLandingPlayed)
+
+		int randNum = rand() % 6;
+
+		if (!GetInAir() &&
+			!m_bLandingPlayed &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound1) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound2) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound3) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound4) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound5) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound6)) // No landing sound is already playing
 		{
-			AudioManager::GetInstance()->PlayAudio(m_hLandingSound);
+			if (randNum == 0)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound1);
+			else if (randNum == 1)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound2);
+			else if (randNum == 2)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound3);
+			else if (randNum == 3)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound4);
+			else if (randNum == 4)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound5);
+			else if (randNum == 5)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound6);
+
 			m_bLandingPlayed = true;
 		}
 	}
 	else if (_object->GetType() == OBJ_Walkthrough)
 	{
-		
+
 	}
 	// Springs
 	else if (_object->GetType() == OBJ_Spring)
@@ -233,30 +319,31 @@ void Player::HandleCollision(Object * _object)
 		switch (spring->GetDirection())
 		{
 			// Facing right
-			case 0:
-			{
-				SetVelocity({spring->GetPower(), GetVelocity().y });
-				break;
-			}
-			// Facing down
-			case 1:
-			{
-				SetVelocity({ GetVelocity().x, spring->GetPower() });
-				break;
-			}
-			// Facing left
-			case 2:
-			{
-				SetVelocity({ -spring->GetPower(), GetVelocity().y });
-				break;
-			}
-			// Facing up
-			case 3:
-			{
-				SetVelocity({ GetVelocity().x, -spring->GetPower() });
-				break;
-			}
+		case 0:
+		{
+			SetVelocity({ spring->GetPower(), GetVelocity().y });
+			break;
 		}
+		// Facing down
+		case 1:
+		{
+			SetVelocity({ GetVelocity().x, spring->GetPower() });
+			break;
+		}
+		// Facing left
+		case 2:
+		{
+			SetVelocity({ -spring->GetPower(), GetVelocity().y });
+			break;
+		}
+		// Facing up
+		case 3:
+		{
+			SetVelocity({ GetVelocity().x, -spring->GetPower() });
+			break;
+		}
+		}
+
 		m_bLandingPlayed = false;
 	}
 }

@@ -4,6 +4,8 @@
 #include "Object.h"
 #include "Animation.h"
 
+#include "WRAPPERS\SGD_Declarations.h"
+
 
 using namespace SGD;
 
@@ -11,9 +13,6 @@ class Tiles;
 class GameState;
 class Player : public Object
 {
-	HAudio m_hJumpSound;
-	HAudio m_hLandingSound;
-	bool m_bLandingPlayed;
 	Animation m_anANIM;
 	SGD::Rectangle m_rGOAL;
 	bool m_bPassed;
@@ -29,6 +28,27 @@ class Player : public Object
 	float m_fSpringTimer;
 	//Fix Walktrhough
 	void GoalCollision();
+
+	bool m_bLandingPlayed;
+
+	// Walking Sounds //
+	HAudio walkingSound1 = INVALID_HANDLE;
+	HAudio walkingSound2 = INVALID_HANDLE;
+	HAudio walkingSound3 = INVALID_HANDLE;
+	HAudio walkingSound4 = INVALID_HANDLE;
+
+	// Landing Sounds //
+	HAudio landingSound1 = INVALID_HANDLE;
+	HAudio landingSound2 = INVALID_HANDLE;
+	HAudio landingSound3 = INVALID_HANDLE;
+	HAudio landingSound4 = INVALID_HANDLE;
+	HAudio landingSound5 = INVALID_HANDLE;
+	HAudio landingSound6 = INVALID_HANDLE;
+
+	// Jumping Sounds //
+	HAudio jumpingSound1 = INVALID_HANDLE;
+	HAudio jumpingSound2 = INVALID_HANDLE;
+	HAudio jumpingSound3 = INVALID_HANDLE;
 
 public:
 	GameState* gamestate = nullptr;
