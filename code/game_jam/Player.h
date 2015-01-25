@@ -4,12 +4,14 @@
 #include "Object.h"
 #include "Animation.h"
 
+
 using namespace SGD;
 
 class Tiles;
-
+class GameState;
 class Player : public Object
 {
+
 	Animation m_anANIM;
 	SGD::Rectangle m_rGOAL;
 	bool m_bPassed;
@@ -27,6 +29,7 @@ class Player : public Object
 	void GoalCollision();
 
 public:
+	GameState* gamestate = nullptr;
 	//Singleton
 	static Player* GetInstance();
 
@@ -46,6 +49,8 @@ public:
 	bool IsJumping() { return m_bJumping; }
 	bool HasKey() { return m_bHasKey; }
 	bool Passed() { return m_bPassed; }
+	bool GetLookingRight(){ return m_BLookingRight; }
+	void SetLookingRight(bool _right){ m_BLookingRight = _right; }
 
 
 	Player();
