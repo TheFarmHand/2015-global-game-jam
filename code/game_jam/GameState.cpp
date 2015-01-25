@@ -446,7 +446,7 @@ void GameState::CreateObstacles()
 
 	// Key
 	key = new LKey();
-	key->SetPosition({ 1216, 512 });
+	key->SetPosition({ 1184, 512 });
 	key->SetStartPos(key->GetPos());
 	key->SetSize({ 32, 32 });
 	key->SetRect({ key->GetPos(), key->GetSize() });

@@ -58,6 +58,15 @@ Player::~Player()
 
 void Player::Update(float elapsedTime)
 {
+	if (Data::GetInstance()->leveliter == 8)
+	{
+		m_rGOAL = SGD::Rectangle({ 1216, 512 }, GetSize());
+	}
+	else
+	{
+		m_rGOAL = SGD::Rectangle({ 64, 608 }, GetSize());
+	}
+
 	//For Animations And Sound in the Animations
 	if (GetVelocity().x != 0 && !GetInAir())
 	{
@@ -347,6 +356,7 @@ void Player::OtherCollsision(Object * _object)
 		SetDead(true);
 	}
 }
+
 void Player::HandleCollision(Object * _object)
 {
 	if (Data::GetInstance()->levels[Data::GetInstance()->leveliter].collision)
@@ -394,10 +404,25 @@ void Player::HandleCollision(Object * _object)
 	}
 	else if (_object->GetType() == OBJ_Key)
 	{
-		if (Data::GetInstance()->leveliter == 8)
+		if (Data::GetInstance()->leveliter == 8 && !m_bLevelComplete)
 		{
-			SetPosition(m_ptStartPosition);
-			SetDead(true);
+			if (m_rGOAL.IsIntersecting(GetRect()))
+			{
+				AudioManager::GetInstance()->PlayAudio(m_hWin[rand() % 2]);
+				std::cout << "passed";
+				if (gamestate)
+				{
+					gamestate->ResetLevel();
+					m_fNextLevelTimer = 0.5f;
+					m_bLevelComplete = true;
+				}
+
+			}
+			else
+			{
+				SetPosition(m_ptStartPosition);
+				SetDead(true);
+			}
 		}
 	}
 	// Falling blocks
