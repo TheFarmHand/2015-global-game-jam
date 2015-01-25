@@ -1,6 +1,7 @@
 #include "CreditsState.h"
 
 #include "WRAPPERS\SGD_GraphicsManager.h"
+#include "WRAPPERS\SGD_InputManager.h"
 
 
 CreditsState::CreditsState()
@@ -20,6 +21,9 @@ CreditsState::~CreditsState()
 int CreditsState::Update(float _dt)
 {
 	position -= 80 * _dt;
+
+	if (position < -1600)
+		running = 1;
 
 	return running;
 }
@@ -46,5 +50,6 @@ void CreditsState::Render()
 
 void CreditsState::Input()
 {
-
+	if (SGD::InputManager::GetInstance()->IsKeyPressed(SGD::Key::Escape))
+		running = 1;
 }
