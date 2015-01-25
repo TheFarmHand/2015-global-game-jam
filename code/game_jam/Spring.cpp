@@ -11,11 +11,15 @@ Spring::Spring()
 	m_fBouncePower = 800.0f;
 	m_nDirection = 1;
 	SetImage(GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/Trampoline.png"));
+	m_hSpringRest = SGD::GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/SpringRest.png");
+	m_hSpringActive = SGD::GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/SpringActive.png");
 }
 
 
 Spring::~Spring()
 {
+	SGD::GraphicsManager::GetInstance()->UnloadTexture(m_hSpringRest);
+	SGD::GraphicsManager::GetInstance()->UnloadTexture(m_hSpringActive);
 }
 
 void Spring::Update(float elapsedTime)

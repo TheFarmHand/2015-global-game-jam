@@ -2,12 +2,17 @@
 
 #include "Object.h"
 #include "WRAPPERS\SGD_Geometry.h"
+#include "../game_jam/WRAPPERS/SGD_Declarations.h"
+#include "../game_jam/WRAPPERS/SGD_Handle.h"
 
 using namespace SGD;
 
 class Spring : public Object
 {
+	HTexture m_hSpringRest;
+	HTexture m_hSpringActive;
 	float m_fBouncePower;
+	float m_fBounceTimer;
 	int m_nDirection; // 0-right, 1-down, 2-left, 3-up
 public:
 	void Update(float elapsedTime);

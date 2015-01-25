@@ -53,6 +53,21 @@ GameState::GameState()
 	//defining levels
 	Data::GetInstance()->levels[1].gravity = 700.0f;
 	Data::GetInstance()->levels[2].input = altInput;
+
+	// Load in each image
+	SGD::GraphicsManager * pGraphics = SGD::GraphicsManager::GetInstance();
+	m_tBackgrounds[0] = pGraphics->LoadTexture("Assets/graphics/Background1.png");
+	m_tBackgrounds[1] = pGraphics->LoadTexture("Assets/graphics/Background2.png");
+	m_tBackgrounds[2] = pGraphics->LoadTexture("Assets/graphics/Background3.png");
+	m_tBackgrounds[3] = pGraphics->LoadTexture("Assets/graphics/Background4.png");
+	m_tBackgrounds[4] = pGraphics->LoadTexture("Assets/graphics/Background5.png");
+	//m_tBackgrounds[5] = pGraphics->LoadTexture("Assets/graphics/Background6.png");
+	m_tBackgrounds[6] = pGraphics->LoadTexture("Assets/graphics/Background7.png");
+	m_tBackgrounds[7] = pGraphics->LoadTexture("Assets/graphics/Background8.png");
+	m_tBackgrounds[8] = pGraphics->LoadTexture("Assets/graphics/Background9.png");
+	m_tBackgrounds[9] = pGraphics->LoadTexture("Assets/graphics/Background10.png");
+	m_tBackgrounds[10] = pGraphics->LoadTexture("Assets/graphics/Background11.png");
+
 }
 
 
@@ -72,6 +87,16 @@ GameState::~GameState()
 	delete platform;
 	delete key;
 	delete FONT;
+
+	// Release each background
+	for (unsigned int i = 0; i < 11; ++i)
+	{
+		if (i != 5)
+		{
+			// release the texture
+			SGD::GraphicsManager::GetInstance()->UnloadTexture(m_tBackgrounds[i]);
+		}
+	}
 }
 
 int GameState::Update(float dt)
@@ -116,6 +141,10 @@ void GameState::Render()
 {
 	//TheSpring.Render();
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
+
+	// Draw background first
+	graphics->DrawTexture(m_tBackgrounds[0], { 0.0f, 0.0f }, 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
+
 	Player::GetInstance()->Render();
 	spring1->Render();
 	spring2->Render();
@@ -144,8 +173,8 @@ void GameState::Render()
 	}
 	
 #pragma endregion
-	font->Draw("asd;fjkllllasdfljk;;klasd;jklasdf", { 0, -50 }, 50, { 255, 0, 0 });
-	font->Draw("asdfjkl;asd;fjklasd;fjkl;jklasdfasd;fjklasd;fjklasd;fjklasd;fjklasd;fjklasd;fjklasfasdf;jklasd;fjklasd;fjklasd;fjklad;fjkl;jklasd;jklasdf;jklasdf;jkljkl;asdf;jklasdfss", { 0, 0 }, 50, { 255, 0, 0 });
+	//font->Draw("asd;fjkllllasdfljk;;klasd;jklasdf", { 0, -50 }, 50, { 255, 0, 0 });
+	//font->Draw("asdfjkl;asd;fjklasd;fjkl;jklasdfasd;fjklasd;fjklasd;fjklasd;fjklasd;fjklasd;fjklasfasdf;jklasd;fjklasd;fjklasd;fjklad;fjkl;jklasd;jklasdf;jklasdf;jkljkl;asdf;jklasdfss", { 0, 0 }, 50, { 255, 0, 0 });
 }
 
 
@@ -215,7 +244,7 @@ void GameState::CreateObstacles()
 
 	// Key
 	key = new LKey();
-	key->SetPosition({ 1216, 544 });
+	key->SetPosition({ 1216, 512 });
 	key->SetStartPos(key->GetPos());
 	key->SetSize({ 32, 32 });
 	key->SetRect({ key->GetPos(), key->GetSize() });
