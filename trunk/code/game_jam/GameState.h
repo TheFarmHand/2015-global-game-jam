@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseState.h"
 #include "BitmapFont.h"
+#include "../game_jam/WRAPPERS/SGD_Declarations.h"
+#include "../game_jam/WRAPPERS/SGD_Handle.h"
 
 
 /////////////////////////
@@ -25,12 +27,14 @@ private:
 	BitmapFont *font = nullptr;
 	int cursor = 0;
 	int optionsCursor = 0;
+	SGD::HTexture	m_tBackgrounds[11];
 
 	Spring * spring1;
 	Spring * spring2;
 	Spring * spring3;
 	FallingPlatform * platform;
 	LKey * key;
+
 
 public:
 	GameState();
