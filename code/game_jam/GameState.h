@@ -30,8 +30,6 @@ private:
 	Spring * spring2;
 	Spring * spring3;
 	FallingPlatform * platform;
-	WalkThrough * walkThrough1;
-	WalkThrough * walkThrough2;
 	LKey * key;
 
 public:

@@ -34,11 +34,11 @@ void Level::Render()
 		return;
 	}
 	// Draw the background first
-	//m_tTiles->RenderImageLayer(true);
+	m_tTiles->RenderImageLayer(true);
 	// Anything between back and foreground
-	m_tTiles->RenderCollision();
+	//m_tTiles->RenderCollision();
 	// Draw foreground last
-	//m_tTiles->RenderImageLayer(false);
+	m_tTiles->RenderImageLayer(false);
 }
 void Level::Input()
 {

@@ -11,6 +11,7 @@ public:
 	void Update(float ElapsedTime);
 	void Render();
 	void HandleCollision(Object * _object);
+	void SetStartPos(SGD::Point _p) { m_ptStartPosition = _p; }
 	Point GetStartPos(){ return m_ptStartPosition; }
 	LKey();
 	~LKey();
