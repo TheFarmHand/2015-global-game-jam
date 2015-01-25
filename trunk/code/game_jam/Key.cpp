@@ -10,6 +10,7 @@ LKey::LKey()
 	SetSize({ 32, 32 });
 	SetRect(SGD::Rectangle({ GetPos(), GetSize() }));
 	m_hKey = SGD::GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/Key.png");
+	m_hCandyImage = SGD::GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/Candy.png");
 }
 
 
@@ -21,7 +22,7 @@ LKey::~LKey()
 
 void LKey::Update(float ElapsedTime, Player * _p)
 {
-	if (Data::GetInstance()->leveliter == 8)
+	if (Data::GetInstance()->leveliter == 10)
 	{
 		// Move towards player
 		Vector vec = _p->GetPos() - GetPos();
@@ -34,7 +35,14 @@ void LKey::Update(float ElapsedTime, Player * _p)
 
 void LKey::Render()
 {
-	GraphicsManager::GetInstance()->DrawTexture(m_hKey, GetPos(), 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
+	if (Data::GetInstance()->leveliter == 6)
+	{
+		GraphicsManager::GetInstance()->DrawTexture(m_hCandyImage, GetPos(), 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
+	}
+	else
+	{
+		GraphicsManager::GetInstance()->DrawTexture(m_hKey, GetPos(), 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
+	}
 	//GraphicsManager::GetInstance()->DrawRectangle(SGD::Rectangle(GetPos(), GetSize()), { 255, 255, 255, 255 });
 }
 
