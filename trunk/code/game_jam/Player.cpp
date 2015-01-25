@@ -51,7 +51,7 @@ void Player::Update(float elapsedTime)
 
 	
 
-	if (GetInAir() || GetClippedH())
+	if (GetInAir())
 	{
 		ApplyGravity(elapsedTime);
 	}
@@ -65,6 +65,7 @@ void Player::Update(float elapsedTime)
 	SetIsInAir(true);
 	SetClippedV(false);
 	SetClippedH(false);
+	SetDead(false);
 
 	if (m_bHasKey)
 	{
@@ -172,6 +173,7 @@ void Player::HandleCollision(Object * _object)
 	else if (_object->GetType() == OBJ_DeathTouch)
 	{
 		SetPosition(m_ptStartPosition);
+		SetDead(true);
 	}
 	// Falling blocks
 	else if (_object->GetType() == OBJ_FallingBlock)

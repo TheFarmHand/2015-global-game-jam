@@ -17,6 +17,7 @@ class Player : public Object
 	float m_fGravity;
 	bool m_bHasKey;
 	bool m_BLookingRight;
+	bool m_bDead;
 	HAudio m_audJump;
 	//Fix Jittering in Collission with Gravity
 	bool m_bJumping;
@@ -39,7 +40,8 @@ public:
 	float GetJumpTimer(){ return m_fSpringTimer; }
 	Point GetStartPos() { return m_ptStartPosition; }
 	void SetHasKey(bool _Has) { m_bHasKey = _Has; }
-
+	void SetDead(bool _d) { m_bDead = _d; }
+	bool GetDead() const { return m_bDead; }
 	bool SpaceFree(Vector _offset, Tiles * _tiles);
 	bool IsJumping() { return m_bJumping; }
 	bool HasKey() { return m_bHasKey; }
