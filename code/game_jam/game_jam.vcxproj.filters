@@ -103,6 +103,7 @@
     </ClCompile>
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="CreditsState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseState.h">
@@ -220,6 +221,7 @@
     </ClInclude>
     <ClInclude Include="Object.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="CreditsState.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
