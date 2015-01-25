@@ -417,6 +417,10 @@ void GameState::ResetLevel()
 	Player::GetInstance()->SetVelocity({ 0.0f, 0.0f });
 	key->SetPosition(key->GetStartPos()); 
 	m_fFadeTimer = 1.0f;
+	for (int i = 0; i < 5; i++)
+	{
+		Data::GetInstance()->teles[i] = true;
+	}
 }
 
 void GameState::CreateObstacles()
