@@ -20,6 +20,7 @@ LKey::~LKey()
 
 void LKey::Update(float ElapsedTime)
 {
+	
 }
 
 void LKey::Render()

@@ -79,6 +79,7 @@ public:
 	bool Passed() { return m_bPassed; }
 	bool GetLookingRight(){ return m_BLookingRight; }
 	void SetLookingRight(bool _right){ m_BLookingRight = _right; }
+	void OtherCollsision(Object * _object);
 
 
 	Player();
