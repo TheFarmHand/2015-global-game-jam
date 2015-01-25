@@ -17,10 +17,9 @@ class MenuState : public BaseState
 	SGD::HTexture menuButton = SGD::INVALID_HANDLE;
 	SGD::HTexture menuLogo = SGD::INVALID_HANDLE;
 
-	BitmapFont *font = nullptr;
+	BitmapFont* font = nullptr;
 
 public:
-	// Singleton //
 	MenuState();
 	~MenuState();
 

@@ -4,6 +4,7 @@
 #include "WRAPPERS/SGD_AudioManager.h"
 #include "MenuState.h"
 #include "GameState.h"
+#include "CreditsState.h"
 #include <time.h>
 #include <Windows.h>
 #include "Player.h"
@@ -30,6 +31,7 @@ void Game::Initialialize()
 
 	MenuState *menu = new MenuState();
 	GameState *play = new GameState();
+	CreditsState *credits = new CreditsState();
 	NewState(menu);
 
 	//set up deltatime
@@ -91,7 +93,12 @@ bool Game::Update()
 		Player::GetInstance()->gamestate = play;
 		NewState(play);
 	}
-	else if (returnVal == 3) // Exit
+	else if (returnVal == 3)
+	{
+		CreditsState *credits = new CreditsState();
+		NewState(credits);
+	}
+	else if (returnVal == 4) // Exit
 		return false;
 
 	return true;

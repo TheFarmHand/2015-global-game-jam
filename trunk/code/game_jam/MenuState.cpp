@@ -37,18 +37,22 @@ void MenuState::Render()
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
 
 	graphics->DrawTexture(menuBackground, { 0.0f, 0.0f }, 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
-	//font->Draw("Main Menu", { 512 - font->Center("Main Menu"), 50 }, 1, { 255, 255, 255 });
-	//font->Draw("~~~~~~~~~", { 512 - font->Center("~~~~~~~~~"), 70 }, 1, { 255, 255, 255 });
 
 	if (cursor == 0)
-		font->Draw("Play", { 650 - font->Center("Play"), 700 }, 1, { 0, 100, 100 }); // Play selected
+		font->Draw("Play", { 530 - font->Center("Play"), 700 }, 1, { 0, 100, 100 }); // Play selected
 	else
-		font->Draw("Play", { 650 - font->Center("Play"), 700 }, 1, { 0, 0, 0 }); // Play unselected
+		font->Draw("Play", { 530 - font->Center("Play"), 700 }, 1, { 0, 0, 0 }); // Play unselected
 
 	if (cursor == 1)
-		font->Draw("Exit", { 750 - font->Center("Exit"), 700 }, 1, { 0, 100, 100 }); // Exit selected
+		font->Draw("Credits", { 680 - font->Center("Credits"), 700 }, 1, { 0, 100, 100 }); // Credits selected
 	else
-		font->Draw("Exit", { 750 - font->Center("Exit"), 700 }, 1, { 0, 0, 0 }); // Exit unselected
+		font->Draw("Credits", { 680 - font->Center("Credits"), 700 }, 1, { 0, 0, 0 }); // Credits unselected
+
+
+	if (cursor == 2)
+		font->Draw("Exit", { 830 - font->Center("Exit"), 700 }, 1, { 0, 100, 100 }); // Exit selected
+	else
+		font->Draw("Exit", { 830 - font->Center("Exit"), 700 }, 1, { 0, 0, 0 }); // Exit unselected
 
 
 }
@@ -57,9 +61,9 @@ void MenuState::Input()
 {
 	SGD::InputManager * input = SGD::InputManager::GetInstance();
 
-	if (input->IsKeyPressed(SGD::Key::W) || input->IsKeyPressed(SGD::Key::LeftArrow) || input->GetLeftJoystick(0).y == 1) // Menu up
+	if (input->IsKeyPressed(SGD::Key::A) || input->IsKeyPressed(SGD::Key::LeftArrow) || input->GetLeftJoystick(0).y == 1) // Menu left
 		cursor -= 1;
-	else if (input->IsKeyPressed(SGD::Key::S) || input->IsKeyPressed(SGD::Key::RightArrow) || input->GetLeftJoystick(0).y == -1) // Menu down
+	else if (input->IsKeyPressed(SGD::Key::D) || input->IsKeyPressed(SGD::Key::RightArrow) || input->GetLeftJoystick(0).y == -1) // Menu right
 		cursor += 1;
 
 	if (input->IsKeyPressed(SGD::Key::Escape) || input->IsButtonPressed(0,1))
@@ -71,11 +75,13 @@ void MenuState::Input()
 			running = 2;
 		else if (cursor == 1)
 			running = 3;
+		else if (cursor == 2)
+			running = 4;
 
 	}
 
 	if (cursor < 0)
-		cursor = 1;
-	else if (cursor > 1)
+		cursor = 2;
+	else if (cursor > 2)
 		cursor = 0;
 }

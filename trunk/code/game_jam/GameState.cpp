@@ -200,7 +200,7 @@ int GameState::Update(float dt)
 	if (!paused) // Make sure all gameplay code is inside here, otherwise pause won't work
 	{	
 
-		Player::GetInstance()->Update(dt);
+	Player::GetInstance()->Update(dt);
 
 	// Update each obstacles
 	spring1->Update(dt);
@@ -296,18 +296,18 @@ void GameState::Render()
 
 	if (paused == true && m_fFade <= 0.0f)
 	{
-		font->Draw("Paused", { 512 - font->Center("Paused"), 100 }, 1, { 255, 255, 255 });
-		font->Draw("~~~~~~", { 512 - font->Center("~~~~~~"), 120 }, 1, { 255, 255, 255 });
+		font->Draw("Paused", { 672 - font->Center("Paused"), 100 }, 1, { 0, 0, 0 });
+		font->Draw("~~~~~~", { 672 - font->Center("~~~~~~"), 120 }, 1, { 0, 0, 0 });
 
 		if (cursor == 0)
-			font->Draw("Resume", { 512 - font->Center("Resume"), 300 }, 1, { 0, 255, 255 }); // Resume selected
+			font->Draw("Resume", { 672 - font->Center("Resume"), 300 }, 1, { 255, 0, 0 }); // Resume selected
 		else					    
-			font->Draw("Resume", { 512 - font->Center("Resume"), 300 }, 1, { 255, 255, 255 }); // Resume unselected
+			font->Draw("Resume", { 672 - font->Center("Resume"), 300 }, 1, { 0, 0, 0 }); // Resume unselected
 
 		if (cursor == 1)
-			font->Draw("Exit", { 512 - font->Center("Exit"), 350 }, 1, { 0, 255, 255 }); // Exit selected
+			font->Draw("Exit", { 672 - font->Center("Exit"), 350 }, 1, { 255, 0, 0 }); // Exit selected
 		else
-			font->Draw("Exit", { 512 - font->Center("Exit"), 350 }, 1, { 255, 255, 255 }); // Exit unselected 
+			font->Draw("Exit", { 672 - font->Center("Exit"), 350 }, 1, { 0, 0, 0 }); // Exit unselected 
 	}
 	
 #pragma endregion
