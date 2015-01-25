@@ -392,6 +392,14 @@ void Player::HandleCollision(Object * _object)
 		SetPosition(m_ptStartPosition);
 		SetDead(true);
 	}
+	else if (_object->GetType() == OBJ_Key)
+	{
+		if (Data::GetInstance()->leveliter == 8)
+		{
+			SetPosition(m_ptStartPosition);
+			SetDead(true);
+		}
+	}
 	// Falling blocks
 	else if (_object->GetType() == OBJ_FallingBlock)
 	{

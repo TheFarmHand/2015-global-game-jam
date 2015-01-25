@@ -1,6 +1,7 @@
 #include "Key.h"
 #include "Player.h"
 #include <math.h>
+#include "Data.h"
 
 LKey::LKey()
 {
@@ -18,9 +19,17 @@ LKey::~LKey()
 }
 
 
-void LKey::Update(float ElapsedTime)
+void LKey::Update(float ElapsedTime, Player * _p)
 {
-	
+	if (Data::GetInstance()->leveliter == 8)
+	{
+		// Move towards player
+		Vector vec = _p->GetPos() - GetPos();
+		vec.Normalize();
+		vec *= 128.0f * ElapsedTime;
+		Move(vec);
+		SetRect({ GetPos(), GetSize() });
+	}
 }
 
 void LKey::Render()
