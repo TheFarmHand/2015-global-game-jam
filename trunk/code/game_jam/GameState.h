@@ -29,6 +29,7 @@ private:
 	int optionsCursor = 0;
 	SGD::HTexture	m_tBackgrounds[11];
 
+
 	Spring * spring1;
 	Spring * spring2;
 	Spring * spring3;
@@ -45,6 +46,7 @@ public:
 	virtual void Input() override;
 
 	void ResetLevel();
+	void NextLevel();
 	void CreateObstacles();
 	void CheckObstacleCollisions();
 };

@@ -12,6 +12,7 @@
 #include "Spring.h"
 #include "Data.h"
 #include "BitmapFont.h"
+#include <sstream>
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
@@ -19,16 +20,26 @@
 static BitmapFont *FONT;
 //For Testing
 
-void altInput(Player *_player)
+
+
+
+
+void altInput(Player *_player, Tiles * _tiles)
 {
 
-	if (InputManager::GetInstance()->IsKeyDown(Key::A))
+	
+	
+
+	if (InputManager::GetInstance()->IsKeyDown(Key::A) && _player->SpaceFree({ 1.0f, -1.0f }, _tiles))
 	{
 		_player->SetVelocity({ 300, _player->GetVelocity().y });
+		_player->SetLookingRight(true);
 	}
-	else if (InputManager::GetInstance()->IsKeyDown(Key::D))
+	else if (InputManager::GetInstance()->IsKeyDown(Key::D) && _player->SpaceFree({ -1.0f, -1.0f }, _tiles))
 	{
 		_player->SetVelocity({ -300, _player->GetVelocity().y });
+		_player->SetLookingRight(false);
+
 	}
 	else if (_player->GetJumpTimer() <= 0.0f)
 	{
@@ -36,8 +47,8 @@ void altInput(Player *_player)
 	}
 
 	_player->Jump();
-	FONT = new BitmapFont;
-	FONT->Initialize("Assets/Font.fnt");
+	/*FONT = new BitmapFont;
+	FONT->Initialize("Assets/Font.fnt");*/
 }
 
 GameState::GameState()
@@ -136,6 +147,11 @@ int GameState::Update(float dt)
 	return playing;
 }
 
+void GameState::NextLevel()
+{
+	Data::GetInstance()->leveliter++;
+	ResetLevel();
+}
 
 void GameState::Render()
 {
@@ -153,7 +169,10 @@ void GameState::Render()
 	key->Render();
 	m_pLevel->Render();
 
+	std::ostringstream info;
+	info << "Level " << Data::GetInstance()->leveliter + 1 << ":  " << Data::GetInstance()->levels[Data::GetInstance()->leveliter].hint;
 
+	font->Draw(info.str().c_str(), { 5.0f, 0.0f }, 1.0f, {0,0,0 });
 	#pragma region Pause Menu
 
 	if (paused == true)
@@ -214,7 +233,7 @@ void GameState::ResetLevel()
 {
 	Player::GetInstance()->SetPosition(Player::GetInstance()->GetStartPos());
 	Player::GetInstance()->SetHasKey(false);
-	key->SetPosition(key->GetStartPos());
+	key->SetPosition(key->GetStartPos()); 
 }
 
 void GameState::CreateObstacles()

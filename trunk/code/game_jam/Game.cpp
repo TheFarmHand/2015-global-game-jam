@@ -6,6 +6,7 @@
 #include "GameState.h"
 #include <time.h>
 #include <Windows.h>
+#include "Player.h"
 Game::Game()
 {
 }
@@ -80,9 +81,16 @@ bool Game::Update()
 	returnVal = currstate->Update(deltatime);
 
 	if (returnVal == 1) // Menu State
+	{
 		NewState(new MenuState);
+		
+	}
 	else if (returnVal == 2) // Gameplay State
-		NewState(new GameState);
+	{
+		GameState * play = new GameState();
+		Player::GetInstance()->gamestate = play;
+		NewState(play);
+	}
 	else if (returnVal == 3) // Exit
 		return false;
 

@@ -6,7 +6,7 @@
 #include "Data.h"
 #include "Tiles.h"
 #include <Windows.h>
-
+#include "GameState.h"
 Player::Player()
 {
 	SetImage(GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/PlaceHolder.jpg"));
@@ -69,7 +69,18 @@ void Player::Update(float elapsedTime)
 
 	if (m_bHasKey)
 	{
-		GoalCollision();
+		//GoalCollision();
+		if (m_rGOAL.IsIntersecting(GetRect()))
+		{
+			std::cout << "passed";
+			if (gamestate)
+			{
+				
+				gamestate->ResetLevel();
+				gamestate->NextLevel();
+			}
+			
+		}
 	}
 }
 
@@ -86,7 +97,7 @@ void Player::Input(Tiles * _tiles)
 	m_fGravity = data->levels[data->leveliter].gravity;
 	if (data->levels[data->leveliter].input)
 	{
-		data->levels[data->leveliter].input(this);
+		data->levels[data->leveliter].input(this,_tiles);
 		return;
 	}
 

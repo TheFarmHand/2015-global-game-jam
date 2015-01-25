@@ -8,7 +8,7 @@ Animation::Animation()
 	m_vFrames.push_back(Rectangle(Point(121, 0), Size(111, 124)));
 	m_vFrames.push_back(Rectangle(Point(245, 0), Size(111, 124)));
 	m_vFrames.push_back(Rectangle(Point(356, 0), Size(111, 124)));
-	AnimationSpeed = .3;
+	AnimationSpeed = .3f;
 	
 }
 
@@ -31,7 +31,7 @@ void Animation::Update(float ElapsedTime)
 	else
 	{
 		FrameCount++;
-		if (FrameCount >= m_vFrames.size())
+		if (FrameCount >= (int)m_vFrames.size())
 		{
 			FrameCount = 0;
 		}
