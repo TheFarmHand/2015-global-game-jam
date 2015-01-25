@@ -28,7 +28,9 @@ private:
 	int cursor = 0;
 	int optionsCursor = 0;
 	SGD::HTexture	m_tBackgrounds[11];
-
+	float m_fFade;
+	float m_fFadeTimer;
+	float m_fQuoteTimer = 0.0f;
 
 	Spring * spring1;
 	Spring * spring2;
@@ -49,5 +51,6 @@ public:
 	void NextLevel();
 	void CreateObstacles();
 	void CheckObstacleCollisions();
+	void UpdateFade(float _dt);
 };
 

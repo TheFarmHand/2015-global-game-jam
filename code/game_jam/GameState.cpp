@@ -53,6 +53,9 @@ void altInput(Player *_player, Tiles * _tiles)
 
 GameState::GameState()
 {
+	m_fFade = 0.0f;
+	m_fFadeTimer = 0.0f;
+	m_fQuoteTimer = 2.0f;
 	m_pLevel = new Level();
 	m_pObjManager = new ObjectManager();
 	font = new BitmapFont;
@@ -60,6 +63,19 @@ GameState::GameState()
 
 	// Initialize and setup all obstacles
 	CreateObstacles();
+
+	// Level hints
+	Data::GetInstance()->levels[0].hint = "           Welcome!           ";
+	Data::GetInstance()->levels[1].hint = "     Welcome to the moon!     ";
+	Data::GetInstance()->levels[2].hint = "         Opposite day         ";
+	Data::GetInstance()->levels[3].hint = "          1,2,3,4,5           ";
+	Data::GetInstance()->levels[4].hint = "            2 + 3             ";
+	Data::GetInstance()->levels[5].hint = "          Remember?           ";
+	Data::GetInstance()->levels[6].hint = "          Inception            ";
+	Data::GetInstance()->levels[7].hint = "I don't think that was candy...";
+	Data::GetInstance()->levels[8].hint = "       In Soviet Russia:       ";
+	Data::GetInstance()->levels[9].hint = "           Inverse             ";
+	Data::GetInstance()->levels[10].hint = "        The Matrix            ";
 
 	//defining levels
 	Data::GetInstance()->levels[1].gravity = 700.0f;
@@ -112,7 +128,6 @@ GameState::~GameState()
 
 int GameState::Update(float dt)
 {
-
 	if (!paused) // Make sure all gameplay code is inside here, otherwise pause won't work
 	{	
 
@@ -135,7 +150,10 @@ int GameState::Update(float dt)
 		// Player world collision
 		m_pLevel->GetTiles()->CheckCollision(Player::GetInstance());
 
-		Player::GetInstance()->Input(m_pLevel->GetTiles());
+		if (m_fFadeTimer <= 0.0f)
+		{
+			Player::GetInstance()->Input(m_pLevel->GetTiles());
+		}
 
 		if (Player::GetInstance()->GetDead())
 		{
@@ -143,13 +161,19 @@ int GameState::Update(float dt)
 		}
 
 		// End of loop
+		if (m_fQuoteTimer > 0.0f)
+		{
+			m_fQuoteTimer -= dt;
+		}
 	}
+	UpdateFade(dt);
 	return playing;
 }
 
 void GameState::NextLevel()
 {
 	Data::GetInstance()->leveliter++;
+	m_fQuoteTimer = 2.5f;
 	ResetLevel();
 }
 
@@ -172,13 +196,17 @@ void GameState::Render()
 	key->Render();
 	m_pLevel->Render();
 
-	std::ostringstream info;
-	info << "Level " << Data::GetInstance()->leveliter + 1 << ":  " << Data::GetInstance()->levels[Data::GetInstance()->leveliter].hint;
-
-	font->Draw(info.str().c_str(), { 5.0f, 0.0f }, 1.0f, {0,0,0 });
+	if (m_fQuoteTimer > 0.0f && m_fQuoteTimer <= 2.0f)
+	{
+		std::ostringstream info;
+		info << Data::GetInstance()->levels[Data::GetInstance()->leveliter].hint;
+		float scale = (2.0f - m_fQuoteTimer) + 1.0f;
+		SGD::Color quoteColor = { (unsigned char)((m_fQuoteTimer / 2.0f) * 255), 0, 0, 0 };
+		font->Draw(info.str().c_str(), { 400.0f - (2.0f - m_fQuoteTimer) * 100.0f, 350.0f }, scale, quoteColor);
+	}
 	#pragma region Pause Menu
 
-	if (paused == true)
+	if (paused == true && m_fFade <= 0.0f)
 	{
 		font->Draw("Paused", { 512 - font->Center("Paused"), 100 }, 1, { 255, 255, 255 });
 		font->Draw("~~~~~~", { 512 - font->Center("~~~~~~"), 120 }, 1, { 255, 255, 255 });
@@ -195,8 +223,14 @@ void GameState::Render()
 	}
 	
 #pragma endregion
-	//font->Draw("asd;fjkllllasdfljk;;klasd;jklasdf", { 0, -50 }, 50, { 255, 0, 0 });
-	//font->Draw("asdfjkl;asd;fjklasd;fjkl;jklasdfasd;fjklasd;fjklasd;fjklasd;fjklasd;fjklasd;fjklasfasdf;jklasd;fjklasd;fjklasd;fjklad;fjkl;jklasd;jklasdf;jklasdf;jkljkl;asdf;jklasdfss", { 0, 0 }, 50, { 255, 0, 0 });
+
+	if (m_fFade > 0.0f)
+	{
+		SGD::Color color = { (unsigned char)((m_fFade / 255.0f) * 255), 0, 0, 0 };
+		SGD::Rectangle rect = { 0.0f, 0.0f, 1344.0f, 768.0f };
+		graphics->DrawRectangle(rect, color, { 0, 0, 0 }, 0);
+	}
+
 }
 
 
@@ -236,7 +270,9 @@ void GameState::ResetLevel()
 {
 	Player::GetInstance()->SetPosition(Player::GetInstance()->GetStartPos());
 	Player::GetInstance()->SetHasKey(false);
+	Player::GetInstance()->SetVelocity({ 0.0f, 0.0f });
 	key->SetPosition(key->GetStartPos()); 
+	m_fFadeTimer = 1.0f;
 }
 
 void GameState::CreateObstacles()
@@ -308,5 +344,35 @@ void GameState::CheckObstacleCollisions()
 	{
 		Player::GetInstance()->HandleCollision(key);
 		key->HandleCollision(Player::GetInstance());
+	}
+}
+
+void GameState::UpdateFade(float _dt)
+{
+	if (m_fFadeTimer > 0.5f)
+	{
+		m_fFade += ((1.0f / 0.5f) * 255.0f) * _dt;
+	}
+	else if (m_fFadeTimer > 0.0f)
+	{
+		m_fFade -= ((1.0f / 0.5f) * 255.0f) * _dt;
+	}
+
+	if (m_fFade > 255.0f)
+	{
+		m_fFade = 255.0f;
+	}
+	else if (m_fFade < 0.0f)
+	{
+		m_fFade = 0.0f;
+	}
+
+	if (m_fFadeTimer > 0.0f)
+	{
+		m_fFadeTimer -= _dt;
+	}
+	else
+	{
+		m_fFade = 0.0f;
 	}
 }
