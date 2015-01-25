@@ -10,11 +10,13 @@
 Player::Player()
 {
 	SetImage(GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/STICKMAN_ANIM.png"));
-	SetPosition({ 48, 400 });
-	m_ptStartPosition = { 48, 400 };
+	SetPosition({ 48, 608 });
+	m_ptStartPosition = { 48, 608 };
 	SetSize({ 64, 64 });
 	SetVelocity({ 0.0f, 0.0f });
 	m_fGravity = 1400.0f;
+	m_fNextLevelTimer = 0.0f;
+	m_bLevelComplete = false;
 	SetIsInAir(true);
 	m_bHasKey = false;
 	m_fSpringTimer = 0.0f;
@@ -104,9 +106,23 @@ void Player::Update(float elapsedTime)
 			{
 
 				gamestate->ResetLevel();
-				gamestate->NextLevel();
+				m_fNextLevelTimer = 0.5f;
+				m_bLevelComplete = true;
 			}
 
+		}
+	}
+
+	if (m_fNextLevelTimer > 0.0f)
+	{
+		m_fNextLevelTimer -= elapsedTime;
+	}
+	else
+	{
+		if (m_bLevelComplete)
+		{
+			gamestate->NextLevel();
+			m_bLevelComplete = false;
 		}
 	}
 }

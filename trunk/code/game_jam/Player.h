@@ -26,6 +26,8 @@ class Player : public Object
 	bool m_bJumping;
 	float m_fJumpCount;
 	float m_fSpringTimer;
+	float m_fNextLevelTimer;
+	bool m_bLevelComplete;
 	//Fix Walktrhough
 	void GoalCollision();
 

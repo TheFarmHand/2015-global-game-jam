@@ -22,7 +22,7 @@ private:
 public:
 	static Data* GetInstance();//this class is for data and structs we need throughout the program
 	unsigned int leveliter = 0;
-	leveldata levels[10];
+	leveldata levels[11];
 
 };
 
