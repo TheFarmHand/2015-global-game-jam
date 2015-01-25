@@ -56,6 +56,43 @@ void altInput(Player *_player, Tiles * _tiles)
 	FONT->Initialize("Assets/Font.fnt");*/
 }
 
+void teleport(Player * _player, Tiles * _tiles)
+{
+	InputManager * input = InputManager::GetInstance();
+
+
+
+	if (input->IsKeyDown(SGD::Key::One) && Data::GetInstance()->teles[0])
+	{
+		_player->SetPosition({240.0f,410.0f});
+		Data::GetInstance()->teles[0] = false;
+	}
+	else if (input->IsKeyDown(SGD::Key::Two) && Data::GetInstance()->teles[1])
+	{
+		_player->SetPosition({220.0f,185.0f});
+		Data::GetInstance()->teles[1] = false;
+	}
+	else if (input->IsKeyDown(SGD::Key::Three) && Data::GetInstance()->teles[2])
+	{
+		_player->SetPosition({1220.0f,500.0f});
+		Data::GetInstance()->teles[2] = false;
+	}
+	else if (input->IsKeyDown(SGD::Key::Four) && Data::GetInstance()->teles[3])
+	{
+		_player->SetPosition({605.0f,415.0f});
+		Data::GetInstance()->teles[3] = false;
+	}
+	else if (input->IsKeyDown(SGD::Key::Five) && Data::GetInstance()->teles[4])
+	{
+		_player->SetPosition({48.0f,608.0f});
+		Data::GetInstance()->teles[4] = false;
+	}
+}
+
+void collision(Player * _player, Object * _object)
+{
+	_player->OtherCollsision(_object);
+}
 GameState::GameState()
 {
 	m_fFade = 0.0f;
@@ -68,6 +105,7 @@ GameState::GameState()
 
 	// Initialize and setup all obstacles
 	CreateObstacles();
+
 
 	// Level hints
 	Data::GetInstance()->levels[0].hint = "           Welcome!           ";
@@ -86,6 +124,14 @@ GameState::GameState()
 	Data::GetInstance()->levels[1].gravity = 700.0f;
 	Data::GetInstance()->levels[2].input = altInput;
 	Data::GetInstance()->levels[7].render = TrippyRender;
+	for (int i = 0; i < 5; i++)
+	{
+		Data::GetInstance()->teles[i] = true;
+	}
+	Data::GetInstance()->levels[3].input = teleport;
+	Data::GetInstance()->levels[4].gravity = 700.0f;
+	Data::GetInstance()->levels[4].input = altInput;
+	Data::GetInstance()->levels[9].collision = collision;
 
 	// Load in each image
 	SGD::GraphicsManager * pGraphics = SGD::GraphicsManager::GetInstance();
@@ -200,6 +246,10 @@ void GameState::NextLevel()
 	Data::GetInstance()->leveliter++;
 	m_fQuoteTimer = 2.5f;
 	ResetLevel();
+	if (Data::GetInstance()->leveliter >= 11)
+	{
+		//time to end the game and go to credits
+	}
 }
 
 void GameState::Render()

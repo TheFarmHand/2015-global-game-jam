@@ -37,11 +37,7 @@ void Spring::Update(float elapsedTime)
 	//SGD::Rectangle wallRect = GetRect();
 	//SGD::Rectangle otherRect = Player::GetInstance()->GetRect();
 
-	if (data->levels[data->leveliter].springupdate)
-	{
-		data->levels[data->leveliter].springupdate(elapsedTime);
-		return;
-	}
+	
 	SGD::Rectangle wallRect = GetRect();
 	SGD::Rectangle otherRect = Player::GetInstance()->GetRect();
 

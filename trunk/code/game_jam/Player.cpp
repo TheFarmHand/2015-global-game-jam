@@ -226,6 +226,7 @@ void Player::ApplyGravity(float _dt)
 
 void Player::Render()
 {
+	std::cout << GetPos().x << ", " << GetPos().y << "\n";
 	//GraphicsManager::GetInstance()->DrawRectangle(GetRect(), { 255, 0, 255, 0 });
 	//GraphicsManager::GetInstance()->DrawRectangle(m_rGOAL, { 255, 50, 255, 110 });
 	SGD::GraphicsManager::GetInstance()->DrawTexture(m_tDoor, { m_rGOAL.left, m_rGOAL.top }, 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
@@ -257,9 +258,102 @@ void Player::Render()
 	}
 }
 
+void Player::OtherCollsision(Object * _object)
+{
+	// Solid wall
+	if (_object->GetType() == OBJ_SolidWall)
+	{
+		BasicCollision(_object);
 
+		int randNum = rand() % 6;
+
+		if (!GetInAir() &&
+			!m_bLandingPlayed &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound1) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound2) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound3) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound4) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound5) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound6)) // No landing sound is already playing
+		{
+			if (randNum == 0)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound1);
+			else if (randNum == 1)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound2);
+			else if (randNum == 2)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound3);
+			else if (randNum == 3)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound4);
+			else if (randNum == 4)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound5);
+			else if (randNum == 5)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound6);
+
+			m_bLandingPlayed = true;
+		}
+	}
+	// Death touch
+	else if (_object->GetType() == OBJ_DeathTouch)
+	{
+		SetVelocity({ GetVelocity().x, -1000 });
+		SetIsInAir(true);
+		m_bJumping = true;
+		m_fJumpCount = .5f;
+
+		m_bLandingPlayed = false;
+	}
+	// Falling blocks
+	else if (_object->GetType() == OBJ_FallingBlock)
+	{
+		BasicCollision(_object);
+
+		int randNum = rand() % 6;
+
+		if (!GetInAir() &&
+			!m_bLandingPlayed &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound1) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound2) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound3) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound4) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound5) &&
+			!SGD::AudioManager::GetInstance()->IsAudioPlaying(landingSound6)) // No landing sound is already playing
+		{
+			if (randNum == 0)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound1);
+			else if (randNum == 1)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound2);
+			else if (randNum == 2)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound3);
+			else if (randNum == 3)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound4);
+			else if (randNum == 4)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound5);
+			else if (randNum == 5)
+				SGD::AudioManager::GetInstance()->PlayAudio(landingSound6);
+
+			m_bLandingPlayed = true;
+		}
+	}
+	else if (_object->GetType() == OBJ_Walkthrough)
+	{
+
+	}
+	// Springs
+	else if (_object->GetType() == OBJ_Spring)
+	{
+		
+
+		SetPosition(m_ptStartPosition);
+		SetDead(true);
+	}
+}
 void Player::HandleCollision(Object * _object)
 {
+	if (Data::GetInstance()->levels[Data::GetInstance()->leveliter].collision)
+	{
+		Data::GetInstance()->levels[Data::GetInstance()->leveliter].collision(this,_object);
+		return;
+	}
 	// Solid wall
 	if (_object->GetType() == OBJ_SolidWall)
 	{
