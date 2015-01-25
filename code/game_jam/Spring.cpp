@@ -36,49 +36,41 @@ void Spring::Update(float elapsedTime)
 	SGD::Rectangle wallRect = GetRect();
 	SGD::Rectangle otherRect = Player::GetInstance()->GetRect();
 
+	if (m_fBounceTimer > 0.0f)
+	{
+		m_fBounceTimer -= elapsedTime;
+	}
+
 }
 
 void Spring::Render(void)
 {
-	GraphicsManager::GetInstance()->DrawRectangle(GetRect(), { 255, 255, 255, 0 });
-	switch (m_nDirection)
+	GraphicsManager * pGraphics = GraphicsManager::GetInstance();
+
+	float rotation = (90.0f * m_nDirection) * (3.14159f / 180.0f);
+	if (m_fBounceTimer <= 0.0f)
 	{
-		case 0:
-		{
-			SGD::Rectangle rect = GetRect();
-			rect.left += 48;
-			GraphicsManager::GetInstance()->DrawRectangle(rect, { 255, 0, 0, 255 });
-			break;
-		}
-		case 1:
-		{
-			SGD::Rectangle rect = GetRect();
-			rect.top += 48;
-			GraphicsManager::GetInstance()->DrawRectangle(rect, { 255, 0, 0, 255 });
-			break;
-		}
-		case 2:
-		{
-			SGD::Rectangle rect = GetRect();
-			rect.right -= 48;
-			GraphicsManager::GetInstance()->DrawRectangle(rect, { 255, 0, 0, 255 });
-			break;
-		}
-		case 3:
-		{
-			SGD::Rectangle rect = GetRect();
-			rect.bottom -= 48;
-			GraphicsManager::GetInstance()->DrawRectangle(rect, { 255, 0, 0, 255 });
-			break;
-		}
-	}
-	
-	if (m_nDirection == 0)
-	{
-		GraphicsManager::GetInstance()->DrawTexture(GetImage(), { GetPos().x ,GetPos().y + GetSize().height}, 4.72f, {}, {}, { 2, 2 });
+		pGraphics->DrawTexture(m_hSpringRest, GetPos(), rotation, { 32.0f, 32.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
 	}
 	else
 	{
-		GraphicsManager::GetInstance()->DrawTexture(GetImage(), GetPos(), {}, {}, {}, { 2, 2 });
+		pGraphics->DrawTexture(m_hSpringActive, GetPos(), rotation, { 32.0f, 32.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
+	}
+	
+	//if (m_nDirection == 0)
+	//{
+	//	GraphicsManager::GetInstance()->DrawTexture(GetImage(), { GetPos().x ,GetPos().y + GetSize().height}, 4.72f, {}, {}, { 2, 2 });
+	//}
+	//else
+	//{
+	//	GraphicsManager::GetInstance()->DrawTexture(GetImage(), GetPos(), {}, {}, {}, { 2, 2 });
+	//}
+}
+
+void Spring::HandleCollision(Object * _object)
+{
+	if (_object->GetType() == OBJ_Player)
+	{
+		m_fBounceTimer = 0.5f;
 	}
 }

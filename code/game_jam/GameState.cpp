@@ -159,7 +159,10 @@ void GameState::Render()
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
 
 	// Draw background first
-	graphics->DrawTexture(m_tBackgrounds[0], { 0.0f, 0.0f }, 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
+	if (Data::GetInstance()->leveliter != 5)
+	{
+		graphics->DrawTexture(m_tBackgrounds[Data::GetInstance()->leveliter], { 0.0f, 0.0f }, 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
+	}
 
 	Player::GetInstance()->Render();
 	spring1->Render();
