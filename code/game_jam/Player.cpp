@@ -43,6 +43,9 @@ Player::Player()
 	jumpingSound1 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Jumps_Comp_01.wav");
 	jumpingSound2 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Jumps_Comp_02.wav");
 	jumpingSound3 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Jumps_Comp_03.wav");
+
+	m_hWin[0] = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Win_1.wav");
+	m_hWin[1] = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Win_2.wav");
 }
 
 
@@ -101,6 +104,7 @@ void Player::Update(float elapsedTime)
 		//GoalCollision();
 		if (m_rGOAL.IsIntersecting(GetRect()))
 		{
+			AudioManager::GetInstance()->PlayAudio(m_hWin[rand() % 2]);
 			std::cout << "passed";
 			if (gamestate)
 			{

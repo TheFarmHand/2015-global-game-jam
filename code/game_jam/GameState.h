@@ -3,6 +3,7 @@
 #include "BitmapFont.h"
 #include "../game_jam/WRAPPERS/SGD_Declarations.h"
 #include "../game_jam/WRAPPERS/SGD_Handle.h"
+#include "../game_jam/WRAPPERS/SGD_AudioManager.h"
 
 
 /////////////////////////
@@ -19,6 +20,8 @@ class GameState :
 	public BaseState
 {
 private:
+	SGD::HAudio m_hBackgroundMusic;
+	SGD::HAudio m_hWin[2];
 	int playing = 0;
 	Level *  m_pLevel;
 	bool paused = false;

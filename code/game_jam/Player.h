@@ -52,6 +52,9 @@ class Player : public Object
 	HAudio jumpingSound2 = INVALID_HANDLE;
 	HAudio jumpingSound3 = INVALID_HANDLE;
 
+	//Win Sounds
+	HAudio m_hWin[2];
+
 public:
 	GameState* gamestate = nullptr;
 	//Singleton

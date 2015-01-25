@@ -1,23 +1,32 @@
 #include "MenuState.h"
 #include "WRAPPERS/SGD_InputManager.h"
 #include "WRAPPERS/SGD_GraphicsManager.h"
+#include "WRAPPERS\SGD_AudioManager.h"
 
 MenuState::MenuState()
 {
 	font = new BitmapFont;
 	font->Initialize("Assets/Font.fnt");
+	menuMusic = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Main_Menu.wav");
 }
 
 MenuState::~MenuState()
 {
 	font->Terminate();
+	if (SGD::AudioManager::GetInstance()->IsAudioPlaying(menuMusic))
+	{
+		SGD::AudioManager::GetInstance()->StopAudio(menuMusic);
+	}
 	delete font;
 
 }
 
 int MenuState::Update(float dt)
 {
-	
+	if (!SGD::AudioManager::GetInstance()->IsAudioPlaying(menuMusic))
+	{
+		SGD::AudioManager::GetInstance()->PlayAudio(menuMusic,true);
+	}
 
 	return running;
 }
