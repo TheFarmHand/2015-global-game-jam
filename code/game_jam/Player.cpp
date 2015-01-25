@@ -58,7 +58,7 @@ Player::~Player()
 
 void Player::Update(float elapsedTime)
 {
-	if (Data::GetInstance()->leveliter == 8)
+	if (Data::GetInstance()->leveliter == 10)
 	{
 		m_rGOAL = SGD::Rectangle({ 1216, 512 }, GetSize());
 	}
@@ -404,7 +404,7 @@ void Player::HandleCollision(Object * _object)
 	}
 	else if (_object->GetType() == OBJ_Key)
 	{
-		if (Data::GetInstance()->leveliter == 8 && !m_bLevelComplete)
+		if (Data::GetInstance()->leveliter == 10 && !m_bLevelComplete)
 		{
 			if (m_rGOAL.IsIntersecting(GetRect()))
 			{

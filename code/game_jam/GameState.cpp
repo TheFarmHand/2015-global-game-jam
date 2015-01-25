@@ -114,9 +114,9 @@ GameState::GameState()
 	Data::GetInstance()->levels[5].hint = "          Remember?           ";
 	Data::GetInstance()->levels[6].hint = "          Inception            ";
 	Data::GetInstance()->levels[7].hint = "I don't think that was candy...";
-	Data::GetInstance()->levels[8].hint = "       In Soviet Russia:       ";
+	Data::GetInstance()->levels[8].hint = "        The Matrix            ";
 	Data::GetInstance()->levels[9].hint = "           Inverse             ";
-	Data::GetInstance()->levels[10].hint = "        The Matrix            ";
+	Data::GetInstance()->levels[10].hint = "       In Soviet Russia:       ";
 
 	//defining levels
 	Data::GetInstance()->levels[1].gravity = 700.0f;
@@ -192,7 +192,7 @@ int GameState::Update(float dt)
 		AudioManager::GetInstance()->PlayAudio(m_hBackgroundMusic,true);
 	}
 
-	if (Data::GetInstance()->leveliter == 10)
+	if (Data::GetInstance()->leveliter == 8)
 	{
 		dt /= 2.0f;
 	}
