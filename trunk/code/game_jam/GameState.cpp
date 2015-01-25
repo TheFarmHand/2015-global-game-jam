@@ -22,8 +22,6 @@ static BitmapFont *FONT;
 //For Testing
 
 
-
-
 void TrippyRender(GameState * _gamestate)
 {
 	_gamestate->AltRender();
@@ -211,7 +209,7 @@ int GameState::Update(float dt)
 	platform->Update(dt);
 	/*walkThrough1->Update(dt);
 	walkThrough2->Update(dt);*/
-	key->Update(dt);
+	key->Update(dt, Player::GetInstance());
 	
 		m_pLevel->Update(dt);
 
