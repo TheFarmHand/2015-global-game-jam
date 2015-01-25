@@ -13,7 +13,12 @@ class Tiles;
 class GameState;
 class Player : public Object
 {
-	Animation m_anANIM;
+	//for inception effect
+	float m_fRotation;
+	bool m_bInception;
+	
+	float m_fInceptionCounter;
+
 	SGD::Rectangle m_rGOAL;
 	bool m_bPassed;
 	Point m_ptStartPosition;
@@ -57,6 +62,8 @@ class Player : public Object
 	HAudio m_hWin[2];
 
 public:
+	Animation m_anANIM;
+
 	GameState* gamestate = nullptr;
 	//Singleton
 	static Player* GetInstance();
@@ -80,7 +87,10 @@ public:
 	bool GetLookingRight(){ return m_BLookingRight; }
 	void SetLookingRight(bool _right){ m_BLookingRight = _right; }
 	void OtherCollsision(Object * _object);
-
+	void SetInception(bool _Inception){ m_bInception = _Inception; }
+	void SetInceptionCounter(float _FL) { m_fRotation = _FL; }
+	bool Inception(){ return m_bInception; }
+	bool m_bPositive;
 
 	Player();
 	~Player();
