@@ -11,10 +11,12 @@
 #include "Key.h"
 #include "Spring.h"
 #include "Data.h"
+#include "BitmapFont.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
+static BitmapFont *FONT;
 //For Testing
 
 void altInput(Player *_player)
@@ -34,6 +36,8 @@ void altInput(Player *_player)
 	}
 
 	_player->Jump();
+	FONT = new BitmapFont;
+	FONT->Initialize("Assets/Font.fnt");
 }
 
 GameState::GameState()
@@ -67,10 +71,12 @@ GameState::~GameState()
 	delete spring3;
 	delete platform;
 	delete key;
+	delete FONT;
 }
 
 int GameState::Update(float dt)
 {
+
 	if (!paused) // Make sure all gameplay code is inside here, otherwise pause won't work
 	{	
 
@@ -136,8 +142,10 @@ void GameState::Render()
 		else
 			font->Draw("Exit", { 512 - font->Center("Exit"), 350 }, 1, { 255, 255, 255 }); // Exit unselected 
 	}
-
-	#pragma endregion
+	
+#pragma endregion
+	font->Draw("asd;fjkllllasdfljk;;klasd;jklasdf", { 0, -50 }, 50, { 255, 0, 0 });
+	font->Draw("asdfjkl;asd;fjklasd;fjkl;jklasdfasd;fjklasd;fjklasd;fjklasd;fjklasd;fjklasd;fjklasfasdf;jklasd;fjklasd;fjklasd;fjklad;fjkl;jklasd;jklasdf;jklasdf;jkljkl;asdf;jklasdfss", { 0, 0 }, 50, { 255, 0, 0 });
 }
 
 
