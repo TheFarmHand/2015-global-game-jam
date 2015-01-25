@@ -7,6 +7,7 @@ MenuState::MenuState()
 {
 	font = new BitmapFont;
 	font->Initialize("Assets/Font.fnt");
+	menuBackground = SGD::GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/TitleScreen.png");
 	menuMusic = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Main_Menu.wav");
 }
 
@@ -35,18 +36,19 @@ void MenuState::Render()
 {
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
 
-	font->Draw("Main Menu", { 512 - font->Center("Main Menu"), 50 }, 1, { 255, 255, 255 });
-	font->Draw("~~~~~~~~~", { 512 - font->Center("~~~~~~~~~"), 70 }, 1, { 255, 255, 255 });
+	graphics->DrawTexture(menuBackground, { 0.0f, 0.0f }, 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
+	//font->Draw("Main Menu", { 512 - font->Center("Main Menu"), 50 }, 1, { 255, 255, 255 });
+	//font->Draw("~~~~~~~~~", { 512 - font->Center("~~~~~~~~~"), 70 }, 1, { 255, 255, 255 });
 
 	if (cursor == 0)
-		font->Draw("Play", { 512 - font->Center("Play"), 250 }, 1, { 0, 255, 255 }); // Play selected
+		font->Draw("Play", { 650 - font->Center("Play"), 700 }, 1, { 0, 100, 100 }); // Play selected
 	else
-		font->Draw("Play", { 512 - font->Center("Play"), 250 }, 1, { 255, 255, 255 }); // Play unselected
+		font->Draw("Play", { 650 - font->Center("Play"), 700 }, 1, { 0, 0, 0 }); // Play unselected
 
 	if (cursor == 1)
-		font->Draw("Exit", { 512 - font->Center("Exit"), 300 }, 1, { 0, 255, 255 }); // Exit selected
+		font->Draw("Exit", { 750 - font->Center("Exit"), 700 }, 1, { 0, 100, 100 }); // Exit selected
 	else
-		font->Draw("Exit", { 512 - font->Center("Exit"), 300 }, 1, { 255, 255, 255 }); // Exit unselected
+		font->Draw("Exit", { 750 - font->Center("Exit"), 700 }, 1, { 0, 0, 0 }); // Exit unselected
 
 
 }
@@ -55,9 +57,9 @@ void MenuState::Input()
 {
 	SGD::InputManager * input = SGD::InputManager::GetInstance();
 
-	if (input->IsKeyPressed(SGD::Key::W) || input->IsKeyPressed(SGD::Key::UpArrow) || input->GetLeftJoystick(0).y == 1) // Menu up
+	if (input->IsKeyPressed(SGD::Key::W) || input->IsKeyPressed(SGD::Key::LeftArrow) || input->GetLeftJoystick(0).y == 1) // Menu up
 		cursor -= 1;
-	else if (input->IsKeyPressed(SGD::Key::S) || input->IsKeyPressed(SGD::Key::DownArrow) || input->GetLeftJoystick(0).y == -1) // Menu down
+	else if (input->IsKeyPressed(SGD::Key::S) || input->IsKeyPressed(SGD::Key::RightArrow) || input->GetLeftJoystick(0).y == -1) // Menu down
 		cursor += 1;
 
 	if (input->IsKeyPressed(SGD::Key::Escape) || input->IsButtonPressed(0,1))
