@@ -46,15 +46,15 @@ void MenuState::Input()
 {
 	SGD::InputManager * input = SGD::InputManager::GetInstance();
 
-	if (input->IsKeyPressed(SGD::Key::W) || input->IsKeyPressed(SGD::Key::UpArrow)) // Menu up
+	if (input->IsKeyPressed(SGD::Key::W) || input->IsKeyPressed(SGD::Key::UpArrow) || input->GetLeftJoystick(0).y == 1) // Menu up
 		cursor -= 1;
-	else if (input->IsKeyPressed(SGD::Key::S) || input->IsKeyPressed(SGD::Key::DownArrow)) // Menu down
+	else if (input->IsKeyPressed(SGD::Key::S) || input->IsKeyPressed(SGD::Key::DownArrow) || input->GetLeftJoystick(0).y == -1) // Menu down
 		cursor += 1;
 
-	if (input->IsKeyPressed(SGD::Key::Escape))
+	if (input->IsKeyPressed(SGD::Key::Escape) || input->IsButtonPressed(0,1))
 		cursor = 2;
 
-	if (input->IsKeyPressed(SGD::Key::Enter)) // Select
+	if (input->IsKeyPressed(SGD::Key::Enter) || input->IsButtonPressed(0,0)) // Select
 	{
 		if (cursor == 0)
 			running = 2;

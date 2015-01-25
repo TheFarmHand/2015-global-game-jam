@@ -2,14 +2,16 @@
 #include <iostream>
 #include "Spring.h"
 #include "WRAPPERS\SGD_InputManager.h"
-
+#include "WRAPPERS\SGD_AudioManager.h"
 #include "Data.h"
 #include "Tiles.h"
 #include <Windows.h>
 #include "GameState.h"
 Player::Player()
 {
-	SetImage(GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/PlaceHolder.jpg"));
+	m_hJumpSound = AudioManager::GetInstance()->LoadAudio("Assets/Audio/Jumps_Comp_01.wav");
+	m_hLandingSound = AudioManager::GetInstance()->LoadAudio("Assets/Audio/Landings_Comp_05.wav");
+	SetImage(GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/STICKMAN_ANIM.png"));
 	SetPosition({ 48, 400 });
 	m_ptStartPosition = { 48, 400 };
 	SetSize({ 64, 64 });
@@ -21,6 +23,8 @@ Player::Player()
 	SetRect(SGD::Rectangle(GetPos(), GetSize()));
 	m_rGOAL = SGD::Rectangle({64,608}, GetSize());
 	m_bPassed = false;
+	m_bLandingPlayed = false;
+	
 }
 
 
@@ -30,9 +34,15 @@ Player::~Player()
 
 void Player::Update(float elapsedTime)
 {
-	m_anANIM.Update(elapsedTime);
+	//For Animations And Sound in the Animations
+	if (GetVelocity().x != 0 && !GetInAir())
+	{
+		m_anANIM.Update(elapsedTime);
+		
+	}
 	m_anANIM.SetPos(GetPos());
 	m_anANIM.SetSize(GetSize());
+	//
 	if (m_fSpringTimer > 0.0f)
 	{
 		m_fSpringTimer -= elapsedTime;
@@ -54,6 +64,7 @@ void Player::Update(float elapsedTime)
 	if (GetInAir())
 	{
 		ApplyGravity(elapsedTime);
+		m_bLandingPlayed = false;
 	}
 
 	Point Temp = GetPos();
@@ -101,12 +112,12 @@ void Player::Input(Tiles * _tiles)
 		return;
 	}
 
-	if (InputManager::GetInstance()->IsKeyDown(Key::D) && SpaceFree({ 1.0f, -1.0f }, _tiles))
+	if ((InputManager::GetInstance()->IsKeyDown(Key::D) || InputManager::GetInstance()->GetLeftJoystick(0).x == 1) && SpaceFree({ 1.0f, -1.0f }, _tiles))
 	{
 		SetVelocity({ 300, GetVelocity().y });
 		m_BLookingRight = true;
 	}
-	else if (InputManager::GetInstance()->IsKeyDown(Key::A) && SpaceFree({ -1.0f, -1.0f }, _tiles))
+	else if ((InputManager::GetInstance()->IsKeyDown(Key::A) || InputManager::GetInstance()->GetLeftJoystick(0).x == -1) && SpaceFree({ -1.0f, -1.0f }, _tiles))
 	{
 		SetVelocity({ -300, GetVelocity().y });
 		m_BLookingRight = false;
@@ -116,8 +127,12 @@ void Player::Input(Tiles * _tiles)
 		SetVelocity({ 0, GetVelocity().y });
 	}
 
-	if (InputManager::GetInstance()->IsKeyPressed(Key::Space) && !GetInAir())
+	if ((InputManager::GetInstance()->IsKeyPressed(Key::Space) || InputManager::GetInstance()->IsButtonDown(0,0)) && !GetInAir())
 	{
+		//For sound
+		AudioManager::GetInstance()->PlayAudio(m_hJumpSound);
+		m_bLandingPlayed = false;
+		//
 		SetVelocity({ GetVelocity().x, -800 });
 		SetIsInAir(true);
 		m_bJumping = true;
@@ -128,6 +143,10 @@ void Player::Jump()
 {
 	if (InputManager::GetInstance()->IsKeyPressed(Key::S) && !GetInAir())
 	{
+		//For sound
+		AudioManager::GetInstance()->PlayAudio(m_hJumpSound);
+		m_bLandingPlayed = false;
+		//
 		SetVelocity({ GetVelocity().x, -800 });
 		SetIsInAir(true);
 		m_bJumping = true;
@@ -142,32 +161,32 @@ void Player::ApplyGravity(float _dt)
 
 void Player::Render()
 {
-	GraphicsManager::GetInstance()->DrawRectangle(GetRect(), { 255, 0, 255, 0 });
+	//GraphicsManager::GetInstance()->DrawRectangle(GetRect(), { 255, 0, 255, 0 });
 	GraphicsManager::GetInstance()->DrawRectangle(m_rGOAL, { 255, 50, 255, 110 });
-	if (GetVelocity().x != 0)
+	if (GetVelocity().x != 0 && !GetInAir())
 	{
 		m_anANIM.Render(m_BLookingRight);
 	}
 	else
 	{
-		if (m_BLookingRight)
+		if (m_BLookingRight && !GetInAir())
 		{
-			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), GetPos(), { Point(261, 127), Size(111, 124) }, {}, {}, {}, { .6f, .5f });
+			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), GetPos(), { Point(0, 0), Size(45, 63) }, {}, {}, {}, { 1, 1 });
 		}
-		else
+		else if (!GetInAir())
 		{
-			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), { (GetPos().x + GetSize().width), GetPos().y }, { Point(261, 127), Size(111, 124) }, {}, {}, {}, { -.6f, .5f });
+			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), { (GetPos().x + GetSize().width), GetPos().y }, { Point(0, 0), Size(45, 63) }, {}, {}, {}, { -1, 1 });
 		}
 	}
 	if (GetInAir())
 	{
 		if (m_BLookingRight)
 		{
-			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), GetPos(), { Point(374, 124), Size(111, 124) }, {}, {}, {}, { .6f, .5f });
+			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), GetPos(), { Point(208, 0), Size(70, 63) }, {}, {}, {}, { 1, 1 });
 		}
 		else
 		{
-			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), { (GetPos().x + GetSize().width), GetPos().y }, { Point(374, 124), Size(111, 124) }, {}, {}, {}, { -.6f, .5f });
+			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), { (GetPos().x + GetSize().width), GetPos().y }, { Point(208, 0), Size(70, 63) }, {}, {}, {}, { -1, 1 });
 		}
 	}
 }
@@ -179,6 +198,11 @@ void Player::HandleCollision(Object * _object)
 	if (_object->GetType() == OBJ_SolidWall)
 	{
 		BasicCollision(_object);	
+		if (!GetInAir() && !m_bLandingPlayed)
+		{
+			AudioManager::GetInstance()->PlayAudio(m_hLandingSound);
+			m_bLandingPlayed = true;
+		}
 	}
 	// Death touch
 	else if (_object->GetType() == OBJ_DeathTouch)
@@ -190,6 +214,11 @@ void Player::HandleCollision(Object * _object)
 	else if (_object->GetType() == OBJ_FallingBlock)
 	{
 		BasicCollision(_object);
+		if (!GetInAir() && !m_bLandingPlayed)
+		{
+			AudioManager::GetInstance()->PlayAudio(m_hLandingSound);
+			m_bLandingPlayed = true;
+		}
 	}
 	else if (_object->GetType() == OBJ_Walkthrough)
 	{
@@ -228,6 +257,7 @@ void Player::HandleCollision(Object * _object)
 				break;
 			}
 		}
+		m_bLandingPlayed = false;
 	}
 }
 

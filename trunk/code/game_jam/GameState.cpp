@@ -204,15 +204,15 @@ void GameState::Input()
 {
 	SGD::InputManager * input = SGD::InputManager::GetInstance();
 
-	if (input->IsKeyPressed(SGD::Key::W) || input->IsKeyPressed(SGD::Key::UpArrow)) // Menu up
+	if (input->IsKeyPressed(SGD::Key::W) || input->IsKeyPressed(SGD::Key::UpArrow) || input->GetLeftJoystick(0).y == 1) // Menu up
 		cursor -= 1;
-	else if (input->IsKeyPressed(SGD::Key::S) || input->IsKeyPressed(SGD::Key::DownArrow)) // Menu down
+	else if (input->IsKeyPressed(SGD::Key::S) || input->IsKeyPressed(SGD::Key::DownArrow) || input->GetLeftJoystick(0).y == -1) // Menu down
 		cursor += 1;
 
-	if (input->IsKeyPressed(SGD::Key::Escape))
+	if (input->IsKeyPressed(SGD::Key::Escape) || input->IsButtonPressed(0, 7))
 		paused = true;
 
-	if (input->IsKeyPressed(SGD::Key::Enter)) // Select
+	if (input->IsKeyPressed(SGD::Key::Enter) || input->IsButtonPressed(0, 7)) // Select
 	{
 		if (cursor == 0)
 			paused = true;
