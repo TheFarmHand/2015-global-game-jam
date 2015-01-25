@@ -244,6 +244,14 @@ int GameState::Update(float dt)
 void GameState::NextLevel()
 {
 	Data::GetInstance()->leveliter++;
+	if (Data::GetInstance()->leveliter == 6)
+	{
+		Player::GetInstance()->SetInception(true);
+	}
+	else
+	{
+		Player::GetInstance()->SetInception(false);
+	}
 	m_fQuoteTimer = 2.5f;
 	ResetLevel();
 	if (Data::GetInstance()->leveliter >= 11)
@@ -418,6 +426,7 @@ void GameState::ResetLevel()
 	Player::GetInstance()->SetPosition(Player::GetInstance()->GetStartPos());
 	Player::GetInstance()->SetHasKey(false);
 	Player::GetInstance()->SetVelocity({ 0.0f, 0.0f });
+	Player::GetInstance()->SetPositive(false);
 	key->SetPosition(key->GetStartPos()); 
 	m_fFadeTimer = 1.0f;
 	for (int i = 0; i < 5; i++)

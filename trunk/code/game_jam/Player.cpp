@@ -25,6 +25,10 @@ Player::Player()
 	m_rGOAL = SGD::Rectangle({ 64, 608 }, GetSize());
 	m_bPassed = false;
 	m_bLandingPlayed = false;
+	/////////
+	m_bInception = false;
+	m_fInceptionCounter = 0;
+	m_bPositive = false;
 
 	m_tDoor = SGD::GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/Door.png");
 
@@ -58,6 +62,11 @@ Player::~Player()
 
 void Player::Update(float elapsedTime)
 {
+	if (m_bInception)
+	{
+		//std::cout << GetVelocity().x << " " << GetVelocity().y;
+		SetIsInAir(true);
+	}
 	if (Data::GetInstance()->leveliter == 10)
 	{
 		m_rGOAL = SGD::Rectangle({ 1216, 512 }, GetSize());
@@ -175,7 +184,7 @@ void Player::Input(Tiles * _tiles)
 		SetVelocity({ 0, GetVelocity().y });
 	}
 
-	if ((InputManager::GetInstance()->IsKeyPressed(Key::Space) || InputManager::GetInstance()->IsButtonDown(0, 0)) && !GetInAir())
+ 	if ((InputManager::GetInstance()->IsKeyPressed(Key::Space) || InputManager::GetInstance()->IsButtonDown(0, 0)) && !GetInAir())
 	{
 		// Jumping Sound Randomization //
 		int randNum = rand() % 3;
@@ -200,6 +209,8 @@ void Player::Input(Tiles * _tiles)
 		m_fJumpCount = .5f;
 	}
 }
+
+
 void Player::Jump()
 {
 	if (InputManager::GetInstance()->IsKeyPressed(Key::S) && !GetInAir())
@@ -230,12 +241,44 @@ void Player::Jump()
 
 void Player::ApplyGravity(float _dt)
 {
-	SetVelocity({ GetVelocity().x, GetVelocity().y + m_fGravity * _dt });
+	if (m_bInception)
+	{
+		m_fRotation += _dt;
+		if (m_bPositive)
+		{
+			SetVelocity({ GetVelocity().x,  600 });			
+		}
+		else
+		{
+			SetVelocity({ GetVelocity().x, -600 });		
+		}
+		if (m_fRotation > 5)
+		{
+			m_fRotation = 0;
+		    m_bPositive ? m_bPositive = false : m_bPositive = true;
+		}
+	}
+	else
+	{
+		SetVelocity({ GetVelocity().x , GetVelocity().y + m_fGravity * _dt });
+	}
 }
 
 void Player::Render()
 {
 	std::cout << GetPos().x << ", " << GetPos().y << "\n";
+	if (m_bInception)
+	{
+		m_fRotation += .1f;
+		GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), GetPos(), { Point(208, 0), Size(70, 63) }, m_fRotation, {GetSize().width/2,GetSize().height/2}, {}, { 1, 1 });
+		return;
+	}
+	Data * data = Data::GetInstance();
+	if (data->levels[data->leveliter].PlauerRender)
+	{
+		data->levels[data->leveliter].PlauerRender();
+		return;
+	}
 	//GraphicsManager::GetInstance()->DrawRectangle(GetRect(), { 255, 0, 255, 0 });
 	//GraphicsManager::GetInstance()->DrawRectangle(m_rGOAL, { 255, 50, 255, 110 });
 	SGD::GraphicsManager::GetInstance()->DrawTexture(m_tDoor, { m_rGOAL.left, m_rGOAL.top }, 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
@@ -265,6 +308,7 @@ void Player::Render()
 			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), { (GetPos().x + GetSize().width), GetPos().y }, { Point(208, 0), Size(70, 63) }, {}, {}, {}, { -1, 1 });
 		}
 	}
+	
 }
 
 void Player::OtherCollsision(Object * _object)

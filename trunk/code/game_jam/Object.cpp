@@ -26,14 +26,9 @@ void Object::HandleCollision(Object * _object)
 }
 
 void Object::BasicCollision(Object * _other)
-{
+{	
 	SGD::Rectangle myRect = GetRect();
 	SGD::Rectangle otherRect = _other->GetRect();
-
-	//if (!myRect.IsIntersecting(otherRect))
-	//{
-	//	return;
-	//}
 
 	// Calculate difference in each edge
 	float dLeft = abs(myRect.left - otherRect.right);
@@ -52,6 +47,8 @@ void Object::BasicCollision(Object * _other)
 			// No longer in the air'
 			SetIsInAir(false);		
 			SetClippedV(true);
+			Player::GetInstance()->SetPositive(!Player::GetInstance()->GetPositive());
+	
 			
 		}
 	}
@@ -66,6 +63,8 @@ void Object::BasicCollision(Object * _other)
 			// No longer in the air 
 			//SetIsInAir(false);
 			SetClippedV(true);
+			Player::GetInstance()->SetPositive(!Player::GetInstance()->GetPositive());
+
 		}
 	}
 	// Collision with left of human

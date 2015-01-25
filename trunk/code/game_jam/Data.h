@@ -9,6 +9,7 @@ struct leveldata
 	void(*update)(float dt) = nullptr;//this will change how things are rendered
 	void(*keyupdate)(float dt) = nullptr;//this will change what the key does in the level
 	void(*collision)(Player * _player,Object * _object);
+	void(*PlauerRender)() = nullptr;
 	std::string hint = "This is a hint";
 };
 class Data
