@@ -10,6 +10,7 @@ using namespace SGD;
 
 class Animation
 {
+	HAudio m_hSteps[4];
 	Point m_ptPos;
 	Size m_szSize;
 	HTexture m_hImage;

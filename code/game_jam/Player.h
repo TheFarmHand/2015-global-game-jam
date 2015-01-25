@@ -11,7 +11,9 @@ class Tiles;
 class GameState;
 class Player : public Object
 {
-
+	HAudio m_hJumpSound;
+	HAudio m_hLandingSound;
+	bool m_bLandingPlayed;
 	Animation m_anANIM;
 	SGD::Rectangle m_rGOAL;
 	bool m_bPassed;
