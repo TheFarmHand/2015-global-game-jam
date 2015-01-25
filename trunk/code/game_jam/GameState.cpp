@@ -2,6 +2,7 @@
 #include "Tiles.h"
 #include "WRAPPERS/SGD_InputManager.h"
 #include "WRAPPERS/SGD_GraphicsManager.h"
+#include "WRAPPERS\SGD_AudioManager.h"
 #include "Player.h"
 #include "ObjectManager.h"
 #include "Level.h"
@@ -95,6 +96,11 @@ GameState::GameState()
 	m_tBackgrounds[9] = pGraphics->LoadTexture("Assets/graphics/Background10.png");
 	m_tBackgrounds[10] = pGraphics->LoadTexture("Assets/graphics/Background11.png");
 
+	//Sounds 
+	m_hBackgroundMusic = AudioManager::GetInstance()->LoadAudio("Assets/Audio/Game_Music.wav");
+	m_hWin[0] = AudioManager::GetInstance()->LoadAudio("Assets/Audio/Win_1.wav");
+	m_hWin[1] = AudioManager::GetInstance()->LoadAudio("Assets/Audio/Win_2.wav");
+
 }
 
 
@@ -124,10 +130,19 @@ GameState::~GameState()
 			SGD::GraphicsManager::GetInstance()->UnloadTexture(m_tBackgrounds[i]);
 		}
 	}
+	if (AudioManager::GetInstance()->IsAudioPlaying(m_hBackgroundMusic))
+	{
+		AudioManager::GetInstance()->StopAudio(m_hBackgroundMusic);
+	}
 }
 
 int GameState::Update(float dt)
 {
+	if (!AudioManager::GetInstance()->IsAudioPlaying(m_hBackgroundMusic))
+	{
+		AudioManager::GetInstance()->PlayAudio(m_hBackgroundMusic,true);
+	}
+
 	if (!paused) // Make sure all gameplay code is inside here, otherwise pause won't work
 	{	
 
