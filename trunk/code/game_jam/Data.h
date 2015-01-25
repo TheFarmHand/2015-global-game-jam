@@ -21,7 +21,7 @@ private:
 	Data& operator=(const Data& _rhs) = delete;
 public:
 	static Data* GetInstance();//this class is for data and structs we need throughout the program
-	unsigned int leveliter = 8;
+	unsigned int leveliter = 5;
 	leveldata levels[11];
 	bool teles[5];
 

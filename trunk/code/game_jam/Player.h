@@ -90,6 +90,8 @@ public:
 	void SetInception(bool _Inception){ m_bInception = _Inception; }
 	void SetInceptionCounter(float _FL) { m_fRotation = _FL; }
 	bool Inception(){ return m_bInception; }
+	void SetPositive(bool _bla){ m_bPositive = _bla; m_fRotation = 0; }
+	bool GetPositive(){ return m_bPositive; }
 	bool m_bPositive;
 
 	Player();
