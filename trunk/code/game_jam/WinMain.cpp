@@ -56,7 +56,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	//create debug window
 	/////////////////////////////////////////////////////////////
 	//code found at: https://justcheckingonall.wordpress.com/2008/08/29/console-window-win32-app/
-	AllocConsole();
+	/*AllocConsole();
 	
 	HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
 	int hCrt = _open_osfhandle((long)handle_out, _O_TEXT);
@@ -68,7 +68,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	hCrt = _open_osfhandle((long)handle_in, _O_TEXT);
 	FILE* hf_in = _fdopen(hCrt, "r");
 	setvbuf(hf_in, NULL, _IONBF, 128);
-	*stdin = *hf_in;
+	*stdin = *hf_in;*/
 	/////////////////////////////////////////////////////////////
 
 	// Create the window
@@ -130,7 +130,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	/////////////////////////////////////////////////////////////////////
 	// Terminate game
 	game.Terminate();
-	FreeConsole();
+	//FreeConsole();
 
 
 
