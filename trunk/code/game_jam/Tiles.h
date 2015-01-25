@@ -36,6 +36,7 @@ public:
 	bool		LoadLevel(const char * _path);
 	void		RenderCollision();
 	void		RenderImageLayer(bool _background);
+	void		AltRenderImageLayer(bool _background);
 	void		CheckCollision(Object * _obj);
 	
 	//////////////////////////////
@@ -56,6 +57,8 @@ private:
 	int						m_nWidth;
 	int						m_nHeight;
 	int**					m_nnCollisionLayer;
+	int						m_nTrippyOffsetX;
+	int						m_nTrippyOffsetY;
 	std::vector<ImageLayer*>		m_vlLayers;
 
 };

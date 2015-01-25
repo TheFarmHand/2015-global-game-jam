@@ -26,13 +26,6 @@ void Level::Update(float dt)
 }
 void Level::Render()
 {
-	Data * data = Data::GetInstance();
-
-	if (data->levels[data->leveliter].render)
-	{
-		data->levels[data->leveliter].render();
-		return;
-	}
 	// Draw the background first
 	m_tTiles->RenderImageLayer(true);
 	// Anything between back and foreground
@@ -43,6 +36,16 @@ void Level::Render()
 void Level::Input()
 {
 	
+}
+
+void Level::AltRender()
+{
+	// Draw the background first
+	m_tTiles->AltRenderImageLayer(true);
+	// Anything between back and foreground
+	//m_tTiles->RenderCollision();
+	// Draw foreground last
+	m_tTiles->AltRenderImageLayer(false);
 }
 
 

@@ -1,6 +1,8 @@
 #pragma once 
 
 #include "Object.h"
+#include "../game_jam/WRAPPERS/SGD_Declarations.h"
+#include "../game_jam/WRAPPERS/SGD_Handle.h"
 
 class FallingPlatform : public Object
 {
@@ -8,6 +10,8 @@ class FallingPlatform : public Object
 	float m_fTouchedCounter;
 	Vector m_vtVelocity;
 	Point m_ptStartPosition;
+	SGD::HTexture m_tPlatform;
+
 public:
 	void Update(float elapsedTime);
 	void Render(void);

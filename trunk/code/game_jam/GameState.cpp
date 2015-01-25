@@ -24,6 +24,10 @@ static BitmapFont *FONT;
 
 
 
+void TrippyRender(GameState * _gamestate)
+{
+	_gamestate->AltRender();
+}
 
 void altInput(Player *_player, Tiles * _tiles)
 {
@@ -81,6 +85,7 @@ GameState::GameState()
 	//defining levels
 	Data::GetInstance()->levels[1].gravity = 700.0f;
 	Data::GetInstance()->levels[2].input = altInput;
+	Data::GetInstance()->levels[7].render = TrippyRender;
 
 	// Load in each image
 	SGD::GraphicsManager * pGraphics = SGD::GraphicsManager::GetInstance();
@@ -194,6 +199,14 @@ void GameState::NextLevel()
 
 void GameState::Render()
 {
+	Data * data = Data::GetInstance();
+
+	if (data->levels[data->leveliter].render)
+	{
+		data->levels[data->leveliter].render(this);
+		return;
+	}
+
 	//TheSpring.Render();
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
 
@@ -209,7 +222,10 @@ void GameState::Render()
 	spring3->Render();
 	platform->Render();
 	key->Render();
-	m_pLevel->Render();
+	if (data->leveliter != 5)
+	{
+		m_pLevel->Render();
+	}
 
 	if (m_fQuoteTimer > 0.0f && m_fQuoteTimer <= 2.0f)
 	{
@@ -217,6 +233,10 @@ void GameState::Render()
 		info << Data::GetInstance()->levels[Data::GetInstance()->leveliter].hint;
 		float scale = (2.0f - m_fQuoteTimer) + 1.0f;
 		SGD::Color quoteColor = { (unsigned char)((m_fQuoteTimer / 2.0f) * 255), 0, 0, 0 };
+		if (Data::GetInstance()->leveliter == 5)
+		{
+			quoteColor.red = quoteColor.green = quoteColor.blue = 255;
+		}
 		font->Draw(info.str().c_str(), { 400.0f - (2.0f - m_fQuoteTimer) * 100.0f, 350.0f }, scale, quoteColor);
 	}
 	#pragma region Pause Menu
@@ -237,6 +257,62 @@ void GameState::Render()
 			font->Draw("Exit", { 512 - font->Center("Exit"), 350 }, 1, { 255, 255, 255 }); // Exit unselected 
 	}
 	
+#pragma endregion
+
+	if (m_fFade > 0.0f)
+	{
+		SGD::Color color = { (unsigned char)((m_fFade / 255.0f) * 255), 0, 0, 0 };
+		SGD::Rectangle rect = { 0.0f, 0.0f, 1344.0f, 768.0f };
+		graphics->DrawRectangle(rect, color, { 0, 0, 0 }, 0);
+	}
+
+}
+
+void GameState::AltRender()
+{
+	//TheSpring.Render();
+	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
+
+	// Draw background first
+	if (Data::GetInstance()->leveliter != 5)
+	{
+		graphics->DrawTexture(m_tBackgrounds[Data::GetInstance()->leveliter], { 0.0f, 0.0f }, 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
+	}
+
+	Player::GetInstance()->Render();
+	spring1->Render();
+	spring2->Render();
+	spring3->Render();
+	platform->Render();
+	key->Render();
+	m_pLevel->AltRender();
+
+	if (m_fQuoteTimer > 0.0f && m_fQuoteTimer <= 2.0f)
+	{
+		std::ostringstream info;
+		info << Data::GetInstance()->levels[Data::GetInstance()->leveliter].hint;
+		float scale = (2.0f - m_fQuoteTimer) + 1.0f;
+		SGD::Color quoteColor = { (unsigned char)((m_fQuoteTimer / 2.0f) * 255), 0, 0, 0 };
+		font->Draw(info.str().c_str(), { 400.0f - (2.0f - m_fQuoteTimer) * 100.0f, 350.0f }, scale, quoteColor);
+	}
+#pragma region Pause Menu
+
+	if (paused == true && m_fFade <= 0.0f)
+	{
+		font->Draw("Paused", { 512 - font->Center("Paused"), 100 }, 1, { 255, 255, 255 });
+		font->Draw("~~~~~~", { 512 - font->Center("~~~~~~"), 120 }, 1, { 255, 255, 255 });
+
+		if (cursor == 0)
+			font->Draw("Resume", { 512 - font->Center("Resume"), 300 }, 1, { 0, 255, 255 }); // Resume selected
+		else
+			font->Draw("Resume", { 512 - font->Center("Resume"), 300 }, 1, { 255, 255, 255 }); // Resume unselected
+
+		if (cursor == 1)
+			font->Draw("Exit", { 512 - font->Center("Exit"), 350 }, 1, { 0, 255, 255 }); // Exit selected
+		else
+			font->Draw("Exit", { 512 - font->Center("Exit"), 350 }, 1, { 255, 255, 255 }); // Exit unselected 
+	}
+
 #pragma endregion
 
 	if (m_fFade > 0.0f)

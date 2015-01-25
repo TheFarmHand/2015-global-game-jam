@@ -28,6 +28,7 @@ class Player : public Object
 	float m_fSpringTimer;
 	float m_fNextLevelTimer;
 	bool m_bLevelComplete;
+	SGD::HTexture	m_tDoor;
 	//Fix Walktrhough
 	void GoalCollision();
 

@@ -48,6 +48,7 @@ public:
 
 	virtual int Update(float dt) override;
 	virtual void Render() override;
+	void AltRender();
 	virtual void Input() override;
 
 	void ResetLevel();
