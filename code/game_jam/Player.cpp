@@ -2,11 +2,14 @@
 #include <iostream>
 #include "Spring.h"
 #include "WRAPPERS\SGD_InputManager.h"
+
 #include "Data.h"
 #include "Tiles.h"
+#include <Windows.h>
 
 Player::Player()
 {
+	SetImage(GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/PlaceHolder.jpg"));
 	SetPosition({ 48, 400 });
 	m_ptStartPosition = { 48, 400 };
 	SetSize({ 64, 64 });
@@ -15,7 +18,9 @@ Player::Player()
 	SetIsInAir(true);
 	m_bHasKey = false;
 	m_fSpringTimer = 0.0f;
-	SetRect(Rectangle(GetPos(), GetSize()));
+	SetRect(SGD::Rectangle(GetPos(), GetSize()));
+	m_rGOAL = SGD::Rectangle({64,608}, GetSize());
+	m_bPassed = false;
 }
 
 
@@ -25,6 +30,9 @@ Player::~Player()
 
 void Player::Update(float elapsedTime)
 {
+	m_anANIM.Update(elapsedTime);
+	m_anANIM.SetPos(GetPos());
+	m_anANIM.SetSize(GetSize());
 	if (m_fSpringTimer > 0.0f)
 	{
 		m_fSpringTimer -= elapsedTime;
@@ -48,24 +56,20 @@ void Player::Update(float elapsedTime)
 		ApplyGravity(elapsedTime);
 	}
 
-	if (m_fJumpCount > 0)
-	{
-		m_fJumpCount -= elapsedTime;
-	}
-	else
-	{
-		m_fJumpCount = .1f;
-		std::cout << GetInAir() << "\n";
-	}
 	Point Temp = GetPos();
 	Temp += GetVelocity() * elapsedTime;
 	SetPosition(Temp);
 
-	SetRect(Rectangle(GetPos(), GetSize()));
+	SetRect(SGD::Rectangle(GetPos(), GetSize()));
 
 	SetIsInAir(true);
 	SetClippedV(false);
 	SetClippedH(false);
+
+	if (m_bHasKey)
+	{
+		GoalCollision();
+	}
 }
 
 Player* Player::GetInstance(void)
@@ -88,10 +92,12 @@ void Player::Input(Tiles * _tiles)
 	if (InputManager::GetInstance()->IsKeyDown(Key::D) && SpaceFree({ 1.0f, -1.0f }, _tiles))
 	{
 		SetVelocity({ 300, GetVelocity().y });
+		m_BLookingRight = true;
 	}
 	else if (InputManager::GetInstance()->IsKeyDown(Key::A) && SpaceFree({ -1.0f, -1.0f }, _tiles))
 	{
 		SetVelocity({ -300, GetVelocity().y });
+		m_BLookingRight = false;
 	}
 	else if (m_fSpringTimer <= 0.0f)
 	{
@@ -120,15 +126,38 @@ void Player::Jump()
 void Player::ApplyGravity(float _dt)
 {
 	SetVelocity({ GetVelocity().x, GetVelocity().y + m_fGravity * _dt });
-	//if (!m_bJumping)
-	//{
-	//	m_vtVelocity.y = 0;
-	//}
 }
 
 void Player::Render()
 {
 	GraphicsManager::GetInstance()->DrawRectangle(GetRect(), { 255, 0, 255, 0 });
+	GraphicsManager::GetInstance()->DrawRectangle(m_rGOAL, { 255, 50, 255, 110 });
+	if (GetVelocity().x != 0)
+	{
+		m_anANIM.Render(m_BLookingRight);
+	}
+	else
+	{
+		if (m_BLookingRight)
+		{
+			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), GetPos(), { Point(261, 127), Size(111, 124) }, {}, {}, {}, { .6f, .5f });
+		}
+		else
+		{
+			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), { (GetPos().x + GetSize().width), GetPos().y }, { Point(261, 127), Size(111, 124) }, {}, {}, {}, { -.6f, .5f });
+		}
+	}
+	if (GetInAir())
+	{
+		if (m_BLookingRight)
+		{
+			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), GetPos(), { Point(374, 124), Size(111, 124) }, {}, {}, {}, { .6f, .5f });
+		}
+		else
+		{
+			GraphicsManager::GetInstance()->DrawTextureSection(GetImage(), { (GetPos().x + GetSize().width), GetPos().y }, { Point(374, 124), Size(111, 124) }, {}, {}, {}, { -.6f, .5f });
+		}
+	}
 }
 
 
@@ -151,7 +180,7 @@ void Player::HandleCollision(Object * _object)
 	}
 	else if (_object->GetType() == OBJ_Walkthrough)
 	{
-		BasicCollision(_object);
+		
 	}
 	// Springs
 	else if (_object->GetType() == OBJ_Spring)
@@ -233,4 +262,43 @@ bool Player::SpaceFree(Vector _offset, Tiles * _tiles)
 		}
 	}
 	return true;
+}
+
+void Player::GoalCollision()
+{
+
+	RECT rMutant;
+	rMutant.left = (LONG)GetRect().left;
+	rMutant.top = (LONG)GetRect().top;
+	rMutant.right = (LONG)GetRect().right;
+	rMutant.bottom = (LONG)GetRect().bottom;
+
+	RECT rObject;
+	rObject.left = (LONG)m_rGOAL.left;
+	rObject.top = (LONG)m_rGOAL.top;
+	rObject.right = (LONG)m_rGOAL.right;
+	rObject.bottom = (LONG)m_rGOAL.bottom;
+
+	RECT rIntersection = {};
+
+	IntersectRect(&rIntersection, &rObject, &rMutant);
+
+	int nIntersectWidth = rIntersection.right - rIntersection.left;
+	int nIntersectHeight = rIntersection.bottom - rIntersection.top;
+
+
+
+	if (nIntersectHeight > nIntersectWidth)
+	{
+		m_bPassed = true;
+		std::cout << "Passed\n";
+	}
+
+	if (nIntersectWidth > nIntersectHeight)
+	{
+		m_bPassed = true;
+		std::cout << "Passed\n";
+	}
+
+
 }

@@ -2,6 +2,7 @@
 
 #include "WRAPPERS\SGD_GraphicsManager.h"
 #include "Object.h"
+#include "Animation.h"
 
 using namespace SGD;
 
@@ -9,6 +10,9 @@ class Tiles;
 
 class Player : public Object
 {
+	Animation m_anANIM;
+	SGD::Rectangle m_rGOAL;
+	bool m_bPassed;
 	Point m_ptStartPosition;
 	float m_fGravity;
 	bool m_bHasKey;
@@ -18,6 +22,8 @@ class Player : public Object
 	bool m_bJumping;
 	float m_fJumpCount;
 	float m_fSpringTimer;
+	//Fix Walktrhough
+	void GoalCollision();
 
 public:
 	//Singleton
@@ -37,6 +43,8 @@ public:
 	bool SpaceFree(Vector _offset, Tiles * _tiles);
 	bool IsJumping() { return m_bJumping; }
 	bool HasKey() { return m_bHasKey; }
+	bool Passed() { return m_bPassed; }
+
 
 	Player();
 	~Player();

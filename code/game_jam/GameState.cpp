@@ -7,6 +7,7 @@
 #include "Level.h"
 #include "FallingPlatform.h"
 #include "WalkThrough.h"
+#include "Spring.h"
 #include "Key.h"
 #include "Spring.h"
 #include "Data.h"
@@ -15,9 +16,10 @@
 #include <Windows.h>
 
 //For Testing
-static Spring TheSpring;
 static FallingPlatform fp;
-static LKey TheKey;
+//static Spring TheSpring;
+//static LKey TheKey;
+//static Spring TheSpring2;
 
 void altInput(Player *_player)
 {
@@ -42,7 +44,6 @@ GameState::GameState()
 {
 	m_pLevel = new Level();
 	m_pObjManager = new ObjectManager();
-	
 	font = new BitmapFont;
 	font->Initialize("Assets/Font.fnt");
 
@@ -78,7 +79,7 @@ int GameState::Update(float dt)
 {
 	if (!paused) // Make sure all gameplay code is inside here, otherwise pause won't work
 {	
-	
+
 	Player::GetInstance()->Update(dt);
 
 	// Update each obstacles
@@ -86,8 +87,8 @@ int GameState::Update(float dt)
 	spring2->Update(dt);
 	spring3->Update(dt);
 	platform->Update(dt);
-	walkThrough1->Update(dt);
-	walkThrough2->Update(dt);
+	/*walkThrough1->Update(dt);
+	walkThrough2->Update(dt);*/
 	key->Update(dt);
 	
 	m_pLevel->Update(dt);
@@ -104,19 +105,22 @@ int GameState::Update(float dt)
 	}
 	return playing;
 }
+
+
 void GameState::Render()
 {
 	//TheSpring.Render();
 	SGD::GraphicsManager * graphics = SGD::GraphicsManager::GetInstance();
+	//TheSpring2.Render();
 	fp.Render();
-	TheKey.Render();
+	//TheKey.Render();
 	Player::GetInstance()->Render();
 	spring1->Render();
 	spring2->Render();
 	spring3->Render();
 	platform->Render();
-	walkThrough1->Render();
-	walkThrough2->Render();
+	/*walkThrough1->Render();
+	walkThrough2->Render();*/
 	key->Render();
 	m_pLevel->Render();
 
@@ -141,6 +145,8 @@ void GameState::Render()
 
 	#pragma endregion
 }
+
+
 void GameState::Input()
 {
 	SGD::InputManager * input = SGD::InputManager::GetInstance();
@@ -177,7 +183,7 @@ void GameState::ResetLevel()
 {
 	Player::GetInstance()->SetPosition(Player::GetInstance()->GetStartPos());
 	Player::GetInstance()->SetHasKey(false);
-	TheKey.SetPosition(TheKey.GetStartPos());
+	//TheKey.SetPosition(TheKey.GetStartPos());
 }
 
 void GameState::CreateObstacles()
@@ -209,13 +215,13 @@ void GameState::CreateObstacles()
 	walkThrough1 = new WalkThrough;
 	walkThrough1->SetPosition({ 32, 256 });
 	walkThrough1->SetSize({ 128, 32 });
-	walkThrough1->SetEnter(WalkThroughEnter::WL_BOTTOM);
+	walkThrough1->SetEnter(WalkThroughEnter::WL_TOP);
 	walkThrough1->SetRect({ walkThrough1->GetPos(), walkThrough1->GetSize() });
 
 	walkThrough2 = new WalkThrough;
 	walkThrough2->SetPosition({ 160, 384 });
 	walkThrough2->SetSize({ 32, 96 });
-	walkThrough1->SetEnter(WalkThroughEnter::WL_RIGHT);
+	walkThrough1->SetEnter(WalkThroughEnter::WL_LEFT);
 	walkThrough2->SetRect({ walkThrough2->GetPos(), walkThrough2->GetSize() });
 
 	// Key

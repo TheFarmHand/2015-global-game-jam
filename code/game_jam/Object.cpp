@@ -52,6 +52,7 @@ void Object::BasicCollision(Object * _other)
 			// No longer in the air'
 			SetIsInAir(false);		
 			SetClippedV(true);
+			
 		}
 	}
 	// Collision with top of human
