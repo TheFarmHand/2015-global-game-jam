@@ -14,6 +14,15 @@ class Spring : public Object
 	float m_fBouncePower;
 	float m_fBounceTimer;
 	int m_nDirection; // 0-right, 1-down, 2-left, 3-up
+
+	// Spring Sounds //
+	SGD::HAudio springSound1 = SGD::INVALID_HANDLE;
+	SGD::HAudio springSound2 = SGD::INVALID_HANDLE;
+	SGD::HAudio springSound3 = SGD::INVALID_HANDLE;
+	SGD::HAudio springSound4 = SGD::INVALID_HANDLE;
+	SGD::HAudio springSound5 = SGD::INVALID_HANDLE;
+
+	
 public:
 	void Update(float elapsedTime);
 	void Render(void);
