@@ -148,6 +148,11 @@ int GameState::Update(float dt)
 		AudioManager::GetInstance()->PlayAudio(m_hBackgroundMusic,true);
 	}
 
+	if (Data::GetInstance()->leveliter == 10)
+	{
+		dt /= 2.0f;
+	}
+
 	if (!paused) // Make sure all gameplay code is inside here, otherwise pause won't work
 	{	
 
