@@ -72,7 +72,7 @@ void teleport(Player * _player, Tiles * _tiles)
 	}
 	else if (input->IsKeyDown(SGD::Key::Three) && Data::GetInstance()->teles[2])
 	{
-		_player->SetPosition({1220.0f,500.0f});
+		_player->SetPosition({1210.0f,500.0f});
 		Data::GetInstance()->teles[2] = false;
 	}
 	else if (input->IsKeyDown(SGD::Key::Four) && Data::GetInstance()->teles[3])
@@ -187,6 +187,8 @@ GameState::~GameState()
 
 int GameState::Update(float dt)
 {
+	if (Data::GetInstance()->leveliter >= 11)
+		return 3;
 	if (!AudioManager::GetInstance()->IsAudioPlaying(m_hBackgroundMusic))
 	{
 		AudioManager::GetInstance()->PlayAudio(m_hBackgroundMusic,true);
@@ -247,6 +249,7 @@ void GameState::NextLevel()
 	if (Data::GetInstance()->leveliter >= 11)
 	{
 		//time to end the game and go to credits
+		playing = 3;
 	}
 }
 
