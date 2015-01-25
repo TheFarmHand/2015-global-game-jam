@@ -18,6 +18,7 @@ public:
 	void Update(float elapsedTime);
 	void Render(void);
 	virtual type GetType() const override { return OBJ_Spring; }
+	virtual void HandleCollision(Object * _object) override;
 	float GetPower() const { return m_fBouncePower; }
 	int GetDirection() const { return m_nDirection; }
 	void SetPower(float _power) { m_fBouncePower = _power; }
