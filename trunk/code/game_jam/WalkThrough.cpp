@@ -24,10 +24,10 @@ void WalkThrough::Update(float elapsedtime)
 	SGD::Rectangle wallRect = GetRect();
 	SGD::Rectangle otherRect = Player::GetInstance()->GetRect();
 
-	if (!wallRect.IsIntersecting(otherRect))
+	/*if (!wallRect.IsIntersecting(otherRect))
 	{
 		return;
-	}
+	}*/
 
 	// Calculate difference in each edge
 	float dLeft = abs(otherRect.left - wallRect.right);
@@ -43,7 +43,7 @@ void WalkThrough::Update(float elapsedtime)
 			//float delta = wallRect.bottom - myRect.top;
 			Player::GetInstance()->SetVelocity({ Player::GetInstance()->GetVelocity().x, 5.0f });
 			float y = Player::GetInstance()->GetPos().y;
-			if (y < (GetPos().y)+50)
+			if (y < (GetPos().y))
 			{
 				Player::GetInstance()->SetPosition({ Player::GetInstance()->GetPos().x, Player::GetInstance()->GetPos().y - dBottom });
 			}

@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BaseState.cpp" />
     <ClCompile Include="BitmapFont.cpp" />
     <ClCompile Include="Data.cpp" />
@@ -118,6 +119,7 @@
     <ClCompile Include="WRAPPERS\SGD_MessageManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="BaseState.h" />
     <ClInclude Include="BitmapFont.h" />
     <ClInclude Include="Data.h" />
