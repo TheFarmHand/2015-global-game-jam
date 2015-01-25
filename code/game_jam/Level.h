@@ -20,6 +20,7 @@ public:
 
 	void Update(float dt);
 	void Render();
+	void AltRender();
 	void Input();
 
 

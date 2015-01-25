@@ -1,4 +1,5 @@
 #include "FallingPlatform.h"
+#include "WRAPPERS/SGD_GraphicsManager.h"
 #include "Player.h"
 #include <math.h>
 
@@ -8,6 +9,9 @@ FallingPlatform::FallingPlatform()
 	//SetPosition({ 500, 500 });
 	//m_ptStartPosition = { 500, 500 };
 	SetRect(SGD::Rectangle(GetPos(), GetSize()));
+
+	m_tPlatform = SGD::GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/Platform.png");
+
 }
 
 
@@ -46,7 +50,8 @@ void FallingPlatform::Update(float ElapsedTime)
 
 void FallingPlatform::Render()
 {
-	GraphicsManager::GetInstance()->DrawRectangle(SGD::Rectangle(GetPos(), GetSize()), { 255, 255, 0, 255 });
+	//GraphicsManager::GetInstance()->DrawRectangle(SGD::Rectangle(GetPos(), GetSize()), { 255, 255, 0, 255 });
+	SGD::GraphicsManager::GetInstance()->DrawTexture(m_tPlatform, GetPos(), 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
 }
 
 

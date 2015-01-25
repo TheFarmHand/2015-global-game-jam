@@ -19,7 +19,8 @@
 // Constructor
 Tiles::Tiles()
 {
-
+	m_nTrippyOffsetX = 0;
+	m_nTrippyOffsetY = 0;
 }
 
 //////////////////////////////
@@ -259,7 +260,78 @@ void Tiles::RenderImageLayer(bool _background)
 							section,
 							0.0f,
 							{ 0.0f, 0.0f },
-							{ 255, 255, 255 },
+							{ 100, 100, 100 },
+							{ 1.0f, 1.0f });
+
+						//	Camera::GetInstance()->DrawTexture({ xx * 32.0f - Camera::GetInstance()->GetCameraPos().x * layer->GetScrollSpeed(),
+						//		yy * 32.0f - Camera::GetInstance()->GetCameraPos().y * layer->GetScrollSpeed() }, 0.0f, layer->GetTileSet(), false);
+					}
+
+				}
+			}
+		}
+	}
+}
+
+//////////////////////////////
+// AltRenderBackground
+// - Used for level 8
+void Tiles::AltRenderImageLayer(bool _background)
+{
+	// Handle to graphics manager
+	SGD::GraphicsManager* pGraphics = SGD::GraphicsManager::GetInstance();
+
+	// Loop through each layer
+	for (unsigned int i = 0; i < m_vlLayers.size(); ++i)
+	{
+		// Reference to the alyer
+		ImageLayer * layer = m_vlLayers[i];
+
+		// Only render layers that have a depth lower than 0 if background
+		// greater than or equal to 0 if not
+		if ((_background && layer->GetDepth() < 0) ||
+			(!_background && layer->GetDepth() >= 0))
+		{
+			// Loop through the map
+			for (int xx = 0; xx < m_nWidth; ++xx)
+			{
+				for (int yy = 0; yy < m_nHeight; ++yy)
+				{
+					// Randomize which X to use
+					int newX = xx + (rand() % 11 - 5);
+					int newY = yy + (rand() % 11 - 5);
+
+					// Type of tile
+					int type = layer->GetImageLayer()[xx][yy];
+					if (!(rand() % 2) && newX >= 0 && newX < m_nWidth && newY >= 0 && newY < m_nHeight)
+					{
+						type = layer->GetImageLayer()[newX][newY];
+					}
+
+					// Only render tiles that have a value
+					if (type != -1)
+					{
+						// Section on the tileset
+						int width = layer->GetTileSetWidth();
+						int height = layer->GetTileSetHeight();
+						int size = layer->GetTileSetSize();
+						SGD::Rectangle section = SGD::Rectangle(
+							type % width * size * 1.0f,
+							type / width * size * 1.0f,
+							type % width * size + 32.0f,
+							type / width * size + 32.0f
+							);
+
+						// Draw the tile
+						pGraphics->DrawTextureSection(
+							layer->GetTexture(),
+							{ xx * 32.0f, yy * 32.0f },
+							section,
+							0.0f,
+							{ 0.0f, 0.0f },
+							{ (unsigned char)(rand() % 255),
+							  (unsigned char)(rand() % 255),
+							  (unsigned char)(rand() % 255) },
 							{ 1.0f, 1.0f });
 
 						//	Camera::GetInstance()->DrawTexture({ xx * 32.0f - Camera::GetInstance()->GetCameraPos().x * layer->GetScrollSpeed(),

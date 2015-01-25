@@ -3,6 +3,7 @@
 #include "Spring.h"
 #include "WRAPPERS\SGD_InputManager.h"
 #include "WRAPPERS\SGD_AudioManager.h"
+#include "WRAPPERS/SGD_GraphicsManager.h"
 #include "Data.h"
 #include "Tiles.h"
 #include <Windows.h>
@@ -24,6 +25,8 @@ Player::Player()
 	m_rGOAL = SGD::Rectangle({ 64, 608 }, GetSize());
 	m_bPassed = false;
 	m_bLandingPlayed = false;
+
+	m_tDoor = SGD::GraphicsManager::GetInstance()->LoadTexture("Assets/graphics/Door.png");
 
 	// Walking Sound Initializations // 
 	walkingSound1 = SGD::AudioManager::GetInstance()->LoadAudio("Assets/Audio/Footsteps_Comp_02.wav");
@@ -224,7 +227,8 @@ void Player::ApplyGravity(float _dt)
 void Player::Render()
 {
 	//GraphicsManager::GetInstance()->DrawRectangle(GetRect(), { 255, 0, 255, 0 });
-	GraphicsManager::GetInstance()->DrawRectangle(m_rGOAL, { 255, 50, 255, 110 });
+	//GraphicsManager::GetInstance()->DrawRectangle(m_rGOAL, { 255, 50, 255, 110 });
+	SGD::GraphicsManager::GetInstance()->DrawTexture(m_tDoor, { m_rGOAL.left, m_rGOAL.top }, 0.0f, { 0.0f, 0.0f }, { 255, 255, 255 }, { 1.0f, 1.0f });
 	if (GetVelocity().x != 0 && !GetInAir())
 	{
 		m_anANIM.Render(m_BLookingRight);
